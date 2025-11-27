@@ -4,8 +4,17 @@ import Hero from '@/components/sections/hero';
 import About from '@/components/sections/about';
 import Skills from '@/components/sections/skills';
 import Services from '@/components/sections/services';
-import Projects from '@/components/sections/projects';
-import Contact from '@/components/sections/contact';
+import FlowingMenu from '@/components/ui/FlowingMenu';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+
+const projectItems = PlaceHolderImages.filter(
+  (image) => image.id.startsWith('project-')
+).map((image, index) => ({
+  link: '#',
+  text: image.description.replace(' screenshot.', ''),
+  image: image.imageUrl,
+}));
+
 
 export default function Home() {
   return (
@@ -16,7 +25,9 @@ export default function Home() {
         <About />
         <Skills />
         <Services />
-        <Projects />
+        <div id="projects" className="h-[600px] relative">
+          <FlowingMenu items={projectItems} />
+        </div>
         <Contact />
       </main>
       <Footer />
