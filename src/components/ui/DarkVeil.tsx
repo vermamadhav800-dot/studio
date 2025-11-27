@@ -106,11 +106,11 @@ export default function DarkVeil({
       uniforms: {
         uTime: { value: 0 },
         uResolution: { value: new Vec2() },
-        uHueShift: { value: hueShift },
-        uNoise: { value: noiseIntensity },
-        uScan: { value: scanlineIntensity },
-        uScanFreq: { value: scanlineFrequency },
-        uWarp: { value: warpAmount }
+        uHueShift: { value: 0 },
+        uNoise: { value: 0.03 },
+        uScan: { value: 0.05 },
+        uScanFreq: { value: 200 },
+        uWarp: { value: 0.2 }
       }
     });
 
@@ -131,11 +131,6 @@ export default function DarkVeil({
 
     const loop = () => {
       program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
-      program.uniforms.uHueShift.value = hueShift;
-      program.uniforms.uNoise.value = noiseIntensity;
-      program.uniforms.uScan.value = scanlineIntensity;
-      program.uniforms.uScanFreq.value = scanlineFrequency;
-      program.uniforms.uWarp.value = warpAmount;
       renderer.render({ scene: mesh });
       frame = requestAnimationFrame(loop);
     };
@@ -146,6 +141,6 @@ export default function DarkVeil({
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
     };
-  }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
+  }, [resolutionScale, speed]);
   return <canvas ref={ref} className="darkveil-canvas" />;
 }
