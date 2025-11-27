@@ -74,11 +74,6 @@ const TextPressure = ({
 
     let newFontSize = containerW / (chars.length / 2);
     newFontSize = Math.max(newFontSize, minFontSize);
-    
-    // For large hero text, we want to make it larger
-    if(text === "Madhav Verma"){
-        newFontSize = containerW / (chars.length) * 2;
-    }
 
     setFontSize(newFontSize);
     setScaleY(1);
@@ -105,8 +100,8 @@ const TextPressure = ({
   useEffect(() => {
     let rafId: number;
     const animate = () => {
-      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
+      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 10;
+      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 10;
 
       if (titleRef.current) {
         const titleRect = titleRef.current.getBoundingClientRect();
