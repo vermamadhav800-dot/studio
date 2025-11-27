@@ -6,6 +6,7 @@ import Skills from '@/components/sections/skills';
 import Services from '@/components/sections/services';
 import FlowingMenu from '@/components/ui/FlowingMenu';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Contact from '@/components/sections/contact';
 
 const projectItems = PlaceHolderImages.filter(
   (image) => image.id.startsWith('project-')
