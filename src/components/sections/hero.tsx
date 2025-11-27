@@ -13,7 +13,7 @@ export default function Hero() {
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 space-y-6">
           <div className="h-32">
-            <TextPressure text="Madhav Verma" />
+            <TextPressure text="Madhav Verma" minFontSize={64} />
           </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
             A passionate and creative Full-Stack Developer with a knack for building beautiful, user-friendly, and efficient web applications. I thrive on turning complex problems into simple, elegant solutions.
