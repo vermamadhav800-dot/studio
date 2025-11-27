@@ -322,10 +322,6 @@ const ProfileCardComponent = ({
                 alt={`${name || 'User'} avatar`}
                 width={540}
                 height={540}
-                onError={e => {
-                  const t = e.target;
-                  t.style.display = 'none';
-                }}
               />
               {showUserInfo && (
                 <div className="pc-user-info">
@@ -336,11 +332,6 @@ const ProfileCardComponent = ({
                         alt={`${name || 'User'} mini avatar`}
                         width={48}
                         height={48}
-                        onError={e => {
-                          const t = e.target;
-                          t.style.opacity = '0.5';
-                          t.src = avatarUrl;
-                        }}
                       />
                     </div>
                     <div className="pc-user-text">
