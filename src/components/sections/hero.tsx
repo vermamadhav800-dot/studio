@@ -9,7 +9,7 @@ import TextPressure from '../ui/text-pressure';
 export default function Hero() {
   return (
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="absolute top-[-20rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
+      <div className="absolute top-[-10rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 lg:w-7/12 space-y-6">
           <div className="h-32">

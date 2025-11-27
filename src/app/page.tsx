@@ -37,7 +37,7 @@ export default function Home() {
         baseColor="hsl(var(--background))"
         pillColor="hsl(var(--foreground))"
         hoveredPillTextColor="hsl(var(--background))"
-        pillTextColor="hsl(var(--foreground))"
+        pillTextColor="hsl(var(--background))"
         className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
       />
       <main className="flex-grow">
