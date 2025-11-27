@@ -1,90 +1,163 @@
-import { Briefcase, GraduationCap } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+'use client';
+
+import { Briefcase, GraduationCap, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
+import { Badge } from '@/components/ui/badge';
 
 const workExperience = [
   {
-    title: 'Senior Frontend Developer',
-    company: 'Tech Solutions Inc.',
-    period: '2022 - Present',
-    description: 'Leading the development of cutting-edge user interfaces and collaborating with cross-functional teams to deliver high-quality products.'
+    icon: <Briefcase className="h-5 w-5" />,
+    role: 'Lead Frontend Engineer',
+    company: 'Vercel',
+    period: '2023 - Present',
+    tags: ['Next.js', 'React', 'TypeScript', 'Edge'],
+    description: 'Leading the development of a next-generation deployment platform. Focused on performance, developer experience, and building a more open web.',
   },
   {
-    title: 'Full-Stack Developer',
-    company: 'Web Innovators',
-    period: '2020 - 2022',
-    description: 'Developed and maintained full-stack web applications, from database design to UI implementation, for a variety of clients.'
+    icon: <Briefcase className="h-5 w-5" />,
+    role: 'Senior Software Engineer',
+    company: 'Stripe',
+    period: '2021 - 2023',
+    tags: ['React', 'API Design', 'Ruby', 'Payments'],
+    description: 'Engineered robust payment APIs and developer-facing tools. Contributed to core infrastructure and improved system reliability for millions of users.',
   },
   {
-    title: 'Software Engineer Intern',
-    company: 'CodeCrafters',
-    period: 'Summer 2019',
-    description: 'Assisted the development team in building and testing new features for a flagship product.'
+    icon: <Briefcase className="h-5 w-5" />,
+    role: 'Frontend Developer',
+    company: 'Shopify',
+    period: '2019 - 2021',
+    tags: ['React', 'GraphQL', 'Performance'],
+    description: 'Built and optimized high-traffic e-commerce features, focusing on storefront performance and creating seamless user experiences for merchants and customers.',
   },
 ];
 
 const education = [
-    {
-      degree: 'M.S. in Computer Science',
-      institution: 'Stanford University',
-      year: '2020',
-    },
-    {
-      degree: 'B.S. in Software Engineering',
-      institution: 'University of California, Berkeley',
-      year: '2018',
-    },
+  {
+    icon: <GraduationCap className="h-5 w-5" />,
+    degree: 'M.S. in Computer Science',
+    institution: 'Stanford University',
+    period: '2017 - 2019',
+    tags: ['AI', 'HCI', 'Systems Design'],
+    description: 'Thesis on real-time data visualization for large-scale systems. Awarded for academic excellence and contributions to open-source projects.',
+  },
+  {
+    icon: <GraduationCap className="h-5 w-5" />,
+    degree: 'B.S. in Software Engineering',
+    institution: 'University of California, Berkeley',
+    period: '2013 - 2017',
+    tags: ['Data Structures', 'Algorithms', 'Web Dev'],
+    description: 'Graduated with honors. Led a team to win the annual hackathon with a project focused on decentralized identity verification.',
+  },
 ];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  }),
+};
+
+const TimelineItem = ({ item, index }: { item: (typeof workExperience)[0] | (typeof education)[0]; index: number }) => (
+  <motion.div
+    className="relative pl-12"
+    custom={index}
+    variants={cardVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.3 }}
+  >
+    <div className="absolute left-0 top-1">
+      <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center backdrop-blur-sm">
+        <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+          {item.icon}
+        </div>
+      </div>
+    </div>
+    <motion.div
+      whileHover={{
+        scale: 1.02,
+        boxShadow: '0 0 25px hsl(var(--primary) / 0.3)',
+      }}
+      transition={{ duration: 0.2 }}
+      className="bg-card/50 backdrop-blur-lg border border-primary/10 rounded-xl p-6 transition-all duration-300"
+    >
+      <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
+        <Calendar className="h-4 w-4" />
+        {item.period}
+      </p>
+      <h3 className="font-bold text-lg text-foreground mb-1">
+        {'role' in item ? item.role : item.degree}
+      </h3>
+      <p className="text-sm text-primary font-medium mb-3">
+        {'company' in item ? item.company : item.institution}
+      </p>
+      <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
+      <div className="flex flex-wrap gap-2">
+        {item.tags.map((tag) => (
+          <Badge key={tag} variant="secondary" className="bg-primary/5 border-primary/20 text-primary/80">
+            {tag}
+          </Badge>
+        ))}
+      </div>
+    </motion.div>
+  </motion.div>
+);
 
 export default function About() {
   return (
-    <Section id="about" className="bg-muted">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">About Me</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-          A glimpse into my professional journey and academic background.
-        </p>
-      </div>
-      <div className="grid gap-16 lg:grid-cols-2">
-        <div>
-          <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 font-headline"><Briefcase className="text-primary" /> Work Experience</h3>
-          <div className="relative flex flex-col gap-8">
-            <div className="absolute left-3.5 top-0 h-full w-px bg-border"></div>
-            {workExperience.map((job, index) => (
-              <div key={index} className="relative pl-12">
-                <div className="absolute left-0 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <Briefcase className="h-4 w-4" />
-                </div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{job.title}</CardTitle>
-                    <CardDescription>{job.company} / {job.period}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{job.description}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+    <Section id="about" className="relative overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse animation-delay-4000"></div>
+
+      <div className="relative z-10">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            About Me
+          </h2>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
+            My journey through code and academia.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-16 lg:grid-cols-2">
+          {/* Work Experience Column */}
+          <div>
+            <h3 className="text-2xl font-bold mb-10 flex items-center justify-center lg:justify-start gap-3 font-headline text-foreground">
+              <Briefcase className="text-primary" /> Work Experience
+            </h3>
+            <div className="relative flex flex-col gap-10">
+              <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
+              {workExperience.map((job, index) => (
+                <TimelineItem key={`work-${index}`} item={job} index={index} />
+              ))}
+            </div>
           </div>
-        </div>
-        <div>
-          <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 font-headline"><GraduationCap className="text-primary" /> Education</h3>
-           <div className="relative flex flex-col gap-8">
-            <div className="absolute left-3.5 top-0 h-full w-px bg-border"></div>
-            {education.map((edu, index) => (
-              <div key={index} className="relative pl-12">
-                <div className="absolute left-0 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <GraduationCap className="h-4 w-4" />
-                </div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{edu.degree}</CardTitle>
-                    <CardDescription>{edu.institution} / Graduated {edu.year}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </div>
-            ))}
+
+          {/* Education Column */}
+          <div>
+            <h3 className="text-2xl font-bold mb-10 flex items-center justify-center lg:justify-start gap-3 font-headline text-foreground">
+              <GraduationCap className="text-primary" /> Education
+            </h3>
+            <div className="relative flex flex-col gap-10">
+              <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
+              {education.map((edu, index) => (
+                <TimelineItem key={`edu-${index}`} item={edu} index={index} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
