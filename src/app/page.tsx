@@ -34,10 +34,10 @@ export default function Home() {
         logo={<TerminalSquare />}
         items={navLinks}
         activeHref="#home"
-        baseColor="hsl(var(--primary))"
+        baseColor="hsl(var(--foreground))"
         pillColor="hsl(var(--background))"
-        hoveredPillTextColor="hsl(var(--primary-foreground))"
-        pillTextColor="hsl(var(--primary))"
+        hoveredPillTextColor="hsl(var(--background))"
+        pillTextColor="hsl(var(--foreground))"
         className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
       />
       <main className="flex-grow">
