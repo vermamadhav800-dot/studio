@@ -39,16 +39,16 @@ const ProfileCardComponent = ({
   showUserInfo = true,
   onContactClick
 }) => {
-  const wrapRef = useRef(null);
-  const shellRef = useRef(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
 
-  const enterTimerRef = useRef(null);
-  const leaveRafRef = useRef(null);
+  const enterTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const leaveRafRef = useRef<number | null>(null);
 
   const tiltEngine = useMemo(() => {
     if (!enableTilt) return null;
 
-    let rafId = null;
+    let rafId: number | null = null;
     let running = false;
     let lastTs = 0;
 
@@ -61,7 +61,7 @@ const ProfileCardComponent = ({
     const INITIAL_TAU = 0.6;
     let initialUntil = 0;
 
-    const setVarsFromXY = (x, y) => {
+    const setVarsFromXY = (x: number, y: number) => {
       const shell = shellRef.current;
       const wrap = wrapRef.current;
       if (!shell || !wrap) return;
@@ -86,11 +86,13 @@ const ProfileCardComponent = ({
         '--rotate-x': `${round(-(centerX / 5))}deg`,
         '--rotate-y': `${round(centerY / 4)}deg`
       };
-
-      for (const [k, v] of Object.entries(properties)) wrap.style.setProperty(k, v);
+      
+      for (const [k, v] of Object.entries(properties)) {
+        (wrap as HTMLElement).style.setProperty(k, v);
+      }
     };
 
-    const step = ts => {
+    const step = (ts: number) => {
       if (!running) return;
       if (lastTs === 0) lastTs = ts;
       const dt = (ts - lastTs) / 1000;
@@ -126,12 +128,12 @@ const ProfileCardComponent = ({
     };
 
     return {
-      setImmediate(x, y) {
+      setImmediate(x: number, y: number) {
         currentX = x;
         currentY = y;
         setVarsFromXY(currentX, currentY);
       },
-      setTarget(x, y) {
+      setTarget(x: number, y: number) {
         targetX = x;
         targetY = y;
         start();
@@ -141,7 +143,7 @@ const ProfileCardComponent = ({
         if (!shell) return;
         this.setTarget(shell.clientWidth / 2, shell.clientHeight / 2);
       },
-      beginInitial(durationMs) {
+      beginInitial(durationMs: number) {
         initialUntil = performance.now() + durationMs;
         start();
       },
@@ -157,13 +159,13 @@ const ProfileCardComponent = ({
     };
   }, [enableTilt]);
 
-  const getOffsets = (evt, el) => {
+  const getOffsets = (evt: MouseEvent, el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
     return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
   };
 
   const handlePointerMove = useCallback(
-    event => {
+    (event: MouseEvent) => {
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
       const { x, y } = getOffsets(event, shell);
@@ -173,14 +175,14 @@ const ProfileCardComponent = ({
   );
 
   const handlePointerEnter = useCallback(
-    event => {
+    (event: MouseEvent) => {
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
 
       shell.classList.add('active');
       shell.classList.add('entering');
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
-      enterTimerRef.current = window.setTimeout(() => {
+      enterTimerRef.current = setTimeout(() => {
         shell.classList.remove('entering');
       }, ANIMATION_CONFIG.ENTER_TRANSITION_MS);
 
@@ -211,7 +213,7 @@ const ProfileCardComponent = ({
   }, [tiltEngine]);
 
   const handleDeviceOrientation = useCallback(
-    event => {
+    (event: DeviceOrientationEvent) => {
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
 
@@ -237,11 +239,11 @@ const ProfileCardComponent = ({
 
     const shell = shellRef.current;
     if (!shell) return;
-
-    const pointerMoveHandler = handlePointerMove;
-    const pointerEnterHandler = handlePointerEnter;
-    const pointerLeaveHandler = handlePointerLeave;
-    const deviceOrientationHandler = handleDeviceOrientation;
+    
+    const pointerMoveHandler = (e: MouseEvent) => handlePointerMove(e);
+    const pointerEnterHandler = (e: MouseEvent) => handlePointerEnter(e);
+    const pointerLeaveHandler = () => handlePointerLeave();
+    const deviceOrientationHandler = (e: DeviceOrientationEvent) => handleDeviceOrientation(e);
 
     shell.addEventListener('pointerenter', pointerEnterHandler);
     shell.addEventListener('pointermove', pointerMoveHandler);
@@ -249,11 +251,13 @@ const ProfileCardComponent = ({
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== 'https:') return;
-      const anyMotion = window.DeviceMotionEvent;
+      
+      const anyMotion = window.DeviceMotionEvent as any;
+
       if (anyMotion && typeof anyMotion.requestPermission === 'function') {
         anyMotion
           .requestPermission()
-          .then(state => {
+          .then((state: 'granted' | 'denied') => {
             if (state === 'granted') {
               window.addEventListener('deviceorientation', deviceOrientationHandler);
             }
@@ -277,7 +281,7 @@ const ProfileCardComponent = ({
       shell.removeEventListener('pointerleave', pointerLeaveHandler);
       shell.removeEventListener('click', handleClick);
       window.removeEventListener('deviceorientation', deviceOrientationHandler);
-      if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
+      if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
       if (leaveRafRef.current) cancelAnimationFrame(leaveRafRef.current);
       tiltEngine.cancel();
       shell.classList.remove('entering');
@@ -308,7 +312,7 @@ const ProfileCardComponent = ({
   }, [onContactClick]);
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle as React.CSSProperties}>
       {behindGlowEnabled && <div className="pc-behind" />}
       <div ref={shellRef} className="pc-card-shell">
         <section className="pc-card">
@@ -366,3 +370,5 @@ const ProfileCardComponent = ({
 
 const ProfileCard = React.memo(ProfileCardComponent);
 export default ProfileCard;
+
+    
