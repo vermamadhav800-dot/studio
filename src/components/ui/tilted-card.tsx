@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion';
 import './tilted-card.css';
 
 const springValues = {
@@ -18,30 +18,40 @@ export default function TiltedCard({
   scaleOnHover = 1.05,
   rotateAmplitude = 12,
 }) {
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const x = useMotionValue(0.5); // Start at center
+  const y = useMotionValue(0.5); // Start at center
 
   const rotateX = useSpring(useMotionValue(0), springValues);
   const rotateY = useSpring(useMotionValue(0), springValues);
   const scale = useSpring(1, springValues);
+  
+  const glareX = useTransform(x, (v) => v * 400 - 200);
+  const glareY = useTransform(y, (v) => v * 400 - 200);
 
   function handleMouse(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (!ref.current) return;
+    
+    // Pause auto-animation on hover
+    x.stop();
+    y.stop();
 
     const rect = ref.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left - rect.width / 2;
-    const offsetY = e.clientY - rect.top - rect.height / 2;
+    const relativeX = (e.clientX - rect.left) / rect.width;
+    const relativeY = (e.clientY - rect.top) / rect.height;
 
-    const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
-    const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+    const offsetX = relativeX - 0.5;
+    const offsetY = relativeY - 0.5;
+
+    const rotationX = offsetY * -rotateAmplitude;
+    const rotationY = offsetX * rotateAmplitude;
 
     rotateX.set(rotationX);
     rotateY.set(rotationY);
-
-    x.set(e.clientX - rect.left);
-    y.set(e.clientY - rect.top);
+    
+    x.set(relativeX);
+    y.set(relativeY);
   }
 
   function handleMouseEnter() {
@@ -52,10 +62,49 @@ export default function TiltedCard({
     scale.set(1);
     rotateX.set(0);
     rotateY.set(0);
+    
+    // Resume auto-animation
+    startAnimation();
   }
 
-  const glareX = useTransform(x, (v) => v - 200);
-  const glareY = useTransform(y, (v) => v - 200);
+  const startAnimation = React.useCallback(() => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+
+    const animateAxis = (axis, size) => {
+        const sequence = [0.2, 0.8, 0.2]; // Example path
+        animate(axis, sequence, {
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "easeInOut",
+            onUpdate: (latest) => {
+                const offset = latest - 0.5;
+                const rotation = offset * (axis === y ? -rotateAmplitude : rotateAmplitude);
+                (axis === y ? rotateX : rotateY).set(rotation);
+            }
+        });
+    }
+
+    animateAxis(x, rect.width);
+    animateAxis(y, rect.height);
+  }, [rotateX, rotateY, x, y, rotateAmplitude]);
+
+  React.useEffect(() => {
+    // Initial delay before starting the animation
+    const timeout = setTimeout(() => {
+      if (ref.current) {
+        startAnimation();
+      }
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+      x.stop();
+      y.stop();
+    };
+  }, [x, y, startAnimation]);
+
 
   return (
     <motion.figure
@@ -68,15 +117,6 @@ export default function TiltedCard({
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      animate={{
-        y: [0, -10, 0, 10, 0],
-      }}
-      transition={{
-        duration: 8,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatType: 'loop',
-      }}
     >
       <motion.div
         className="tilted-card-inner"
