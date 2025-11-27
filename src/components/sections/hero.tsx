@@ -11,9 +11,9 @@ export default function Hero() {
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       <div className="absolute top-[-20rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
-        <div className="flex-1 lg:w-1/2 space-y-6">
+        <div className="flex-1 lg:w-7/12 space-y-6">
           <div className="h-32">
-            <TextPressure text="Madhav Verma" minFontSize={60} />
+            <TextPressure text="Madhav Verma" minFontSize={30} />
           </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
             A passionate and creative Full-Stack Developer with a knack for building beautiful, user-friendly, and efficient web applications. I thrive on turning complex problems into simple, elegant solutions.
@@ -27,7 +27,7 @@ export default function Hero() {
             </Button>
           </div>
         </div>
-        <div className="flex-shrink-0 lg:w-1/2 flex justify-center">
+        <div className="flex-shrink-0 lg:w-5/12 flex justify-center">
           <ProfileCard
             name="Madhav Verma"
             title="Full-Stack Developer"
