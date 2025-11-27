@@ -4,6 +4,7 @@ import { Briefcase, GraduationCap, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Badge } from '@/components/ui/badge';
+import TiltedCard from '../ui/tilted-card';
 
 const workExperience = [
   {
@@ -52,12 +53,12 @@ const education = [
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 50 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.1,
+      delay: i * 0.15,
       duration: 0.5,
       ease: 'easeOut',
     },
@@ -80,33 +81,30 @@ const TimelineItem = ({ item, index }: { item: (typeof workExperience)[0] | (typ
         </div>
       </div>
     </div>
-    <motion.div
-      whileHover={{
-        scale: 1.02,
-        boxShadow: '0 0 25px hsl(var(--primary) / 0.3)',
-      }}
-      transition={{ duration: 0.2 }}
-      className="bg-card/50 backdrop-blur-lg border border-primary/10 rounded-xl p-6 transition-all duration-300"
-    >
-      <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
-        <Calendar className="h-4 w-4" />
-        {item.period}
-      </p>
-      <h3 className="font-bold text-lg text-foreground mb-1">
-        {'role' in item ? item.role : item.degree}
-      </h3>
-      <p className="text-sm text-primary font-medium mb-3">
-        {'company' in item ? item.company : item.institution}
-      </p>
-      <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
-      <div className="flex flex-wrap gap-2">
-        {item.tags.map((tag) => (
-          <Badge key={tag} variant="secondary" className="bg-primary/5 border-primary/20 text-primary/80">
-            {tag}
-          </Badge>
-        ))}
+    <TiltedCard>
+      <div
+        className="p-6 transition-all duration-300 h-full"
+      >
+        <p className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
+          <Calendar className="h-4 w-4" />
+          {item.period}
+        </p>
+        <h3 className="font-bold text-lg text-foreground mb-1">
+          {'role' in item ? item.role : item.degree}
+        </h3>
+        <p className="text-sm text-primary font-medium mb-3">
+          {'company' in item ? item.company : item.institution}
+        </p>
+        <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
+        <div className="flex flex-wrap gap-2">
+          {item.tags.map((tag) => (
+            <Badge key={tag} variant="secondary" className="bg-primary/5 border-primary/20 text-primary/80">
+              {tag}
+            </Badge>
+          ))}
+        </div>
       </div>
-    </motion.div>
+    </TiltedCard>
   </motion.div>
 );
 
@@ -155,7 +153,7 @@ export default function About() {
             <div className="relative flex flex-col gap-10">
               <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
               {education.map((edu, index) => (
-                <TimelineItem key={`edu-${index}`} item={edu} index={index} />
+                <TimelineItem key={`edu-${index}`} item={edu} index={index + workExperience.length} />
               ))}
             </div>
           </div>
