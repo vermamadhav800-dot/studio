@@ -1,14 +1,13 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowDown } from 'lucide-react';
+import ProfileCard from '@/components/ui/ProfileCard';
 
 export default function Hero() {
-  const profilePic = PlaceHolderImages.find((img) => img.id === 'profile-picture');
-
   return (
-    <section id="home" className="relative h-[calc(100vh-4rem)] w-full flex items-center justify-center">
+    <section id="home" className="relative h-screen w-full flex items-center justify-center">
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 space-y-6">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-primary">
@@ -27,17 +26,23 @@ export default function Hero() {
           </div>
         </div>
         <div className="flex-shrink-0">
-          {profilePic && (
-            <Image
-              src={profilePic.imageUrl}
-              alt={profilePic.description}
-              width={300}
-              height={300}
-              data-ai-hint={profilePic.imageHint}
-              className="rounded-full object-cover border-4 border-primary/20 shadow-lg"
-              priority
-            />
-          )}
+          <ProfileCard
+            name="Alex Doe"
+            title="Full-Stack Developer"
+            handle="alexdoe"
+            status="Available for hire"
+            contactText="Contact Me"
+            avatarUrl="https://images.unsplash.com/photo-1607990283143-e81e7a2c9349?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjQyMjAwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080"
+            showUserInfo={true}
+            enableTilt={true}
+            enableMobileTilt={false}
+            onContactClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          />
         </div>
       </div>
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
