@@ -164,7 +164,7 @@ export default function AdminPage() {
                     <FormField control={form.control} name="hero.description" render={({ field }) => (<FormItem><FormLabel>Description</FormLabel><FormControl><Textarea rows={4} {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="hero.profileName" render={({ field }) => (<FormItem><FormLabel>Profile Card Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="hero.profileTitle" render={({ field }) => (<FormItem><FormLabel>Profile Card Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={formcontrol} name="hero.profileHandle" render={({ field }) => (<FormItem><FormLabel>Profile Card Handle</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
+                    <FormField control={form.control} name="hero.profileHandle" render={({ field }) => (<FormItem><FormLabel>Profile Card Handle</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="hero.profileStatus" render={({ field }) => (<FormItem><FormLabel>Profile Card Status</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="hero.avatarUrl" render={({ field }) => (<FormItem><FormLabel>Avatar Image URL</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                   </CardContent>
