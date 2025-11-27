@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Code, Palette, MonitorSmartphone } from 'lucide-react';
 import ServiceCard from '@/components/ui/service-card';
+import TextPressure from '../ui/text-pressure';
 
 const services = [
   {
@@ -36,10 +37,8 @@ const containerVariants = {
 export default function Services() {
   return (
     <Section id="services" className="overflow-hidden">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-          What I Do
-        </h2>
+      <div className="text-center mb-16 h-24">
+        <TextPressure text="What I Do" minFontSize={48} />
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
           I specialize in creating beautiful and functional web experiences.
         </p>

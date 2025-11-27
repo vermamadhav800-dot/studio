@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Badge } from '@/components/ui/badge';
 import TiltedCard from '../ui/tilted-card';
+import TextPressure from '../ui/text-pressure';
 
 const workExperience = [
   {
@@ -117,15 +118,13 @@ export default function About() {
 
       <div className="relative z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-16 h-24"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            About Me
-          </h2>
+           <TextPressure text="About Me" minFontSize={48} />
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
             My journey through code and academia.
           </p>

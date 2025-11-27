@@ -25,7 +25,7 @@ export default function Footer() {
     <footer className="bg-muted">
       <div className="container flex flex-col items-center justify-between gap-4 py-6 md:flex-row">
         <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Alex Doe. All rights reserved.
+          &copy; {new Date().getFullYear()} Madhav Verma. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
           {socialLinks.map((social) => (

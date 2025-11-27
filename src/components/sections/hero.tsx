@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 import ProfileCard from '@/components/ui/ProfileCard';
+import TextPressure from '../ui/text-pressure';
 
 export default function Hero() {
   return (
@@ -11,9 +12,9 @@ export default function Hero() {
       <div className="absolute top-[-20rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 space-y-6">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-primary">
-            Alex Doe
-          </h1>
+          <div className="h-32">
+            <TextPressure text="Madhav Verma" />
+          </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
             A passionate and creative Full-Stack Developer with a knack for building beautiful, user-friendly, and efficient web applications. I thrive on turning complex problems into simple, elegant solutions.
           </p>
@@ -28,9 +29,9 @@ export default function Hero() {
         </div>
         <div className="flex-shrink-0">
           <ProfileCard
-            name="Alex Doe"
+            name="Madhav Verma"
             title="Full-Stack Developer"
-            handle="alexdoe"
+            handle="madhavverma"
             status="Available for hire"
             contactText="Contact Me"
             avatarUrl="https://images.unsplash.com/photo-1607990283143-e81e7a2c9349?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjQyMjAwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080"

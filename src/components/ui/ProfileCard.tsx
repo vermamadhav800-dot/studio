@@ -14,9 +14,9 @@ const ANIMATION_CONFIG = {
   ENTER_TRANSITION_MS: 180
 };
 
-const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
-const round = (v, precision = 3) => parseFloat(v.toFixed(precision));
-const adjust = (v, fMin, fMax, tMin, tMax) => round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
+const clamp = (v: number, min = 0, max = 100) => Math.min(Math.max(v, min), max);
+const round = (v: number, precision = 3) => parseFloat(v.toFixed(precision));
+const adjust = (v: number, fMin: number, fMax: number, tMin: number, tMax: number) => round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
 
 const ProfileCardComponent = ({
   avatarUrl = '',
@@ -31,13 +31,33 @@ const ProfileCardComponent = ({
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
   miniAvatarUrl,
-  name = 'Javi A. Torres',
+  name = 'Madhav Verma',
   title = 'Software Engineer',
-  handle = 'javicodes',
+  handle = 'madhavverma',
   status = 'Online',
   contactText = 'Contact',
   showUserInfo = true,
   onContactClick
+}: {
+    avatarUrl: string;
+    iconUrl?: string;
+    grainUrl?: string;
+    innerGradient?: string;
+    behindGlowEnabled?: boolean;
+    behindGlowColor?: string;
+    behindGlowSize?: string;
+    className?: string;
+    enableTilt?: boolean;
+    enableMobileTilt?: boolean;
+    mobileTiltSensitivity?: number;
+    miniAvatarUrl?: string;
+    name?: string;
+    title?: string;
+    handle?: string;
+    status?: string;
+    contactText?: string;
+    showUserInfo?: boolean;
+    onContactClick?: () => void;
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -75,7 +95,7 @@ const ProfileCardComponent = ({
       const centerX = percentX - 50;
       const centerY = percentY - 50;
 
-      const properties = {
+      const properties: Record<string, string> = {
         '--pointer-x': `${percentX}%`,
         '--pointer-y': `${percentY}%`,
         '--background-x': `${adjust(percentX, 0, 100, 35, 65)}%`,
@@ -199,6 +219,7 @@ const ProfileCardComponent = ({
     tiltEngine.toCenter();
 
     const checkSettle = () => {
+      if (!tiltEngine) return;
       const { x, y, tx, ty } = tiltEngine.getCurrent();
       const settled = Math.hypot(tx - x, ty - y) < 0.6;
       if (settled) {
@@ -250,7 +271,7 @@ const ProfileCardComponent = ({
     shell.addEventListener('pointerleave', pointerLeaveHandler);
 
     const handleClick = () => {
-      if (!enableMobileTilt || location.protocol !== 'https:') return;
+      if (!enableMobileTilt || typeof window === 'undefined' || !('DeviceMotionEvent' in window)) return;
       
       const anyMotion = window.DeviceMotionEvent as any;
 
@@ -317,7 +338,6 @@ const ProfileCardComponent = ({
       <div ref={shellRef} className="pc-card-shell">
         <section className="pc-card">
           <div className="pc-inside">
-            <div className="pc-shine" />
             <div className="pc-glare" />
             <div className="pc-content pc-avatar-content">
               <Image
@@ -370,5 +390,3 @@ const ProfileCardComponent = ({
 
 const ProfileCard = React.memo(ProfileCardComponent);
 export default ProfileCard;
-
-    
