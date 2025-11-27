@@ -138,7 +138,7 @@ export default function About() {
               <Briefcase className="text-primary" /> Work Experience
             </h3>
             <div className="relative flex flex-col gap-10">
-              <div className="absolute left-[15px] top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
+              <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
               {workExperience.map((job, index) => (
                 <TimelineItem key={`work-${index}`} item={job} index={index} />
               ))}
@@ -151,7 +151,7 @@ export default function About() {
               <GraduationCap className="text-primary" /> Education
             </h3>
             <div className="relative flex flex-col gap-10">
-              <div className="absolute left-[15px] top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
+              <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"></div>
               {education.map((edu, index) => (
                 <TimelineItem key={`edu-${index}`} item={edu} index={index + workExperience.length} />
               ))}
