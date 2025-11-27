@@ -7,7 +7,8 @@ import ProfileCard from '@/components/ui/ProfileCard';
 
 export default function Hero() {
   return (
-    <section id="home" className="relative h-screen w-full flex items-center justify-center">
+    <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      <div className="absolute top-[-20rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
       <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 space-y-6">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline text-primary">
