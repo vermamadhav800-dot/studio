@@ -1,4 +1,3 @@
-import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Hero from '@/components/sections/hero';
 import About from '@/components/sections/about';
@@ -7,6 +6,8 @@ import Services from '@/components/sections/services';
 import FlowingMenu from '@/components/ui/FlowingMenu';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Contact from '@/components/sections/contact';
+import PillNav from '@/components/ui/PillNav';
+import { TerminalSquare } from 'lucide-react';
 
 const projectItems = PlaceHolderImages.filter(
   (image) => image.id.startsWith('project-')
@@ -16,11 +17,29 @@ const projectItems = PlaceHolderImages.filter(
   image: image.imageUrl,
 }));
 
+const navLinks = [
+  { href: '#home', label: 'Home' },
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#services', label: 'Services' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
+];
+
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
+       <PillNav
+        logo={<TerminalSquare />}
+        items={navLinks}
+        activeHref="#home"
+        baseColor="hsl(var(--primary))"
+        pillColor="hsl(var(--background))"
+        hoveredPillTextColor="hsl(var(--primary-foreground))"
+        pillTextColor="hsl(var(--primary))"
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+      />
       <main className="flex-grow">
         <Hero />
         <About />
