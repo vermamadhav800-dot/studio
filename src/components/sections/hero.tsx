@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 import ProfileCard from '@/components/ui/ProfileCard';
-import TextPressure from '../ui/text-pressure';
 import DarkVeil from '../ui/DarkVeil';
 
 export default function Hero() {
@@ -20,9 +19,9 @@ export default function Hero() {
       />
       <div className="relative z-10 container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 lg:w-7/12 space-y-6">
-          <div className="h-32 w-full">
-            <TextPressure text="Madhav Verma" minFontSize={24} />
-          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-headline tracking-tighter text-foreground">
+            Madhav Verma
+          </h1>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
             A passionate and creative Full-Stack Developer with a knack for building beautiful, user-friendly, and efficient web applications. I thrive on turning complex problems into simple, elegant solutions.
           </p>
