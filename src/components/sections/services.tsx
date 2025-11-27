@@ -3,69 +3,65 @@
 import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Code, Palette, MonitorSmartphone } from 'lucide-react';
-import ServiceCard from '@/components/ui/service-card';
+import CardSwap, { Card } from '@/components/ui/CardSwap';
+import '@/components/ui/CardSwap.css';
 
 const services = [
   {
-    icon: <Palette className="h-10 w-10" />,
+    icon: <Palette className="h-10 w-10 text-primary" />,
     title: 'UI/UX Design',
     description: 'Crafting intuitive and visually appealing user interfaces that enhance user satisfaction and engagement. From wireframes to high-fidelity prototypes.',
   },
   {
-    icon: <MonitorSmartphone className="h-10 w-10" />,
+    icon: <MonitorSmartphone className="h-10 w-10 text-primary" />,
     title: 'Web Design',
     description: 'Creating modern and responsive websites from scratch. I focus on clean, elegant designs that are optimized for all devices and screen sizes.',
   },
   {
-    icon: <Code className="h-10 w-10" />,
+    icon: <Code className="h-10 w-10 text-primary" />,
     title: 'Web Development',
     description: 'Building robust and scalable full-stack web applications. I use modern technologies to deliver high-performance, secure, and maintainable code.',
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
 export default function Services() {
   return (
-    <Section id="services" className="overflow-hidden">
-      <motion.div
-        className="text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-          What I Do
-        </h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
-          I specialize in creating beautiful and functional web experiences.
-        </p>
-      </motion.div>
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        {services.map((service, index) => (
-          <ServiceCard
-            key={index}
-            icon={service.icon}
-            title={service.title}
-            description={service.description}
-          />
-        ))}
-      </motion.div>
+    <Section id="services" className="overflow-hidden relative min-h-[90vh]">
+      <div className="grid md:grid-cols-2 gap-8 items-center h-full">
+        <motion.div
+          className="text-center md:text-left"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+            What I Do
+          </h2>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
+            I specialize in creating beautiful and functional web experiences, blending design and development to bring ideas to life.
+          </p>
+        </motion.div>
+        
+        <div className="relative w-full min-h-[500px] md:min-h-full">
+           <CardSwap
+            cardDistance={60}
+            verticalDistance={70}
+            delay={3000}
+            pauseOnHover={true}
+            skewAmount={8}
+            easing="elastic"
+          >
+            {services.map((service, index) => (
+              <Card key={index} customClass="p-8 flex flex-col items-center justify-center text-center bg-card/80 backdrop-blur-lg border-primary/20">
+                <div className="mb-4">{service.icon}</div>
+                <h3 className="text-2xl font-bold font-headline text-foreground mb-2">{service.title}</h3>
+                <p className="text-muted-foreground">{service.description}</p>
+              </Card>
+            ))}
+          </CardSwap>
+        </div>
+      </div>
     </Section>
   );
 }
