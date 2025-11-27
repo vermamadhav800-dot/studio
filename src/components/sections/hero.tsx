@@ -5,14 +5,22 @@ import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 import ProfileCard from '@/components/ui/ProfileCard';
 import TextPressure from '../ui/text-pressure';
+import DarkVeil from '../ui/DarkVeil';
 
 export default function Hero() {
   return (
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="absolute top-[-10rem] left-1/2 -translate-x-1/2 w-[70rem] h-[50rem] bg-purple-500/20 rounded-full blur-3xl filter opacity-50" />
-      <div className="container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
+      <DarkVeil 
+        speed={0.3}
+        hueShift={180}
+        noiseIntensity={0.03}
+        scanlineIntensity={0.05}
+        scanlineFrequency={200}
+        warpAmount={0.2}
+      />
+      <div className="relative z-10 container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 lg:w-7/12 space-y-6">
-          <div className="h-32">
+          <div className="h-32 w-[90%]">
             <TextPressure text="Madhav Verma" minFontSize={24} />
           </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
@@ -47,11 +55,6 @@ export default function Hero() {
           />
         </div>
       </div>
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
         <Link href="#about" aria-label="Scroll to about section">
-          <ArrowDown className="h-8 w-8 text-muted-foreground animate-bounce" />
-        </Link>
-      </div>
-    </section>
-  );
-}
+          <ArrowDown className="h-8 w-8 text-muted-foreground animate-bounce"
