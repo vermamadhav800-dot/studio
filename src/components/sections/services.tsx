@@ -1,49 +1,65 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+
+import { motion } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Code, Palette, MonitorSmartphone } from 'lucide-react';
+import ServiceCard from '@/components/ui/service-card';
 
 const services = [
   {
-    icon: Palette,
+    icon: <Palette className="h-10 w-10" />,
     title: 'UI/UX Design',
-    description: 'Crafting intuitive and visually appealing user interfaces that enhance user satisfaction and engagement. From wireframes to high-fidelity prototypes.'
+    description: 'Crafting intuitive and visually appealing user interfaces that enhance user satisfaction and engagement. From wireframes to high-fidelity prototypes.',
   },
   {
-    icon: MonitorSmartphone,
+    icon: <MonitorSmartphone className="h-10 w-10" />,
     title: 'Web Design',
-    description: 'Creating modern and responsive websites from scratch. I focus on clean, elegant designs that are optimized for all devices and screen sizes.'
+    description: 'Creating modern and responsive websites from scratch. I focus on clean, elegant designs that are optimized for all devices and screen sizes.',
   },
   {
-    icon: Code,
+    icon: <Code className="h-10 w-10" />,
     title: 'Web Development',
-    description: 'Building robust and scalable full-stack web applications. I use modern technologies to deliver high-performance, secure, and maintainable code.'
-  }
+    description: 'Building robust and scalable full-stack web applications. I use modern technologies to deliver high-performance, secure, and maintainable code.',
+  },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
 
 export default function Services() {
   return (
-    <Section id="services" className="bg-muted">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Services</h2>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-          How I can help you bring your digital vision to life.
+    <Section id="services" className="overflow-hidden">
+      <div className="text-center mb-16">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+          What I Do
+        </h2>
+        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed mt-4">
+          I specialize in creating beautiful and functional web experiences.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         {services.map((service, index) => (
-          <Card key={index} className="text-center group hover:border-primary transition-all">
-            <CardHeader className="items-center">
-              <div className="p-4 rounded-full bg-primary/10 mb-4 group-hover:bg-primary transition-colors">
-                <service.icon className="h-8 w-8 text-primary transition-colors" />
-              </div>
-              <CardTitle className="font-headline">{service.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{service.description}</p>
-            </CardContent>
-          </Card>
+          <ServiceCard
+            key={index}
+            icon={service.icon}
+            title={service.title}
+            description={service.description}
+          />
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }
