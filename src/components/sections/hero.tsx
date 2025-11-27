@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       <DarkVeil 
-        speed={0.3}
+        speed={0.8}
         hueShift={240}
         noiseIntensity={0.03}
         scanlineIntensity={0.05}
