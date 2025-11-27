@@ -10,6 +10,7 @@ import Contact from '@/components/sections/contact';
 import PillNav from '@/components/ui/PillNav';
 import { TerminalSquare } from 'lucide-react';
 import Link from 'next/link';
+import CurvedLoop from '@/components/ui/CurvedLoop';
 
 const projectItems = PlaceHolderImages.filter(
   (image) => image.id.startsWith('project-')
@@ -30,6 +31,7 @@ const navLinks = [
 
 
 export default function Home() {
+  const skillsText = "React ✦ Next.js ✦ Node.js ✦ TypeScript ✦ GraphQL ✦ PostgreSQL ✦ Docker ✦ UI/UX Design ✦ Web Design ✦ Tailwind CSS ✦ Figma ✦ Server Actions ✦";
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
        <PillNav
@@ -49,6 +51,12 @@ export default function Home() {
       />
       <main className="flex-grow">
         <Hero />
+        <CurvedLoop 
+          marqueeText={skillsText}
+          speed={0.5}
+          curveAmount={80}
+          interactive={true}
+        />
         <About />
         <Skills />
         <Services />
