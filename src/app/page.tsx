@@ -31,13 +31,12 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
        <PillNav
-        logo={<TerminalSquare />}
         items={navLinks}
         activeHref="#home"
-        baseColor="hsl(var(--foreground))"
-        pillColor="hsl(var(--background))"
-        hoveredPillTextColor="hsl(var(--foreground))"
-        pillTextColor="hsl(var(--foreground))"
+        baseColor="hsl(var(--background))"
+        pillColor="hsl(var(--foreground))"
+        hoveredPillTextColor="hsl(var(--background))"
+        pillTextColor="hsl(var(--background))"
         className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
       />
       <main className="flex-grow">
