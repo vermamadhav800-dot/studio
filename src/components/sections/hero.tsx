@@ -20,7 +20,7 @@ export default function Hero() {
       />
       <div className="relative z-10 container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 lg:w-7/12 space-y-6">
-          <div className="h-32 w-[90%]">
+          <div className="h-32 w-full">
             <TextPressure text="Madhav Verma" minFontSize={24} />
           </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
