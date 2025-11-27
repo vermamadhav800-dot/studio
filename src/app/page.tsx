@@ -34,8 +34,8 @@ export default function Home() {
         logo={<TerminalSquare />}
         items={navLinks}
         activeHref="#home"
-        baseColor="hsl(var(--foreground))"
-        pillColor="hsl(var(--background))"
+        baseColor="hsl(var(--background))"
+        pillColor="hsl(var(--foreground))"
         hoveredPillTextColor="hsl(var(--background))"
         pillTextColor="hsl(var(--foreground))"
         className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
