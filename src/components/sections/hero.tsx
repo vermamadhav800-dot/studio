@@ -20,7 +20,7 @@ export default function Hero() {
       />
       <div className="relative z-10 container flex flex-col-reverse items-center gap-12 text-center lg:flex-row lg:text-left">
         <div className="flex-1 lg:w-7/12 space-y-6">
-          <div className="h-32 w-[90%]">
+          <div className="h-32 w-full">
             <TextPressure text="Madhav Verma" minFontSize={24} />
           </div>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl lg:mx-0">
@@ -57,4 +57,9 @@ export default function Hero() {
       </div>
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
         <Link href="#about" aria-label="Scroll to about section">
-          <ArrowDown className="h-8 w-8 text-muted-foreground animate-bounce"
+          <ArrowDown className="h-8 w-8 text-muted-foreground animate-bounce" />
+        </Link>
+      </div>
+    </section>
+  );
+}
