@@ -7,6 +7,7 @@ import './PillNav.css';
 
 const PillNav = ({
   logo,
+  logoHomeLink,
   logoAlt = 'Logo',
   items,
   activeHref,
@@ -29,7 +30,7 @@ const PillNav = ({
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const layout = () => {
@@ -96,12 +97,12 @@ const PillNav = ({
     }
 
     if (initialLoadAnimation) {
-      const logo = logoRef.current;
+      const logoEl = logoRef.current;
       const navItems = navItemsRef.current;
 
-      if (logo) {
-        gsap.set(logo, { scale: 0 });
-        gsap.to(logo, {
+      if (logoEl) {
+        gsap.set(logoEl, { scale: 0 });
+        gsap.to(logoEl, {
           scale: 1,
           duration: 0.6,
           ease
@@ -207,16 +208,6 @@ const PillNav = ({
     onMobileMenuClick?.();
   };
 
-  const isExternalLink = (href: string) =>
-    href.startsWith('http://') ||
-    href.startsWith('https://') ||
-    href.startsWith('//') ||
-    href.startsWith('mailto:') ||
-    href.startsWith('tel:') ||
-    href.startsWith('#');
-
-  const isRouterLink = (href: string) => href && !isExternalLink(href);
-
   const cssVars: React.CSSProperties = {
     '--base': baseColor,
     '--pill-bg': pillColor,
@@ -224,21 +215,21 @@ const PillNav = ({
     '--pill-text': resolvedPillTextColor
   };
 
+  const LogoComponent = logoHomeLink ? Link : 'div';
+  const logoProps = logoHomeLink ? { href: logoHomeLink } : {};
+
   return (
     <div className="pill-nav-container">
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-        <Link
+        <div
             className="pill-logo"
-            href={items?.[0]?.href || '#'}
-            aria-label="Home"
+            aria-label={logoAlt}
             onMouseEnter={handleLogoEnter}
             role="menuitem"
-            ref={el => {
-              logoRef.current = el;
-            }}
+            ref={logoRef}
           >
             <div ref={logoImgRef} className="w-full h-full flex items-center justify-center text-primary-foreground">{logo}</div>
-          </Link>
+        </div>
 
         <div className="pill-nav-items desktop-only" ref={navItemsRef}>
           <ul className="pill-list" role="menubar">

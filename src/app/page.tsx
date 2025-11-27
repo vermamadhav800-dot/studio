@@ -34,10 +34,11 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
        <PillNav
         logo={
-          <Link href="/admin">
+          <Link href="/admin" aria-label="Admin Panel">
             <TerminalSquare />
           </Link>
         }
+        logoHomeLink="#"
         items={navLinks}
         activeHref="#home"
         baseColor="hsl(var(--background))"
