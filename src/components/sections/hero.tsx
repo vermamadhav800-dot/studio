@@ -66,11 +66,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
-        <Link href="#about" aria-label="Scroll to about section">
-          <ArrowDown className="h-8 w-8 text-muted-foreground animate-bounce" />
-        </Link>
-      </div>
     </section>
   );
 }
