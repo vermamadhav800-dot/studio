@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -5,6 +7,7 @@ import { Section } from '@/components/section';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -40,34 +43,40 @@ export default function Projects() {
         {projects.map((project, index) => {
           const projectImage = PlaceHolderImages.find((img) => img.id === project.imageId);
           return (
-            <Card key={index} className="overflow-hidden group">
-              <CardHeader className="p-0">
-                {projectImage && (
-                  <div className="aspect-video overflow-hidden">
-                  <Image
-                    src={projectImage.imageUrl}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    data-ai-hint={projectImage.imageHint}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                  />
+            <motion.div
+              key={index}
+              whileHover={{ y: -8 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Card className="overflow-hidden group h-full flex flex-col">
+                <CardHeader className="p-0">
+                  {projectImage && (
+                    <div className="aspect-video overflow-hidden">
+                    <Image
+                      src={projectImage.imageUrl}
+                      alt={project.title}
+                      width={600}
+                      height={400}
+                      data-ai-hint={projectImage.imageHint}
+                      className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                    />
+                    </div>
+                  )}
+                </CardHeader>
+                <CardContent className="p-6 flex flex-col flex-grow">
+                  <CardTitle className="mb-2 font-headline">{project.title}</CardTitle>
+                  <CardDescription className="mb-4 flex-grow">{project.description}</CardDescription>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary">{tag}</Badge>
+                    ))}
                   </div>
-                )}
-              </CardHeader>
-              <CardContent className="p-6">
-                <CardTitle className="mb-2 font-headline">{project.title}</CardTitle>
-                <CardDescription className="mb-4">{project.description}</CardDescription>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary">{tag}</Badge>
-                  ))}
-                </div>
-                 <Link href="#" className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-primary group-hover:underline">
-                    View Project <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </CardContent>
-            </Card>
+                   <Link href="#" className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-primary group-hover:underline">
+                      View Project <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </CardContent>
+              </Card>
+            </motion.div>
           );
         })}
       </div>
