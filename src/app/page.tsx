@@ -196,6 +196,15 @@ const ProjectsSection = () => {
                   className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                     MY PROJECTS
                 </motion.h2>
+                <div className="flex justify-center mt-8">
+                    <Image 
+                        src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764344178/The_Morty_Dance_Loader_m5gwlz.gif" 
+                        alt="Morty dancing GIF"
+                        width={150}
+                        height={150}
+                        unoptimized
+                    />
+                </div>
             </div>
             <ScrollStack items={projects} />
         </section>
@@ -310,6 +319,8 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
 
