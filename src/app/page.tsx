@@ -158,16 +158,14 @@ const AboutSection = () => {
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
 
-            <ScrollFloat
-              textClassName='text-white'
-              animationDuration={1}
-              ease='back.inOut(2)'
-              scrollStart='center bottom+=50%'
-              scrollEnd='bottom bottom-=40%'
-              stagger={0.03}
+            <motion.h2
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                className={cn("text-6xl md:text-8xl text-white font-black", fontHeading.className)}
             >
                 ABOUT ME
-            </ScrollFloat>
+            </motion.h2>
             
             <div className="max-w-2xl text-gray-300 mt-8">
                 <ScrollReveal
@@ -199,12 +197,14 @@ const ProjectsSection = () => {
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-12">
                  <div className="flex justify-center items-center gap-4">
-                    <ScrollFloat
-                        textClassName={cn("!text-6xl md:!text-8xl !text-white", fontHeading.className)}
-                        stagger={0.02}
+                    <motion.h2
+                        initial={{ opacity: 0, x: -100 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, ease: 'easeOut' }}
+                        className={cn("text-6xl md:text-8xl text-white", fontHeading.className)}
                     >
                         MY PROJECTS
-                    </ScrollFloat>
+                    </motion.h2>
                     <LottiePlayer
                         src="https://lottie.host/72a75bbe-a1bf-45a3-96f1-6f25aa1666c2/lweYmnuodz.json"
                         style={{ height: 100, width: 100 }}
@@ -253,12 +253,14 @@ const TestimonialsSection = () => {
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
             <div className="container mx-auto text-center mb-20">
                  <div className="flex justify-center items-center gap-4">
-                    <ScrollFloat
-                        textClassName={cn("!text-4xl md:!text-6xl !text-white", fontHeading.className)}
-                        stagger={0.02}
+                    <motion.h2
+                        initial={{ opacity: 0, x: -100 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, ease: 'easeOut' }}
+                        className={cn("text-4xl md:text-6xl text-white", fontHeading.className)}
                     >
                         WHAT CLIENTS ARE SAYING
-                    </ScrollFloat>
+                    </motion.h2>
                      <LottiePlayer
                         src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
                         style={{ height: 100, width: 100 }}
@@ -445,6 +447,7 @@ export default function Home() {
     
 
     
+
 
 
 
