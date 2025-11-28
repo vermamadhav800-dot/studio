@@ -24,16 +24,16 @@ export default function Home() {
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
           
           <div className="absolute top-0 left-0 right-0 container mx-auto flex items-center justify-center p-4 z-10">
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-16">
                 {navLinks.map((link) => (
-                <Link href={link.href} key={link.label} className="text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-widest">
+                <Link href={link.href} key={link.label} className="text-sm font-medium text-white hover:text-gray-300 transition-colors tracking-widest">
                     {link.label}
                 </Link>
                 ))}
             </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mt-20 mb-4">
+          <h1 className="text-6xl md:text-8xl lg:text-[10vw] font-black text-white tracking-tighter leading-none mt-20 mb-4">
             HI, I'M MADHAV
           </h1>
           
