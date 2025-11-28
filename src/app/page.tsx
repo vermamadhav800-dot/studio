@@ -376,7 +376,7 @@ const ContactSection = () => {
                         >
                             LET'S<br />GET IN<br />TOUCH
                         </motion.h2>
-                        <a href="mailto:alex@3dturner.or" className="text-gray-600 mt-4 text-lg hover:underline">alex@3dturner.or</a>
+                        <a href="mailto:vermamadhav800@gmail.com" className="text-gray-600 mt-4 text-lg hover:underline">vermamadhav800@gmail.com</a>
                     </div>
 
                     {/* Right Side - Form */}
@@ -432,9 +432,9 @@ const ContactSection = () => {
                              <div>
                                 <h4 className="font-semibold text-gray-400 mb-2">CONTACT</h4>
                                 <div className="text-sm space-y-1">
-                                    <p>alex@3dturner.com</p>
-                                    <p>+1 (555) 123-4567</p>
-                                    <p>123 Creative Lane, Suite 45<br/>Design City, CA 90210</p>
+                                    <p>vermamadhav800@gmail.com</p>
+                                    <p>9469238102</p>
+                                    <p>Madhav Verma</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -551,5 +551,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
