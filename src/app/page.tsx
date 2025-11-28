@@ -54,7 +54,7 @@ export default function Home() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <Image
-                src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311856/image-removebg-preview__1_-removebg-preview_qi2y1i.png"
+                src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
                 alt="3D character"
                 width={800}
                 height={800}
