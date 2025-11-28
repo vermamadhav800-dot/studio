@@ -17,11 +17,11 @@ const PlaceholderSection = ({ id, label }: { id: string; label: string }) => (
 
 export default function Home() {
   return (
-    <div className="bg-background text-foreground">
-      <header className="fixed top-0 left-0 right-0 z-20 bg-background/50 backdrop-blur-sm">
+    <div className="bg-black text-foreground">
+      <header className="fixed top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm">
         <nav className="container mx-auto flex items-center justify-between p-4">
           <div className="text-lg font-bold">
-            <Link href="#">MADHAV</Link>
+            <Link href="#">ALEX</Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
@@ -34,32 +34,32 @@ export default function Home() {
       </header>
 
       <main>
-        <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-0">
-            <h1 className="text-8xl sm:text-[12rem] md:text-[16rem] lg:text-[20rem] font-black text-gray-200 tracking-tighter leading-none">
-              HI, I'M
-            </h1>
-            <div className="h-[10vh] sm:h-[15vh] md:h-[20vh] lg:h-[25vh]"></div>
-            <h1 className="text-8xl sm:text-[12rem] md:text-[16rem] lg:text-[20rem] font-black text-gray-200 tracking-tighter leading-none">
-              MADHAV
-            </h1>
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center justify-center pt-10">
-            <Image
-              src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311377/image-removebg-preview_iehyjw.png"
-              alt="3D character"
-              width={500}
-              height={500}
-              className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 object-contain"
-              priority
-            />
-            <p className="max-w-md text-gray-400 mt-4 px-4 text-sm sm:text-base">
+        <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mb-8">
+            HI, I'M ALEX
+          </h1>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
+            <p className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
               A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
             </p>
-            <Link href="#contact" className="mt-8 px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
-              CONTACT ME
-            </Link>
+
+            <div className="flex justify-center">
+              <Image
+                src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311377/image-removebg-preview_iehyjw.png"
+                alt="3D character"
+                width={400}
+                height={400}
+                className="w-64 h-64 sm:w-80 sm:h-80 object-contain"
+                priority
+              />
+            </div>
+            
+            <div className="flex justify-center md:justify-end">
+                <Link href="#contact" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
+                CONTACT ME
+                </Link>
+            </div>
           </div>
         </section>
 
