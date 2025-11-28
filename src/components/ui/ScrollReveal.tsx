@@ -33,7 +33,7 @@ const ScrollReveal = ({
   rotationEnd = 'bottom bottom',
   wordAnimationEnd = 'bottom bottom'
 }: ScrollRevealProps) => {
-  const containerRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
@@ -128,3 +128,5 @@ const ScrollReveal = ({
 };
 
 export default ScrollReveal;
+
+    
