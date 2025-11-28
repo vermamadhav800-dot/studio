@@ -219,7 +219,7 @@ const ProjectsSection = () => {
 }
 
 const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] shrink-0">
+    <div className="bg-black p-6 rounded-2xl border border-white flex flex-col items-start gap-4 w-[350px] shrink-0">
         <div className="flex items-center gap-4">
             <Image
                 src={testimonial.image}
@@ -241,11 +241,13 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 
 
 const TestimonialsSection = () => {
-    const firstRow = testimonials.slice(0, Math.ceil(testimonials.length / 2));
-    const secondRow = testimonials.slice(Math.ceil(testimonials.length / 2));
+    const firstRow = testimonials.slice(0, 2);
+    const secondRow = testimonials.slice(2, 4);
+    const thirdRow = testimonials.slice(4, 6);
     
-    const duplicatedFirstRow = [...firstRow, ...firstRow];
-    const duplicatedSecondRow = [...secondRow, ...secondRow];
+    const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow];
+    const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow];
+    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow];
 
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
@@ -272,6 +274,11 @@ const TestimonialsSection = () => {
                 <div className="flex w-max items-center gap-4 animate-scroll-right">
                     {duplicatedSecondRow.map((testimonial, index) => (
                         <TestimonialCard key={`second-${index}`} testimonial={testimonial} />
+                    ))}
+                </div>
+                 <div className="flex w-max items-center gap-4 animate-scroll-left">
+                    {duplicatedThirdRow.map((testimonial, index) => (
+                        <TestimonialCard key={`third-${index}`} testimonial={testimonial} />
                     ))}
                 </div>
             </div>
@@ -438,4 +445,5 @@ export default function Home() {
     
 
     
+
 
