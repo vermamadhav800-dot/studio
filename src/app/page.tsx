@@ -12,7 +12,7 @@ import { LottiePlayer } from '@/components/ui/LottiePlayer';
 import CircularGallery from '@/components/ui/CircularGallery';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
-import ScrollReveal from '@/components/ui/ScrollReveal';
+import ScrollFloat from '@/components/ui/ScrollFloat';
 
 
 const navLinks = [
@@ -113,38 +113,37 @@ const AboutSection = () => {
 
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
+            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
+            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
+            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
+            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
 
-            <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-                viewport={{ once: true }}
-                className={cn("text-6xl md:text-8xl font-black text-white tracking-tighter mb-8", fontHeading.className)}
+            <ScrollFloat
+              animationDuration={1}
+              ease='back.inOut(2)'
+              scrollStart='center bottom+=50%'
+              scrollEnd='bottom bottom-=40%'
+              stagger={0.03}
             >
                 ABOUT ME
-            </motion.h2>
-            <div className="max-w-2xl text-gray-300">
-                <ScrollReveal
-                    baseOpacity={0}
-                    enableBlur={true}
-                    baseRotation={5}
-                    blurStrength={10}
-                >
-                    {aboutText}
-                </ScrollReveal>
-            </div>
+            </ScrollFloat>
+            <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="max-w-2xl text-gray-300 mt-8"
+            >
+                {aboutText}
+            </motion.p>
 
             <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg mt-12">
                 CONTACT ME
