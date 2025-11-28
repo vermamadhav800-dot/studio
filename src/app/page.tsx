@@ -296,7 +296,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut' }}
                     className="absolute -top-16 -right-16 w-40 h-40 hidden md:block"
                 >
-                    <Image src="https://picsum.photos/seed/yellow-shape/200/200" alt="3D yellow shape" data-ai-hint="3d abstract shape" width={160} height={160} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348206/Gemini_Generated_Image_otvsq2otvsq2otvs__1_-removebg-preview_zjro58.png" alt="3D yellow shape" data-ai-hint="3d abstract shape" width={160} height={160} />
                 </motion.div>
                 <motion.div 
                     initial={{ scale: 0.5, opacity: 0, y: 50, x: -50 }}
@@ -304,7 +304,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://picsum.photos/seed/purple-shape/200/200" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -445,6 +445,7 @@ export default function Home() {
     
 
     
+
 
 
 
