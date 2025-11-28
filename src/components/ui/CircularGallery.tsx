@@ -166,6 +166,7 @@ class Media {
     borderRadius = 0,
     font
   }: MediaConstructor) {
+    autoBind(this);
     this.extra = 0;
     this.geometry = geometry;
     this.gl = gl;
