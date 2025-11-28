@@ -17,6 +17,7 @@ import ScrollReveal from '@/components/ui/ScrollReveal';
 import { Facebook, Instagram, Dribbble, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Textarea } from "@/components/ui/textarea";
 
 
 const navLinks = [
@@ -121,7 +122,6 @@ const AboutSection = () => {
                 initial={{ x: -100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} 
-                viewport={{ once: true }}
                 className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
@@ -130,7 +130,6 @@ const AboutSection = () => {
                 initial={{ x: 100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-                viewport={{ once: true }} 
                 className="absolute top-1/3 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
@@ -139,7 +138,6 @@ const AboutSection = () => {
                 initial={{ x: -100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} 
-                viewport={{ once: true }}
                 className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
@@ -148,7 +146,6 @@ const AboutSection = () => {
                 initial={{ x: 100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} 
-                viewport={{ once: true }}
                 className="absolute bottom-1/3 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
@@ -181,7 +178,6 @@ const AboutSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
             >
                 <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg mt-12 inline-block">
                     CONTACT ME
@@ -200,7 +196,6 @@ const ProjectsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      viewport={{ once: true }}
                       className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                         MY PROJECTS
                     </motion.h2>
@@ -232,7 +227,6 @@ const TestimonialsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      viewport={{ once: true }}
                       className={cn("animated-heading text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
@@ -258,65 +252,71 @@ const TestimonialsSection = () => {
 };
 
 const ContactSection = () => {
-    const socialLinks = [
-        { icon: <Instagram />, href: '#' },
-        { icon: <Facebook />, href: '#' },
-        { icon: <Dribbble />, href: '#' },
-        { icon: <Linkedin />, href: '#' },
-    ];
-
     return (
-        <footer id="contact" className="relative bg-[#0E0E0E] text-white pt-20">
-            {/* Top Part */}
-            <div className="relative bg-[#F3F3F3] text-black rounded-t-3xl py-16 px-4 sm:px-6 lg:px-8 -mt-10">
-                <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40">
-                    <Image src="https://picsum.photos/seed/contact-shape/200/200" data-ai-hint="3d abstract shape" alt="3D Shape" width={160} height={160} />
-                </div>
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">LET'S GET IN TOUCH</h2>
-                    <p className="mt-4 text-lg text-gray-600">Have a project in mind? I’d love to hear from you!</p>
-                    <div className="mt-8 max-w-lg mx-auto flex items-center gap-2">
-                        <Input type="email" placeholder="Enter your email address" className="bg-white" />
-                        <Button type="submit" className="bg-black text-white hover:bg-gray-800">SEND</Button>
+        <footer id="contact" className="relative bg-[#0E0E0E] text-black py-24 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto bg-white rounded-3xl p-8 md:p-12 relative">
+                <motion.div 
+                    initial={{ scale: 0.5, opacity: 0, y: -50, x: 50 }}
+                    whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className="absolute -top-16 -right-16 w-40 h-40"
+                >
+                    <Image src="https://picsum.photos/seed/yellow-shape/200/200" alt="3D yellow shape" data-ai-hint="3d abstract shape" width={160} height={160} />
+                </motion.div>
+                <motion.div 
+                    initial={{ scale: 0.5, opacity: 0, y: 50, x: -50 }}
+                    whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+                    className="absolute -bottom-16 -left-16 w-32 h-32"
+                >
+                    <Image src="https://picsum.photos/seed/purple-shape/200/200" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                </motion.div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    {/* Left Side */}
+                    <div className="flex flex-col justify-center">
+                        <ScrollFloat
+                          textClassName='!text-black !text-left !text-5xl md:!text-7xl !leading-tight'
+                          stagger={0.02}
+                          scrollStart="top bottom-=10%"
+                          scrollEnd="bottom center"
+                        >
+                            LET'S GET IN TOUCH
+                        </ScrollFloat>
+                        <a href="mailto:alex@3dturner.or" className="text-gray-600 mt-4 text-lg hover:underline">alex@3dturner.or</a>
                     </div>
+
+                    {/* Right Side - Form */}
+                    <form className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="full-name" className="text-sm font-medium text-gray-500">Full Name*</label>
+                                <Input id="full-name" name="full-name" type="text" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
+                            </div>
+                            <div>
+                                <label htmlFor="phone" className="text-sm font-medium text-gray-500">Phone</label>
+                                <Input id="phone" name="phone" type="tel" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="email" className="text-sm font-medium text-gray-500">Email*</label>
+                            <Input id="email" name="email" type="email" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
+                        </div>
+                        <div>
+                            <label htmlFor="message" className="text-sm font-medium text-gray-500">Message</label>
+                            <Textarea id="message" name="message" rows={3} className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !min-h-[60px]" />
+                        </div>
+                        <div>
+                            <Button type="submit" className="rounded-full bg-primary text-primary-foreground px-8 py-3 text-base font-semibold hover:bg-primary/90 transition-transform hover:scale-105">
+                                SEND
+                            </Button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            {/* Bottom Part */}
-            <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="md:col-span-1">
-                        <h3 className={cn("text-8xl font-black tracking-tighter", fontHeading.className)}>MADHAV</h3>
-                        <p className="mt-4 text-gray-400">3D Designer & Full-Stack Developer</p>
-                        <div className="flex space-x-4 mt-6">
-                            {socialLinks.map((link, index) => (
-                                <Link key={index} href={link.href} className="text-gray-400 hover:text-white transition-colors">
-                                    {link.icon}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8 text-gray-300">
-                        <div>
-                            <h4 className="font-semibold text-white tracking-wider">CONTACT</h4>
-                            <ul className="mt-4 space-y-3">
-                                <li className="flex items-center gap-3"><Mail size={18} /> <span>madhav.design@email.com</span></li>
-                                <li className="flex items-center gap-3"><Phone size={18} /> <span>+1 234 567 890</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="font-semibold text-white tracking-wider">LOCATION</h4>
-                            <p className="mt-4 flex items-start gap-3">
-                                <MapPin size={18} className="mt-1 flex-shrink-0" />
-                                <span>123 Design Street, Creative City, <br />Digitaland, 45678</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+             <div className="max-w-7xl mx-auto pt-16 px-4 sm:px-6 lg:px-8 text-sm text-gray-500 flex justify-between items-center">
                     <p>&copy; {new Date().getFullYear()} Madhav. All Rights Reserved.</p>
-                    <div className="flex items-center gap-4 mt-4 md:mt-0">
+                     <div className="flex items-center gap-4">
                          <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="10" cy="10" r="10" fill="#FF5733"/>
                         </svg>
@@ -332,7 +332,6 @@ const ContactSection = () => {
                         </svg>
                     </div>
                 </div>
-            </div>
         </footer>
     );
 }
@@ -407,10 +406,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
-
-    
-
