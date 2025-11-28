@@ -409,11 +409,17 @@ const ContactSection = () => {
             </div>
              <div className="bg-black text-white">
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                        <div className="col-span-1">
-                            <h3 className={cn("text-3xl font-bold", fontHeading.className)}>ALEX TURNER</h3>
+                    <div className="flex justify-between items-center w-full">
+                        <div>
+                            <Image 
+                                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif"
+                                alt="animated character"
+                                width={200}
+                                height={80}
+                                unoptimized
+                            />
                         </div>
-                        <div className="col-span-2 flex justify-between items-center">
+                        <div className="flex gap-8 items-center">
                             <div>
                                 <h4 className="font-semibold text-gray-400 mb-2">SOCIAL</h4>
                                 <div className="flex flex-col gap-1 text-sm">
@@ -431,36 +437,36 @@ const ContactSection = () => {
                                     <p>123 Creative Lane, Suite 45<br/>Design City, CA 90210</p>
                                 </div>
                             </div>
+                            <div className="flex items-center gap-4">
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 0L40 20L20 40L0 20L20 0Z" fill="#9333EA"/>
+                                    <path d="M20 10L30 20L20 30L10 20L20 10Z" fill="white"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="20" fill="#34D399"/>
+                                    <circle cx="12" cy="12" r="4" fill="white"/>
+                                    <circle cx="28" cy="12" r="4" fill="white"/>
+                                    <circle cx="12" cy="28" r="4" fill="white"/>
+                                    <circle cx="28" cy="28" r="4" fill="white"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 20L20 0L40 20L20 40L0 20Z" fill="#F472B6"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 0L40 40H0L20 0Z" fill="#60A5FA"/>
+                                </svg>
+                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="20" cy="20" r="10" fill="#EC4899" />
+                                    <circle cx="20" cy="20" r="20" stroke="#EC4899" strokeWidth="4"/>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                     <div className="flex items-center gap-4 mt-12">
-                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 0L40 20L20 40L0 20L20 0Z" fill="#9333EA"/>
-                            <path d="M20 10L30 20L20 30L10 20L20 10Z" fill="white"/>
-                        </svg>
-                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="20" fill="#34D399"/>
-                            <circle cx="12" cy="12" r="4" fill="white"/>
-                            <circle cx="28" cy="12" r="4" fill="white"/>
-                            <circle cx="12" cy="28" r="4" fill="white"/>
-                            <circle cx="28" cy="28" r="4" fill="white"/>
-                        </svg>
-                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
-                        </svg>
-                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
-                        </svg>
-                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 20L20 0L40 20L20 40L0 20Z" fill="#F472B6"/>
-                        </svg>
-                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 0L40 40H0L20 0Z" fill="#60A5FA"/>
-                        </svg>
-                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="10" fill="#EC4899" />
-                            <circle cx="20" cy="20" r="20" stroke="#EC4899" strokeWidth="4"/>
-                        </svg>
                     </div>
                 </div>
             </div>
