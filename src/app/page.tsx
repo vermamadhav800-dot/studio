@@ -59,7 +59,7 @@ const projects = [
     {
         id: '03',
         client: 'Quantum Innovations',
-        liveProjectLink: '#',
+        liveProjectLink: 'https://madhav-portfolio-sepia.vercel.app/',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-3-large')!,
             PlaceHolderImages.find(p => p.id === 'project-3-small-1')!,

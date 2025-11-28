@@ -44,21 +44,21 @@
     },
     {
       "id": "project-3-large",
-      "description": "A 3D render of a futuristic cityscape.",
-      "imageUrl": "https://images.unsplash.com/photo-1597006372162-848bbbe84b99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmdXR1cmlzdGljJTIwY2l0eXNjYXBlfGVufDB8fHx8MTc2NDIzMjkxMXww&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "futuristic cityscape"
+      "description": "Screenshot of a portfolio website.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764353791/Screenshot_2025-11-28_234343_qwzqhs.jpg",
+      "imageHint": "portfolio website"
     },
     {
       "id": "project-3-small-1",
-      "description": "A sleek, modern 3D vehicle concept.",
-      "imageUrl": "https://images.unsplash.com/photo-1704340142770-b52988e5b6eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uY2VwdCUyMHZlaGljbGV8ZW58MHx8fHwxNzY0MzIyNDcxfDA&ixlibrb-4.1.0&q=80&w=1080",
-      "imageHint": "concept vehicle"
+      "description": "Screenshot of a portfolio project section.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764353794/Screenshot_2025-11-28_234412_vxeuql.jpg",
+      "imageHint": "portfolio project"
     },
     {
       "id": "project-3-small-2",
-      "description": "An abstract 3D geometric structure.",
-      "imageUrl": "https://images.unsplash.com/photo-1714474597969-8395a0793a28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnZW9tZXRyaWMlMjBzdHJ1Y3R1cmV8ZW58MHx8fHwxNzY0MzIyNDcyfDA&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "geometric structure"
+      "description": "Screenshot of a portfolio contact section.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764353795/Screenshot_2025-11-28_234421_zzcd7d.jpg",
+      "imageHint": "portfolio contact"
     },
     {
       "id": "project-4-large",
