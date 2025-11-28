@@ -162,7 +162,7 @@ export default function Home() {
             <div className="container mx-auto text-center mb-12">
                 <h2 className="text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
             </div>
-            <ScrollStack useWindowScroll>
+            <ScrollStack useWindowScroll itemStackDistance={30}>
                 {projects.map((project, index) => (
                     <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
                         <div className='p-6'>
