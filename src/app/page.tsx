@@ -145,7 +145,7 @@ const AboutSection = () => {
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
             <motion.div 
-                initial={{ x: 100, opacity: 0 }} _
+                initial={{ x: 100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} 
                 viewport={{ once: true }}
@@ -195,18 +195,18 @@ const ProjectsSection = () => {
     return (
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-20">
-                <motion.h2
-                  initial={{ '--bg-size': '0%' }}
-                  whileInView={{ '--bg-size': '100%' }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                  viewport={{ once: true }}
-                  className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
-                    MY PROJECTS
-                </motion.h2>
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center items-center gap-4">
+                    <motion.h2
+                      initial={{ '--bg-size': '0%' }}
+                      whileInView={{ '--bg-size': '100%' }}
+                      transition={{ duration: 0.5, ease: 'easeOut' }}
+                      viewport={{ once: true }}
+                      className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
+                        MY PROJECTS
+                    </motion.h2>
                     <LottiePlayer
                         src="https://lottie.host/72a75bbe-a1bf-45a3-96f1-6f25aa1666c2/lweYmnuodz.json"
-                        style={{ height: 250, width: 250 }}
+                        style={{ height: 100, width: 100 }}
                         loop
                         autoplay
                     />
@@ -413,3 +413,4 @@ export default function Home() {
     
 
     
+
