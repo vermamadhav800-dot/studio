@@ -1,5 +1,3 @@
-
-
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -285,11 +283,12 @@ const TestimonialsSection = () => {
                     >
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
-                    <LottiePlayer
-                        src="https://lottie.host/e3f1a0e6-2b59-4089-9a63-718a0320b66b/4JIK5aYc1X.json"
-                        style={{ height: 100, width: 100 }}
-                        loop
-                        autoplay
+                    <Image 
+                        src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350279/512_acmd9n.gif" 
+                        alt="Anime character GIF"
+                        width={100}
+                        height={100}
+                        unoptimized
                     />
                 </div>
             </div>
@@ -478,5 +477,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
