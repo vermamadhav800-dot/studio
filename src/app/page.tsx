@@ -12,6 +12,7 @@ import { LottiePlayer } from '@/components/ui/LottiePlayer';
 import CircularGallery from '@/components/ui/CircularGallery';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
+import { WordByWordScrollReveal } from '@/components/ui/WordByWordScrollReveal';
 
 
 const navLinks = [
@@ -108,6 +109,8 @@ const testimonials = [
 
 
 const AboutSection = () => {
+    const aboutText = "With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let's create something amazing together!";
+
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
             <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
@@ -132,17 +135,10 @@ const AboutSection = () => {
             >
                 ABOUT ME
             </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="max-w-2xl"
-            >
-                <p className="text-base md:text-lg text-gray-300 mb-12">
-                    With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
-                </p>
-            </motion.div>
+            <div className="max-w-2xl">
+                 <WordByWordScrollReveal text={aboutText} className="text-base md:text-lg text-gray-300 mb-12" />
+            </div>
+
             <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
                 CONTACT ME
             </Link>
@@ -276,3 +272,4 @@ export default function Home() {
     </div>
   );
 }
+
