@@ -8,9 +8,10 @@ import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFireb
 import { motion } from 'framer-motion';
 import { ScrollStack } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Button } from '@/components/ui/button';
 import { LottiePlayer } from '@/components/ui/LottiePlayer';
 import CircularGallery from '@/components/ui/CircularGallery';
+import { fontHeading } from '@/app/fonts';
+import { cn } from '@/lib/utils';
 
 
 const navLinks = [
@@ -126,7 +127,7 @@ const AboutSection = () => {
                 initial={{ '--bg-size': '0%' }}
                 whileInView={{ '--bg-size': '100%' }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="animated-heading text-6xl md:text-8xl font-black text-white tracking-tighter mb-8"
+                className={cn("animated-heading text-6xl md:text-8xl font-black text-white tracking-tighter mb-8", fontHeading.className)}
             >
                 ABOUT ME
             </motion.h2>
@@ -156,7 +157,7 @@ const ProjectsSection = () => {
                   initial={{ '--bg-size': '0%' }}
                   whileInView={{ '--bg-size': '100%' }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
-                  className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
+                  className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                     MY PROJECTS
                 </motion.h2>
             </div>
@@ -189,7 +190,7 @@ const TestimonialsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className="animated-heading text-4xl md:text-6xl font-black tracking-tighter">
+                      className={cn("animated-heading text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
                 </div>
@@ -210,7 +211,7 @@ const ShowreelSection = () => {
                     initial={{ '--bg-size': '0%' }}
                     whileInView={{ '--bg-size': '100%' }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
-                    className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
+                    className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                     SHOWREEL
                 </motion.h2>
             </div>
@@ -244,7 +245,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none w-full mt-36">
+          <h1 className={cn("text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none w-full mt-36", fontHeading.className)}>
             HI, I'M MADHAV
           </h1>
           
