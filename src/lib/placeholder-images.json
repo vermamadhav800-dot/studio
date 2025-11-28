@@ -8,21 +8,21 @@
     },
     {
       "id": "project-1-large",
-      "description": "Abstract 3D render of colorful flora.",
-      "imageUrl": "https://images.unsplash.com/photo-1681048839864-3b737a6450e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YWJzdHJhY3QlMjAzZCUyMGZsb3JhfGVufDB8fHx8MTc2NDMyMjQ3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract 3d flora"
+      "description": "Screenshot of a real estate website hero section.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352270/Screenshot_2025-11-28_231959_mgkyje.jpg",
+      "imageHint": "real estate website"
     },
     {
       "id": "project-1-small-1",
-      "description": "Close-up of abstract 3D lavender.",
-      "imageUrl": "https://images.unsplash.com/photo-1763929766222-3cfe003dfbbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhYnN0cmFjdCUyMDNkJTIwbGF2ZW5kZXJ8ZW58MHx8fHwxNzY0MzIyNDcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract 3d lavender"
+      "description": "Screenshot of a real estate website property listings.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352267/Screenshot_2025-11-28_231825_xxakna.jpg",
+      "imageHint": "property listings"
     },
     {
       "id": "project-1-small-2",
-      "description": "Close-up of abstract 3D flowers.",
-      "imageUrl": "https://images.unsplash.com/photo-1641799185120-184619b22895?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMDNkJTIwZmxvd2Vyc3xlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract 3d flowers"
+      "description": "Screenshot of a real estate website property details page.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352272/Screenshot_2025-11-28_231844_kplnx5.jpg",
+      "imageHint": "property details"
     },
     {
       "id": "project-2-large",
