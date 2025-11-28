@@ -2,6 +2,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { TiltableImage } from '@/components/ui/TiltableImage';
+import { LogoLoop } from '@/components/ui/LogoLoop';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
+import { motion } from 'framer-motion';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -9,6 +12,15 @@ const navLinks = [
   { label: 'PROJECTS', href: '#projects' },
   { label: 'CONTACT', href: '#contact' },
 ];
+
+const techLogos = [
+    { node: <SiReact />, title: "React", href: "https://react.dev" },
+    { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+    { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+    { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+    { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
+    { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
+  ];
 
 const PlaceholderSection = ({ id, label }: { id: string; label: string }) => (
   <section id={id} className="min-h-screen flex items-center justify-center border-t border-gray-800">
@@ -38,9 +50,27 @@ export default function Home() {
           </h1>
           
           <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
-            <p className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
-              A Full-Stack Developer building fast, modern & scalable web applications with clean UI & powerful backend.
-            </p>
+            <div className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
+              <p className="mb-8">A Full-Stack Developer building fast, modern & scalable web applications with clean UI & powerful backend.</p>
+                <motion.div
+                    initial={{ opacity: 0, y: 20, rotate: -5 }}
+                    animate={{ opacity: 1, y: 0, rotate: -5 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    className="origin-bottom-left"
+                >
+                    <LogoLoop
+                        logos={techLogos}
+                        speed={100}
+                        direction="left"
+                        logoHeight={28}
+                        gap={40}
+                        fadeOut
+                        fadeOutColor="#000000"
+                        scaleOnHover
+                        ariaLabel="Technologies used"
+                    />
+                </motion.div>
+            </div>
             <div className="-mt-32">
               <TiltableImage
                 src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
