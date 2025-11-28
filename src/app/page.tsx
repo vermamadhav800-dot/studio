@@ -286,7 +286,7 @@ const TestimonialsSection = () => {
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
                      <LottiePlayer
-                        src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
+                        src="https://lottie.host/e3f1a0e6-2b59-4089-9a63-718a0320b66b/4JIK5aYc1X.json"
                         style={{ height: 100, width: 100 }}
                         loop
                         autoplay
