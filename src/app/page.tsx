@@ -14,6 +14,9 @@ import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import { Facebook, Instagram, Dribbble, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 
 const navLinks = [
@@ -118,6 +121,7 @@ const AboutSection = () => {
                 initial={{ x: -100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} 
+                viewport={{ once: true }}
                 className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
@@ -125,7 +129,8 @@ const AboutSection = () => {
             <motion.div 
                 initial={{ x: 100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} 
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+                viewport={{ once: true }} 
                 className="absolute top-1/3 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
@@ -134,14 +139,16 @@ const AboutSection = () => {
                 initial={{ x: -100, opacity: 0 }} 
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} 
+                viewport={{ once: true }}
                 className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
             <motion.div 
-                initial={{ x: 100, opacity: 0 }} 
+                initial={{ x: 100, opacity: 0 }} _
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} 
+                viewport={{ once: true }}
                 className="absolute bottom-1/3 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
@@ -197,12 +204,11 @@ const ProjectsSection = () => {
                     MY PROJECTS
                 </motion.h2>
                 <div className="flex justify-center mt-8">
-                    <Image 
-                        src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764344178/The_Morty_Dance_Loader_m5gwlz.gif" 
-                        alt="Morty dancing GIF"
-                        width={150}
-                        height={150}
-                        unoptimized
+                    <LottiePlayer
+                        src="https://lottie.host/72a75bbe-a1bf-45a3-96f1-6f25aa1666c2/lweYmnuodz.json"
+                        style={{ height: 250, width: 250 }}
+                        loop
+                        autoplay
                     />
                 </div>
             </div>
@@ -222,15 +228,6 @@ const TestimonialsSection = () => {
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
             <div className="container mx-auto text-center mb-12">
                  <div className="flex justify-center items-center gap-4">
-                    <motion.div
-                        animate={{ y: [0, -15, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                        <LottiePlayer
-                            src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
-                            style={{ height: 100, width: 100 }}
-                        />
-                    </motion.div>
                     <motion.h2
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
@@ -242,13 +239,103 @@ const TestimonialsSection = () => {
                 </div>
             </div>
             <div className='relative h-[600px]'>
-               <CircularGallery items={galleryItems} autoScrollDirection="left" />
-               <CircularGallery items={[...galleryItems].reverse()} autoScrollDirection="right" />
+               <CircularGallery items={galleryItems} autoScrollDirection="left" textColor="#ffffff"/>
+               <CircularGallery items={[...galleryItems].reverse()} autoScrollDirection="right" textColor="#ffffff"/>
+               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <motion.div
+                        animate={{ y: [0, -15, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                        <LottiePlayer
+                            src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
+                            style={{ height: 100, width: 100 }}
+                        />
+                    </motion.div>
+               </div>
             </div>
         </section>
     );
 };
 
+const ContactSection = () => {
+    const socialLinks = [
+        { icon: <Instagram />, href: '#' },
+        { icon: <Facebook />, href: '#' },
+        { icon: <Dribbble />, href: '#' },
+        { icon: <Linkedin />, href: '#' },
+    ];
+
+    return (
+        <footer id="contact" className="relative bg-[#0E0E0E] text-white pt-20">
+            {/* Top Part */}
+            <div className="relative bg-[#F3F3F3] text-black rounded-t-3xl py-16 px-4 sm:px-6 lg:px-8 -mt-10">
+                <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40">
+                    <Image src="https://picsum.photos/seed/contact-shape/200/200" data-ai-hint="3d abstract shape" alt="3D Shape" width={160} height={160} />
+                </div>
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">LET'S GET IN TOUCH</h2>
+                    <p className="mt-4 text-lg text-gray-600">Have a project in mind? I’d love to hear from you!</p>
+                    <div className="mt-8 max-w-lg mx-auto flex items-center gap-2">
+                        <Input type="email" placeholder="Enter your email address" className="bg-white" />
+                        <Button type="submit" className="bg-black text-white hover:bg-gray-800">SEND</Button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Part */}
+            <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-1">
+                        <h3 className={cn("text-8xl font-black tracking-tighter", fontHeading.className)}>MADHAV</h3>
+                        <p className="mt-4 text-gray-400">3D Designer & Full-Stack Developer</p>
+                        <div className="flex space-x-4 mt-6">
+                            {socialLinks.map((link, index) => (
+                                <Link key={index} href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                                    {link.icon}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8 text-gray-300">
+                        <div>
+                            <h4 className="font-semibold text-white tracking-wider">CONTACT</h4>
+                            <ul className="mt-4 space-y-3">
+                                <li className="flex items-center gap-3"><Mail size={18} /> <span>madhav.design@email.com</span></li>
+                                <li className="flex items-center gap-3"><Phone size={18} /> <span>+1 234 567 890</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 className="font-semibold text-white tracking-wider">LOCATION</h4>
+                            <p className="mt-4 flex items-start gap-3">
+                                <MapPin size={18} className="mt-1 flex-shrink-0" />
+                                <span>123 Design Street, Creative City, <br />Digitaland, 45678</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                    <p>&copy; {new Date().getFullYear()} Madhav. All Rights Reserved.</p>
+                    <div className="flex items-center gap-4 mt-4 md:mt-0">
+                         <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="10" fill="#FF5733"/>
+                        </svg>
+                        <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="20" rx="10" fill="#33FF57"/>
+                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect y="10" width="20" height="10" fill="#3357FF"/>
+                            <rect width="10" height="10" fill="#FF33A1"/>
+                        </svg>
+                         <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 10C0 4.47715 4.47715 0 10 0H30C35.5228 0 40 4.47715 40 10V20H0V10Z" fill="#F0FF33"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+}
 
 
 export default function Home() {
@@ -314,6 +401,7 @@ export default function Home() {
 
         <TestimonialsSection />
 
+        <ContactSection />
 
       </main>
     </div>
