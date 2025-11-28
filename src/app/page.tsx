@@ -44,11 +44,11 @@ export default function Home() {
             <p className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
               A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
             </p>
-            <div className="-mt-24 md:-mt-32">
+            <div className="-mt-32">
               <TiltableImage
                 src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
                 alt="3D character"
-                className="w-[35rem] h-[35rem] sm:w-[45rem] sm:h-[45rem] object-contain"
+                className="w-[45rem] h-[45rem] object-contain"
               />
             </div>
             <div className="flex justify-center md:justify-end">
