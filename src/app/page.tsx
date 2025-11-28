@@ -6,6 +6,7 @@ import { LogoLoop } from '@/components/ui/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -22,6 +23,25 @@ const techLogos = [
     { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
     { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
   ];
+
+const projects = [
+    {
+        title: 'Project One',
+        description: 'A brief description of the first project, highlighting the key features and technologies used.',
+    },
+    {
+        title: 'Project Two',
+        description: 'This is the second project. It was a challenging but rewarding experience.',
+    },
+    {
+        title: 'Project Three',
+        description: 'The third project in the list, showcasing different skills and approaches to problem-solving.',
+    },
+    {
+        title: 'Project Four',
+        description: 'And finally, the fourth project, which was a culmination of everything learned before.',
+    },
+];
 
 export default function Home() {
   return (
@@ -110,6 +130,20 @@ export default function Home() {
             <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
                 CONTACT ME
             </Link>
+        </section>
+
+        <section id="projects" className="relative bg-black text-white py-20">
+            <div className="container mx-auto text-center mb-12">
+                <h2 className="text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
+            </div>
+            <ScrollStack useWindowScroll>
+                {projects.map((project, index) => (
+                    <ScrollStackItem key={index} itemClassName="bg-gray-900 border border-gray-700">
+                        <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
+                        <p className="text-gray-400">{project.description}</p>
+                    </ScrollStackItem>
+                ))}
+            </ScrollStack>
         </section>
 
       </main>
