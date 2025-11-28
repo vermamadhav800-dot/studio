@@ -23,13 +23,6 @@ const techLogos = [
     { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
   ];
 
-const PlaceholderSection = ({ id, children }: { id: string; children: React.ReactNode }) => (
-  <section id={id} className="min-h-screen flex items-center justify-center border-t border-gray-800 px-4">
-    {children}
-  </section>
-);
-
-
 export default function Home() {
   return (
     <div className="bg-black text-foreground">
@@ -86,28 +79,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        <PlaceholderSection id="about">
-          <ScrollReveal>
-            I am a passionate developer who loves to create beautiful and functional web experiences.
-          </ScrollReveal>
-        </PlaceholderSection>
-        <PlaceholderSection id="customers">
-          <ScrollReveal>
-            Trusted by the best companies in the world to deliver high-quality software solutions.
-          </ScrollReveal>
-        </PlaceholderSection>
-        <PlaceholderSection id="projects">
-          <ScrollReveal>
-            Here are some of the projects I'm proud to have worked on. Each one was a new challenge.
-          </ScrollReveal>
-        </PlaceholderSection>
-        <PlaceholderSection id="contact">
-          <ScrollReveal>
-            Let's get in touch. I'm always open to discussing new projects and creative ideas.
-          </ScrollReveal>
-        </PlaceholderSection>
-
       </main>
     </div>
   );
