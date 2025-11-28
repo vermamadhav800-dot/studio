@@ -192,13 +192,12 @@ const ProjectsSection = () => {
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-20">
                 <div className="flex justify-center items-center gap-4">
-                    <motion.h2
-                      initial={{ '--bg-size': '0%' }}
-                      whileInView={{ '--bg-size': '100%' }}
-                      transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className={cn("text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
+                    <ScrollFloat
+                        textClassName={cn("!text-6xl md:!text-8xl !text-white", fontHeading.className)}
+                        stagger={0.02}
+                    >
                         MY PROJECTS
-                    </motion.h2>
+                    </ScrollFloat>
                     <LottiePlayer
                         src="https://lottie.host/72a75bbe-a1bf-45a3-96f1-6f25aa1666c2/lweYmnuodz.json"
                         style={{ height: 100, width: 100 }}
@@ -223,13 +222,12 @@ const TestimonialsSection = () => {
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
             <div className="container mx-auto text-center mb-12">
                  <div className="flex justify-center items-center gap-4">
-                    <motion.h2
-                      initial={{ '--bg-size': '0%' }}
-                      whileInView={{ '--bg-size': '100%' }}
-                      transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className={cn("text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
+                    <ScrollFloat
+                        textClassName={cn("!text-4xl md:!text-6xl !text-white", fontHeading.className)}
+                        stagger={0.02}
+                    >
                         WHAT CLIENTS ARE SAYING
-                    </motion.h2>
+                    </ScrollFloat>
                 </div>
             </div>
             <div className='relative h-[600px]'>
@@ -406,3 +404,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
