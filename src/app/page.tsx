@@ -283,13 +283,6 @@ const TestimonialsSection = () => {
                     >
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
-                    <Image 
-                        src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350279/512_acmd9n.gif" 
-                        alt="Anime character GIF"
-                        width={100}
-                        height={100}
-                        unoptimized
-                    />
                 </div>
             </div>
             <div className="flex flex-col gap-8">
