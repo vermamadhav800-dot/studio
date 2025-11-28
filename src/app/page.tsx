@@ -93,7 +93,7 @@ export default function Home() {
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312207/Gemini_Generated_Image_npg1nznpg1nznpg1-removebg-preview_ofrnzz.png" alt="3D flower shape" data-ai-hint="3d flower shape" width={150} height={150} className="object-contain" />
             </motion.div>
 
-            <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-8">ABOUT ME</h2>
+            <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8">ABOUT ME</h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12">
                 With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
             </p>
