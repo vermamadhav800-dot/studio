@@ -23,13 +23,10 @@ export default function Home() {
       <main>
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
           
-          <div className="absolute top-0 left-0 right-0 container mx-auto flex items-center justify-between p-4 z-10">
-            <div className="text-lg font-bold">
-                <Link href="#">MADHAV</Link>
-            </div>
+          <div className="absolute top-0 left-0 right-0 container mx-auto flex items-center justify-center p-4 z-10">
             <div className="hidden md:flex items-center space-x-8">
                 {navLinks.map((link) => (
-                <Link href={link.href} key={link.label} className="text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                <Link href={link.href} key={link.label} className="text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-widest">
                     {link.label}
                 </Link>
                 ))}
