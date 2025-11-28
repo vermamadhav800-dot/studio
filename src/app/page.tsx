@@ -104,7 +104,7 @@ export default function Home() {
               ABOUT ME
             </motion.h2>
             <div className="max-w-2xl">
-              <ScrollReveal textClassName="text-lg md:text-xl text-gray-300" containerClassName="mb-12">
+              <ScrollReveal textClassName="text-base md:text-lg text-gray-300" containerClassName="mb-12">
                   With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
               </ScrollReveal>
             </div>
