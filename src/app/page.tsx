@@ -81,34 +81,40 @@ const projects = [
 
 const testimonials = [
   {
-    image: 'https://picsum.photos/seed/10/800/600',
+    image: 'https://picsum.photos/seed/10/100/100',
     text: 'Madhav is a design wizard. He took our vague ideas and turned them into a masterpiece. Pure magic!',
-    author: 'Jane Doe, CEO of Rylinx Studios',
+    author: 'Jane Doe',
+    title: 'CEO of Rylinx Studios',
   },
   {
-    image: 'https://picsum.photos/seed/12/800/600',
+    image: 'https://picsum.photos/seed/12/100/100',
     text: 'Working with Madhav was a dream. The communication was seamless and the results were beyond our expectations.',
-    author: 'John Smith, Founder of Aura Creations',
+    author: 'John Smith',
+    title: 'Founder of Aura Creations',
   },
   {
-    image: 'https://picsum.photos/seed/14/800/600',
+    image: 'https://picsum.photos/seed/14/100/100',
     text: 'The level of creativity and polish is insane. Our new branding has never looked better.',
-    author: 'Emily White, Marketing Head at Quantum',
+    author: 'Emily White',
+    title: 'Marketing Head at Quantum',
   },
   {
-    image: 'https://picsum.photos/seed/16/800/600',
+    image: 'https://picsum.photos/seed/16/100/100',
     text: 'Incredible attention to detail. Every pixel is perfect. Highly recommend for any project, big or small.',
-    author: 'Michael Brown, CTO of Nova Digital',
+    author: 'Michael Brown',
+    title: 'CTO of Nova Digital',
   },
    {
-    image: 'https://picsum.photos/seed/18/800/600',
+    image: 'https://picsum.photos/seed/18/100/100',
     text: 'A true professional. Delivered on time and exceeded all our goals. We\'ll be back for more!',
-    author: 'Sarah Green, Project Manager',
+    author: 'Sarah Green',
+    title: 'Project Manager',
   },
    {
-    image: 'https://picsum.photos/seed/20/800/600',
+    image: 'https://picsum.photos/seed/20/100/100',
     text: 'The 3D work is simply breathtaking. It has added a whole new dimension to our product showcase.',
-    author: 'David Black, Creative Director',
+    author: 'David Black',
+    title: 'Creative Director',
   },
 ];
 
@@ -146,7 +152,7 @@ const AboutSection = () => {
                 initial={{ x: 100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }} 
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} 
-                className="absolute bottom-1/3 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44"
+                className="absolute bottom-1/3 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44"
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
@@ -212,15 +218,9 @@ const ProjectsSection = () => {
 }
 
 const TestimonialsSection = () => {
-    const galleryItems = testimonials.map(t => ({
-      image: t.image,
-      text: `${t.text} - ${t.author}`
-    }));
-
-
     return (
-        <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
-            <div className="container mx-auto text-center mb-12">
+        <section id="clients" className="relative bg-black text-white py-20 px-4">
+            <div className="container mx-auto text-center mb-20">
                  <div className="flex justify-center items-center gap-4">
                     <ScrollFloat
                         textClassName={cn("!text-4xl md:!text-6xl !text-white", fontHeading.className)}
@@ -228,22 +228,40 @@ const TestimonialsSection = () => {
                     >
                         WHAT CLIENTS ARE SAYING
                     </ScrollFloat>
+                     <LottiePlayer
+                        src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
+                        style={{ height: 100, width: 100 }}
+                    />
                 </div>
             </div>
-            <div className='relative h-[600px]'>
-               <CircularGallery items={galleryItems} autoScrollDirection="left" textColor="#ffffff"/>
-               <CircularGallery items={[...galleryItems].reverse()} autoScrollDirection="right" textColor="#ffffff"/>
-               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {testimonials.map((testimonial, index) => (
                     <motion.div
-                        animate={{ y: [0, -15, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                        key={index}
+                        className="bg-[#1C1C1C] p-6 rounded-2xl border border-gray-700/50 flex flex-col items-start gap-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        viewport={{ once: true }}
                     >
-                        <LottiePlayer
-                            src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
-                            style={{ height: 100, width: 100 }}
-                        />
+                        <div className="flex items-center gap-4">
+                            <Image
+                                src={testimonial.image}
+                                alt={testimonial.author}
+                                width={56}
+                                height={56}
+                                className="rounded-full object-cover"
+                            />
+                            <div>
+                                <p className="font-bold text-white">{testimonial.author}</p>
+                                <p className="text-sm text-gray-400">{testimonial.title}</p>
+                            </div>
+                        </div>
+                        <p className="text-gray-300 text-left text-sm leading-relaxed">
+                           "{testimonial.text}"
+                        </p>
                     </motion.div>
-               </div>
+                ))}
             </div>
         </section>
     );
