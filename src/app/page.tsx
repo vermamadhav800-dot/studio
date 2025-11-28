@@ -263,13 +263,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 
 
 const TestimonialsSection = () => {
-    const firstRow = testimonials.slice(0, 2);
-    const secondRow = testimonials.slice(2, 4);
-    const thirdRow = testimonials.slice(4, 6);
+    const firstRow = testimonials.slice(0, 3);
+    const secondRow = testimonials.slice(3, 6);
     
     const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow, ...firstRow, ...firstRow];
     const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow, ...secondRow, ...secondRow];
-    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow];
 
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
@@ -296,13 +294,13 @@ const TestimonialsSection = () => {
                         <TestimonialCard key={`second-${index}`} testimonial={testimonial} />
                     ))}
                 </div>
-                 <div className="flex w-max items-center gap-4 animate-scroll-left">
-                    {duplicatedThirdRow.map((testimonial, index) => (
-                        <TestimonialCard key={`third-${index}`} testimonial={testimonial} />
-                    ))}
-                </div>
             </div>
-            <div className="flex justify-center mt-12">
+            <motion.div 
+                initial={{ x: -100, opacity: 0, rotate: -15 }}
+                whileInView={{ x: 0, opacity: 1, rotate: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="absolute bottom-8 left-8 md:bottom-16 md:left-16 w-32 h-32 md:w-48 md:h-48 z-20"
+            >
                 <Image 
                     src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350615/512_1_tbjopp.gif"
                     alt="animated character"
@@ -310,7 +308,7 @@ const TestimonialsSection = () => {
                     height={200}
                     unoptimized
                 />
-            </div>
+            </motion.div>
         </section>
     );
 };
