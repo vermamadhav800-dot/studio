@@ -1,0 +1,20 @@
+
+.tilt-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tilt-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+.tilt-inner img {
+  will-change: transform;
+  transform: translateZ(0);
+}

@@ -2,7 +2,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { TiltableImage } from '@/components/ui/TiltableImage';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -47,22 +47,11 @@ export default function Home() {
               A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
             </p>
 
-            <motion.div
-              className="flex justify-center -mt-16"
-              style={{ perspective: 800 }}
-              whileHover={{ scale: 1.05, rotateY: 15, rotateX: -10 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <Image
-                src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
-                alt="3D character"
-                width={800}
-                height={800}
-                className="w-[30rem] h-[30rem] sm:w-[40rem] sm:h-[40rem] object-contain"
-                priority
-              />
-            </motion.div>
+            <TiltableImage
+              src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
+              alt="3D character"
+              className="w-[30rem] h-[30rem] sm:w-[40rem] sm:h-[40rem] object-contain"
+            />
             
             <div className="flex justify-center md:justify-end">
                 <Link href="#contact" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
