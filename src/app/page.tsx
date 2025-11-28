@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -61,7 +62,7 @@ const projects = [
         images: [
             PlaceHolderImages.find(p => p.id === 'project-3-large')!,
             PlaceHolderImages.find(p => p.id === 'project-3-small-1')!,
-            PlaceHolderImages.find(p => p.id === 'project-3-small-2')!,
+            PlaceHolderImages.find(p => p_id === 'project-3-small-2')!,
         ],
     },
     {
