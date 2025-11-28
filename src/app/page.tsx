@@ -367,14 +367,29 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Left Side */}
                     <div className="flex flex-col justify-center">
-                        <motion.h2 
-                            initial={{ opacity: 0, x: -100 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, ease: 'easeOut' }}
-                            className={cn('!text-black !text-left !text-5xl md:!text-7xl !leading-tight', fontHeading.className)}
-                        >
-                            LET'S<br />GET IN<br />TOUCH
-                        </motion.h2>
+                        <div className="flex items-center gap-4">
+                            <motion.h2 
+                                initial={{ opacity: 0, x: -100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8, ease: 'easeOut' }}
+                                className={cn('!text-black !text-left !text-5xl md:!text-7xl !leading-tight', fontHeading.className)}
+                            >
+                                LET'S<br />GET IN<br />TOUCH
+                            </motion.h2>
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                            >
+                                <Image 
+                                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764354057/The_Morty_Dance_Loader_faefz2.gif"
+                                    alt="Dancing Morty"
+                                    width={120}
+                                    height={120}
+                                    unoptimized
+                                />
+                            </motion.div>
+                        </div>
                         <a href="mailto:vermamadhav800@gmail.com" className="text-gray-600 mt-4 text-lg hover:underline">vermamadhav800@gmail.com</a>
                     </div>
 
