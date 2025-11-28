@@ -98,7 +98,6 @@ export default function Home() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
               className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8"
             >
               ABOUT ME
