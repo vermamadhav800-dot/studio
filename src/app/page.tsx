@@ -423,10 +423,10 @@ const ContactSection = () => {
                             <div>
                                 <h4 className="font-semibold text-gray-400 mb-2">SOCIAL</h4>
                                 <div className="flex flex-col gap-1 text-sm">
-                                    <a href="#" className="hover:text-primary">Instagram</a>
+                                    <a href="https://www.instagram.com/Madhav_verma98" target="_blank" rel="noopener noreferrer" className="hover:text-primary">Instagram</a>
                                     <a href="#" className="hover:text-primary">Facebook</a>
-                                    <a href="#" className="hover:text-primary">ArtStation</a>
-                                    <a href="#" className="hover:text-primary">DeviantArt</a>
+                                    <a href="#" className="hover:text-primary">Dribbble</a>
+                                    <a href="#" className="hover:text-primary">LinkedIn</a>
                                 </div>
                             </div>
                              <div>
