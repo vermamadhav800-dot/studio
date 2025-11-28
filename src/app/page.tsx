@@ -299,7 +299,7 @@ const TestimonialsSection = () => {
                         whileInView={{ opacity: 1, rotate: 0, x: 0 }}
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                     >
-                        <Image 
+                        <Image
                             src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350279/512_acmd9n.gif"
                             alt="animated character"
                             width={100}
@@ -362,7 +362,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} unoptimized/>
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} unoptimized/>
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
