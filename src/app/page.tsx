@@ -12,7 +12,7 @@ import { LottiePlayer } from '@/components/ui/LottiePlayer';
 import CircularGallery from '@/components/ui/CircularGallery';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
-import { WordByWordScrollReveal } from '@/components/ui/WordByWordScrollReveal';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 
 const navLinks = [
@@ -135,11 +135,18 @@ const AboutSection = () => {
             >
                 ABOUT ME
             </motion.h2>
-            <div className="max-w-2xl">
-                 <WordByWordScrollReveal text={aboutText} className="text-base md:text-lg text-gray-300 mb-12" />
+            <div className="max-w-2xl text-gray-300">
+                <ScrollReveal
+                    baseOpacity={0}
+                    enableBlur={true}
+                    baseRotation={5}
+                    blurStrength={10}
+                >
+                    {aboutText}
+                </ScrollReveal>
             </div>
 
-            <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
+            <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg mt-12">
                 CONTACT ME
             </Link>
         </section>
@@ -150,7 +157,7 @@ const ProjectsSection = () => {
     return (
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-20">
-                <motion.h2 
+                <motion.h2
                   initial={{ '--bg-size': '0%' }}
                   whileInView={{ '--bg-size': '100%' }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -184,7 +191,7 @@ const TestimonialsSection = () => {
                             style={{ height: 100, width: 100 }}
                         />
                     </motion.div>
-                    <motion.h2 
+                    <motion.h2
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
