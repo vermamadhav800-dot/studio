@@ -356,11 +356,11 @@ class App {
   isDown: boolean = false;
   start: number = 0;
   raf: number = 0;
-  boundOnResize: () => void;
-  boundOnWheel: (e: WheelEvent) => void;
-  boundOnTouchDown: (e: TouchEvent | MouseEvent) => void;
-  boundOnTouchMove: (e: TouchEvent | MouseEvent) => void;
-  boundOnTouchUp: () => void;
+  boundOnResize!: () => void;
+  boundOnWheel!: (e: WheelEvent) => void;
+  boundOnTouchDown!: (e: TouchEvent | MouseEvent) => void;
+  boundOnTouchMove!: (e: TouchEvent | MouseEvent) => void;
+  boundOnTouchUp!: () => void;
   autoScrollDirection: 'left' | 'right';
   isInteracting: boolean = false;
   interactionTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -392,6 +392,8 @@ class App {
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.autoScrollDirection = autoScrollDirection;
 
+    autoBind(this);
+
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
     this.createCamera();
@@ -399,7 +401,6 @@ class App {
     this.onResize();
     this.createGeometry();
     this.createMedias(items, bend, textColor, borderRadius, font);
-    this.update = this.update.bind(this);
     this.addEventListeners();
     this.update();
   }
@@ -583,12 +584,17 @@ export default function CircularGallery({
   autoScrollDirection = 'left',
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!containerRef.current) return;
+    
+    // Defer initialization to client-side only
     const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, autoScrollDirection });
+    
     return () => {
       app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, autoScrollDirection]);
+
   return <div className="circular-gallery" ref={containerRef} />;
 }
