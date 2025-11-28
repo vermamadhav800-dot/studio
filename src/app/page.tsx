@@ -81,16 +81,16 @@ export default function Home() {
         </section>
         
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }} animate={{ y: [0, -10, 0] }} className="absolute top-1/4 left-10 md:left-20 w-32 h-32 md:w-40 md:h-40">
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-32 h-32 md:w-40 md:h-40">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="3D abstract shape" data-ai-hint="3d abstract shape" width={200} height={200} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} animate={{ y: [0, 10, 0] }} className="absolute top-1/4 right-10 md:right-20 w-32 h-32 md:w-40 md:h-40">
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-32 h-32 md:w-40 md:h-40">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="3D abstract shape" data-ai-hint="3d abstract shape" width={200} height={200} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }} animate={{ y: [0, -10, 0] }} className="absolute bottom-1/4 left-10 md:left-40 w-28 h-28 md:w-32 md:h-32">
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-28 h-28 md:w-32 md:h-32">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="3D abstract shape" data-ai-hint="3d abstract shape" width={150} height={150} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }} animate={{ y: [0, 10, 0] }} className="absolute bottom-1/4 right-10 md:right-40 w-28 h-28 md:w-32 md:h-32">
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-28 h-28 md:w-32 mdH-32">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="3D abstract shape" data-ai-hint="3d abstract shape" width={150} height={150} className="object-contain" />
             </motion.div>
 
