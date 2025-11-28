@@ -114,16 +114,16 @@ const AboutSection = () => {
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
             <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1721295595/3d-code-icon-in-glass-style-a-floating-digital-meta-and-developer-symbol-in-3d-render-png_934475-14436-removebg-preview_h7bu4w.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={224} height={224} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
             </motion.div>
             <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1721295595/3d-code-icon-in-glass-style-a-floating-digital-meta-and-developer-symbol-in-3d-render-png_934475-14436-removebg-preview_h7bu4w.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={224} height={224} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
             </motion.div>
             <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1721295595/3d-code-icon-in-glass-style-a-floating-digital-meta-and-developer-symbol-in-3d-render-png_934475-14436-removebg-preview_h7bu4w.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={176} height={176} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
             <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1721295595/3d-code-icon-in-glass-style-a-floating-digital-meta-and-developer-symbol-in-3d-render-png_934475-14436-removebg-preview_h7bu4w.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={176} height={176} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
 
             <motion.h2
@@ -279,3 +279,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
