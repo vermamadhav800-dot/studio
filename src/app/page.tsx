@@ -335,8 +335,8 @@ const TestimonialsSection = () => {
 
 const ContactSection = () => {
     return (
-        <footer id="contact" className="relative bg-[#0E0E0E] text-black py-24 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto bg-white rounded-3xl p-8 md:p-12 relative">
+        <footer id="contact" className="relative bg-[#0E0E0E] text-white pt-24">
+            <div className="max-w-6xl mx-auto bg-white rounded-t-3xl p-8 md:p-12 relative text-black">
                 <motion.div 
                     initial={{ scale: 0.5, opacity: 0, y: -50, x: 50 }}
                     whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
@@ -351,7 +351,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348386/Gemini_Generated_Image_lzcw7klzcw7klzcw__1_-removebg-preview_lpxuli.png" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} unoptimized/>
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -363,7 +363,7 @@ const ContactSection = () => {
                             transition={{ duration: 0.8, ease: 'easeOut' }}
                             className={cn('!text-black !text-left !text-5xl md:!text-7xl !leading-tight', fontHeading.className)}
                         >
-                            LET'S GET<br />IN TOUCH
+                            LET'S<br />GET IN<br />TOUCH
                         </motion.h2>
                         <a href="mailto:alex@3dturner.or" className="text-gray-600 mt-4 text-lg hover:underline">alex@3dturner.or</a>
                     </div>
@@ -396,24 +396,63 @@ const ContactSection = () => {
                     </form>
                 </div>
             </div>
-             <div className="max-w-7xl mx-auto pt-16 px-4 sm:px-6 lg:px-8 text-sm text-gray-500 flex justify-between items-center">
-                    <p>&copy; {new Date().getFullYear()} Madhav. All Rights Reserved.</p>
-                     <div className="flex items-center gap-4">
-                         <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="10" cy="10" r="10" fill="#FF5733"/>
+             <div className="bg-black text-white">
+                <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                        <div className="col-span-1">
+                            <h3 className={cn("text-3xl font-bold", fontHeading.className)}>ALEX TURNER</h3>
+                        </div>
+                        <div className="col-span-2 flex justify-between items-center">
+                            <div>
+                                <h4 className="font-semibold text-gray-400 mb-2">SOCIAL</h4>
+                                <div className="flex flex-col gap-1 text-sm">
+                                    <a href="#" className="hover:text-primary">Instagram</a>
+                                    <a href="#" className="hover:text-primary">Facebook</a>
+                                    <a href="#" className="hover:text-primary">ArtStation</a>
+                                    <a href="#" className="hover:text-primary">DeviantArt</a>
+                                </div>
+                            </div>
+                             <div>
+                                <h4 className="font-semibold text-gray-400 mb-2">CONTACT</h4>
+                                <div className="text-sm space-y-1">
+                                    <p>alex@3dturner.com</p>
+                                    <p>+1 (555) 123-4567</p>
+                                    <p>123 Creative Lane, Suite 45<br/>Design City, CA 90210</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div className="flex items-center gap-4 mt-12">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L40 20L20 40L0 20L20 0Z" fill="#9333EA"/>
+                            <path d="M20 10L30 20L20 30L10 20L20 10Z" fill="white"/>
                         </svg>
-                        <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="20" rx="10" fill="#33FF57"/>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="20" fill="#34D399"/>
+                            <circle cx="12" cy="12" r="4" fill="white"/>
+                            <circle cx="28" cy="12" r="4" fill="white"/>
+                            <circle cx="12" cy="28" r="4" fill="white"/>
+                            <circle cx="28" cy="28" r="4" fill="white"/>
                         </svg>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect y="10" width="20" height="10" fill="#3357FF"/>
-                            <rect width="10" height="10" fill="#FF33A1"/>
+                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
                         </svg>
-                         <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10C0 4.47715 4.47715 0 10 0H30C35.5228 0 40 4.47715 40 10V20H0V10Z" fill="#F0FF33"/>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
+                        </svg>
+                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 20L20 0L40 20L20 40L0 20Z" fill="#F472B6"/>
+                        </svg>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 0L40 40H0L20 0Z" fill="#60A5FA"/>
+                        </svg>
+                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="10" fill="#EC4899" />
+                            <circle cx="20" cy="20" r="20" stroke="#EC4899" strokeWidth="4"/>
                         </svg>
                     </div>
                 </div>
+            </div>
         </footer>
     );
 }
