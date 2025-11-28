@@ -269,6 +269,55 @@ const TestimonialsSection = () => {
     );
 };
 
+const ShowreelSection = () => {
+    const headingRef = useRef(null);
+
+    useLayoutEffect(() => {
+        const heading = headingRef.current;
+        if (!heading) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heading,
+                start: 'top bottom-=100',
+                end: 'bottom top+=100',
+                scrub: 1,
+            },
+        });
+
+        tl.to(heading, {
+            '--bg-size': '100%',
+            duration: 1,
+        });
+
+        return () => {
+          tl.kill();
+          ScrollTrigger.getAll().forEach(t => t.kill());
+        }
+    }, []);
+
+    return (
+        <section id="showreel" className="relative bg-black text-white py-20">
+            <div className="container mx-auto text-center mb-12">
+                 <h2 ref={headingRef} className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
+                    SHOWREEL
+                </h2>
+            </div>
+            <div className="container mx-auto flex justify-center">
+                <video 
+                    src="https://res.cloudinary.com/dvfyk41km/video/upload/v1764338468/Angry_Background_Removal_for_Portfolio_idweme.mp4" 
+                    controls 
+                    autoPlay 
+                    muted 
+                    loop 
+                    className="rounded-lg w-full max-w-4xl"
+                />
+            </div>
+        </section>
+    );
+};
+
+
 export default function Home() {
   return (
     <div className="bg-black text-foreground">
@@ -332,9 +381,13 @@ export default function Home() {
 
         <TestimonialsSection />
 
+        <ShowreelSection />
+
       </main>
     </div>
   );
 }
+
+    
 
     
