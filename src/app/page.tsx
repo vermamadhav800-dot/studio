@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -227,11 +228,12 @@ const ProjectsSection = () => {
                     >
                         MY PROJECTS
                     </motion.h2>
-                    <LottiePlayer
-                        src="https://lottie.host/72a75bbe-a1bf-45a3-96f1-6f25aa1666c2/lweYmnuodz.json"
-                        style={{ height: 100, width: 100 }}
-                        loop
-                        autoplay
+                    <Image
+                        src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764351139/512_3_uzgibg.gif"
+                        alt="pointing character"
+                        width={100}
+                        height={100}
+                        unoptimized
                     />
                 </div>
             </div>
@@ -534,3 +536,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
