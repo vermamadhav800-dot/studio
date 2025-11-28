@@ -20,23 +20,22 @@ const PlaceholderSection = ({ id, label }: { id: string; label: string }) => (
 export default function Home() {
   return (
     <div className="bg-black text-foreground">
-      <header className="fixed top-0 left-0 right-0 z-20 bg-black">
-        <nav className="container mx-auto flex items-center justify-between p-4">
-          <div className="text-lg font-bold">
-            <Link href="#">MADHAV</Link>
-          </div>
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link href={link.href} key={link.label} className="text-sm font-medium text-gray-400 hover:text-white transition-colors">
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-      </header>
-
       <main>
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
+          
+          <div className="absolute top-0 left-0 right-0 container mx-auto flex items-center justify-between p-4 z-10">
+            <div className="text-lg font-bold">
+                <Link href="#">MADHAV</Link>
+            </div>
+            <div className="hidden md:flex items-center space-x-8">
+                {navLinks.map((link) => (
+                <Link href={link.href} key={link.label} className="text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                    {link.label}
+                </Link>
+                ))}
+            </div>
+          </div>
+
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mb-4">
             HI, I'M MADHAV
           </h1>
