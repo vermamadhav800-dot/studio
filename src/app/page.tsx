@@ -180,15 +180,24 @@ const AboutSection = () => {
             >
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
             </motion.div>
-
-            <motion.h2
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className={cn("text-6xl md:text-8xl text-white font-black", fontHeading.className)}
-            >
-                ABOUT ME
-            </motion.h2>
+            
+            <div className="flex justify-center items-center gap-4">
+                 <motion.h2
+                    initial={{ opacity: 0, x: -100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className={cn("text-6xl md:text-8xl text-white font-black", fontHeading.className)}
+                >
+                    ABOUT ME
+                </motion.h2>
+                <Image
+                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764351394/512_4_rz3wep.gif"
+                    alt="waving character"
+                    width={100}
+                    height={100}
+                    unoptimized
+                />
+            </div>
             
             <div className="max-w-2xl text-gray-300 mt-8">
                 <ScrollReveal
@@ -425,30 +434,30 @@ const ContactSection = () => {
                         </div>
                     </div>
                      <div className="flex items-center gap-4 mt-12">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M20 0L40 20L20 40L0 20L20 0Z" fill="#9333EA"/>
                             <path d="M20 10L30 20L20 30L10 20L20 10Z" fill="white"/>
                         </svg>
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="20" fill="#34D399"/>
                             <circle cx="12" cy="12" r="4" fill="white"/>
                             <circle cx="28" cy="12" r="4" fill="white"/>
                             <circle cx="12" cy="28" r="4" fill="white"/>
                             <circle cx="28" cy="28" r="4" fill="white"/>
                         </svg>
-                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
                         </svg>
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
                         </svg>
-                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 20L20 0L40 20L20 40L0 20Z" fill="#F472B6"/>
                         </svg>
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M20 0L40 40H0L20 0Z" fill="#60A5FA"/>
                         </svg>
-                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="20" cy="20" r="10" fill="#EC4899" />
                             <circle cx="20" cy="20" r="20" stroke="#EC4899" strokeWidth="4"/>
                         </svg>
