@@ -203,30 +203,6 @@ const TestimonialsSection = () => {
     );
 };
 
-const ShowreelSection = () => {
-    return (
-        <section id="showreel" className="relative bg-black text-white py-20">
-            <div className="container mx-auto text-center mb-12">
-                 <motion.h2 
-                    initial={{ '--bg-size': '0%' }}
-                    whileInView={{ '--bg-size': '100%' }}
-                    transition={{ duration: 0.5, ease: 'easeOut' }}
-                    className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
-                    SHOWREEL
-                </motion.h2>
-            </div>
-            <div className="container mx-auto flex justify-center">
-                <video 
-                    src="https://res.cloudinary.com/dvfyk41km/video/upload/b_black/v1764338468/Angry_Background_Removal_for_Portfolio_idweme.mp4" 
-                    autoPlay 
-                    muted 
-                    loop 
-                    className="rounded-lg w-full max-w-4xl"
-                />
-            </div>
-        </section>
-    );
-};
 
 
 export default function Home() {
@@ -292,7 +268,6 @@ export default function Home() {
 
         <TestimonialsSection />
 
-        <ShowreelSection />
 
       </main>
     </div>
