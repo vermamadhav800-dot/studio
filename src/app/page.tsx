@@ -5,6 +5,7 @@ import { TiltableImage } from '@/components/ui/TiltableImage';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
 import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -22,9 +23,9 @@ const techLogos = [
     { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
   ];
 
-const PlaceholderSection = ({ id, label }: { id: string; label: string }) => (
-  <section id={id} className="min-h-screen flex items-center justify-center border-t border-gray-800">
-    <h2 className="text-4xl font-bold text-gray-500">{label}</h2>
+const PlaceholderSection = ({ id, children }: { id: string; children: React.ReactNode }) => (
+  <section id={id} className="min-h-screen flex items-center justify-center border-t border-gray-800 px-4">
+    {children}
   </section>
 );
 
@@ -45,7 +46,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none mt-20 mb-4 w-full">
+          <h1 className="text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none w-full">
             HI, I'M MADHAV
           </h1>
           
@@ -86,10 +87,26 @@ export default function Home() {
           </div>
         </section>
 
-        <PlaceholderSection id="about" label="ABOUT" />
-        <PlaceholderSection id="customers" label="CUSTOMERS" />
-        <PlaceholderSection id="projects" label="PROJECTS" />
-        <PlaceholderSection id="contact" label="CONTACT" />
+        <PlaceholderSection id="about">
+          <ScrollReveal>
+            I am a passionate developer who loves to create beautiful and functional web experiences.
+          </ScrollReveal>
+        </PlaceholderSection>
+        <PlaceholderSection id="customers">
+          <ScrollReveal>
+            Trusted by the best companies in the world to deliver high-quality software solutions.
+          </ScrollReveal>
+        </PlaceholderSection>
+        <PlaceholderSection id="projects">
+          <ScrollReveal>
+            Here are some of the projects I'm proud to have worked on. Each one was a new challenge.
+          </ScrollReveal>
+        </PlaceholderSection>
+        <PlaceholderSection id="contact">
+          <ScrollReveal>
+            Let's get in touch. I'm always open to discussing new projects and creative ideas.
+          </ScrollReveal>
+        </PlaceholderSection>
 
       </main>
     </div>
