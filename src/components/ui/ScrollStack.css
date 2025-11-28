@@ -11,7 +11,7 @@
   top: 6rem; /* 96px */
   height: auto;
   width: 100%;
-  max-width: 56rem; /* 896px */
+  max-width: 64rem; /* 1024px */
 }
 
 .scroll-stack-card {
@@ -20,8 +20,10 @@
   border-radius: 1.5rem; /* 24px */
   overflow: hidden;
   transform-origin: top center;
-  background-color: black;
-  border-width: 4px;
-  border-color: white;
+  background-color: rgba(20, 20, 20, 0.5);
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.1);
   padding: 1.5rem; /* 24px */
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
