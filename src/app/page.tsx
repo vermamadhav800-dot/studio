@@ -196,7 +196,7 @@ const ProjectsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
+                      className={cn("text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                         MY PROJECTS
                     </motion.h2>
                     <LottiePlayer
@@ -227,7 +227,7 @@ const TestimonialsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className={cn("animated-heading text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
+                      className={cn("text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
                 </div>
