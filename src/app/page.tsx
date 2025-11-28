@@ -7,6 +7,8 @@ import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFireb
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -26,20 +28,44 @@ const techLogos = [
 
 const projects = [
     {
-        title: 'Project One',
-        description: 'A brief description of the first project, highlighting the key features and technologies used.',
+        id: '01',
+        client: 'Rylinx Studios',
+        liveProjectLink: '#',
+        images: [
+            PlaceHolderImages.find(p => p.id === 'project-1-large')!,
+            PlaceHolderImages.find(p => p.id === 'project-1-small-1')!,
+            PlaceHolderImages.find(p => p.id === 'project-1-small-2')!,
+        ],
     },
     {
-        title: 'Project Two',
-        description: 'This is the second project. It was a challenging but rewarding experience.',
+        id: '02',
+        client: 'Aura Creations',
+        liveProjectLink: '#',
+        images: [
+            PlaceHolderImages.find(p => p.id === 'project-2-large')!,
+            PlaceHolderImages.find(p => p.id === 'project-2-small-1')!,
+            PlaceHolderImages.find(p => p.id === 'project-2-small-2')!,
+        ],
     },
     {
-        title: 'Project Three',
-        description: 'The third project in the list, showcasing different skills and approaches to problem-solving.',
+        id: '03',
+        client: 'Quantum Innovations',
+        liveProjectLink: '#',
+        images: [
+            PlaceHolderImages.find(p => p.id === 'project-3-large')!,
+            PlaceHolderImages.find(p => p.id === 'project-3-small-1')!,
+            PlaceHolderImages.find(p => p.id === 'project-3-small-2')!,
+        ],
     },
     {
-        title: 'Project Four',
-        description: 'And finally, the fourth project, which was a culmination of everything learned before.',
+        id: '04',
+        client: 'Nova Digital',
+        liveProjectLink: '#',
+        images: [
+            PlaceHolderImages.find(p => p.id === 'project-4-large')!,
+            PlaceHolderImages.find(p => p.id === 'project-4-small-1')!,
+            PlaceHolderImages.find(p => p.id === 'project-4-small-2')!,
+        ],
     },
 ];
 
@@ -138,14 +164,39 @@ export default function Home() {
             </div>
             <ScrollStack useWindowScroll>
                 {projects.map((project, index) => (
-                    <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800">
-                        <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
-                        <p className="text-gray-400">{project.description}</p>
+                    <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
+                        <div className='p-6'>
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-5xl font-bold text-gray-500">{project.id}</span>
+                                    <div>
+                                        <p className="text-xs text-gray-400">CLIENT</p>
+                                        <p className="font-semibold text-white">{project.client}</p>
+                                    </div>
+                                </div>
+                                <Button variant="outline" size="sm" asChild>
+                                    <Link href={project.liveProjectLink}>LIVE PROJECT</Link>
+                                </Button>
+                            </div>
+                            <div className="border-b border-gray-800 mb-6"></div>
+                            <div className="grid grid-cols-3 gap-4 h-[300px]">
+                                <div className="col-span-2 relative rounded-lg overflow-hidden">
+                                    <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
+                                </div>
+                                <div className="col-span-1 grid grid-rows-2 gap-4">
+                                    <div className="relative rounded-lg overflow-hidden">
+                                        <Image src={project.images[1].imageUrl} alt={project.images[1].description} fill className="object-cover" data-ai-hint={project.images[1].imageHint} />
+                                    </div>
+                                    <div className="relative rounded-lg overflow-hidden">
+                                        <Image src={project.images[2].imageUrl} alt={project.images[2].description} fill className="object-cover" data-ai-hint={project.images[2].imageHint} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </ScrollStackItem>
                 ))}
             </ScrollStack>
         </section>
-
       </main>
     </div>
   );
