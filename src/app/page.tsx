@@ -306,7 +306,6 @@ const ShowreelSection = () => {
             <div className="container mx-auto flex justify-center">
                 <video 
                     src="https://res.cloudinary.com/dvfyk41km/video/upload/v1764338468/Angry_Background_Removal_for_Portfolio_idweme.mp4" 
-                    controls 
                     autoPlay 
                     muted 
                     loop 
@@ -387,7 +386,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
