@@ -128,7 +128,7 @@ const AnimatedTitle = () => {
   return (
     <motion.h1
       className={cn(
-        "text-6xl md:text-8xl lg:text-[11vw] font-black bg-clip-text text-transparent tracking-tighter leading-none w-full mt-36",
+        "text-6xl md:text-8xl lg:text-[11vw] font-black bg-clip-text text-transparent tracking-tighter leading-none w-full",
         fontHeading.className
       )}
       style={{
@@ -434,10 +434,19 @@ export default function Home() {
                 ))}
             </div>
           </div>
-
-          <AnimatedTitle />
+            <div className="flex justify-center items-center gap-4 mt-36">
+              <AnimatedTitle />
+              <Image 
+                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350989/512_2_tazgqp.gif"
+                alt="waving character"
+                width={100}
+                height={100}
+                unoptimized
+                className="hidden md:block"
+              />
+            </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl mt-8">
             <div className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
               <p className="mb-8">A Full-Stack Developer building fast, modern & scalable web applications with clean UI & powerful backend.</p>
                 <motion.div
