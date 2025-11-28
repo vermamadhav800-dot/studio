@@ -40,7 +40,7 @@ const projects = [
     {
         id: '01',
         client: 'Rylinx Studios',
-        liveProjectLink: '#',
+        liveProjectLink: 'https://estate-floww.vercel.app/',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-1-large')!,
             PlaceHolderImages.find(p => p.id === 'project-1-small-1')!,
@@ -50,7 +50,7 @@ const projects = [
     {
         id: '02',
         client: 'Aura Creations',
-        liveProjectLink: '#',
+        liveProjectLink: 'https://studio333-lime.vercel.app/',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-2-large')!,
             PlaceHolderImages.find(p => p.id === 'project-2-small-1')!,
