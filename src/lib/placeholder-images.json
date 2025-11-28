@@ -51,31 +51,31 @@
     {
       "id": "project-3-small-1",
       "description": "A sleek, modern 3D vehicle concept.",
-      "imageUrl": "https://images.unsplash.com/photo-1704340142770-b52988e5b6eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uY2VwdCUyMHZlaGljbGV8ZW58MHx8fHwxNzY0MzIyNDcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1704340142770-b52988e5b6eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uY2VwdCUyMHZlaGljbGV8ZW58MHx8fHwxNzY0MzIyNDcxfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "concept vehicle"
     },
     {
       "id": "project-3-small-2",
       "description": "An abstract 3D geometric structure.",
-      "imageUrl": "https://images.unsplash.com/photo-1714474597969-8395a0793a28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnZW9tZXRyaWMlMjBzdHJ1Y3R1cmV8ZW58MHx8fHwxNzY0MzIyNDcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1714474597969-8395a0793a28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnZW9tZXRyaWMlMjBzdHJ1Y3R1cmV8ZW58MHx8fHwxNzY0MzIyNDcyfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "geometric structure"
     },
     {
       "id": "project-4-large",
       "description": "A serene 3D render of a natural landscape.",
-      "imageUrl": "https://images.unsplash.com/photo-1720760637240-45bc41fe31ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZXJlbmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY0MjkzMTA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1720760637240-45bc41fe31ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZXJlbmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY0MjkzMTA3fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "serene landscape"
     },
     {
       "id": "project-4-small-1",
       "description": "A close-up of 3D rendered water.",
-      "imageUrl": "https://images.unsplash.com/photo-1634907959518-a453d38d5aca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8M2QlMjB3YXRlcnxlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1634907959518-a453d38d5aca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8M2QlMjB3YXRlcnxlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "3d water"
     },
     {
       "id": "project-4-small-2",
       "description": "A 3D render of clouds from above.",
-      "imageUrl": "https://images.unsplash.com/photo-1761813409581-b9bb42252d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjbG91ZHMlMjBhYm92ZXxlbnwwfHx8fDE3NjQzMjI0NzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1761813409581-b9bb42252d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjbG91ZHMlMjBhYm92ZXxlbnwwfHx8fDE3NjQzMjI0NzJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "clouds above"
     }
   ]

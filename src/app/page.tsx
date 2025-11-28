@@ -1,4 +1,5 @@
 
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -39,7 +40,7 @@ const techLogos = [
 const projects = [
     {
         id: '01',
-        client: 'Rylinx Studios',
+        client: 'Madhav Verma',
         liveProjectLink: 'https://estate-floww.vercel.app/',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-1-large')!,
@@ -452,7 +453,7 @@ const ContactSection = () => {
                                 <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
                                 </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="50" height="50" viewBox="0-0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
                                 </svg>
                                 <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -557,3 +558,5 @@ export default function Home() {
     
 
     
+
+
