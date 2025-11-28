@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -68,7 +69,7 @@ const projects = [
     {
         id: '04',
         client: 'Madhav Verma',
-        liveProjectLink: '#',
+        liveProjectLink: 'https://studio333-lime.vercel.app/',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-4-large')!,
             PlaceHolderImages.find(p => p.id === 'project-4-small-1')!,
@@ -550,3 +551,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
