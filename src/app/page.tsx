@@ -138,7 +138,7 @@ export default function Home() {
             </div>
             <ScrollStack useWindowScroll>
                 {projects.map((project, index) => (
-                    <ScrollStackItem key={index} itemClassName="bg-gray-900 border border-gray-700">
+                    <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800">
                         <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
                         <p className="text-gray-400">{project.description}</p>
                     </ScrollStackItem>
