@@ -9,11 +9,18 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
+import { useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LottiePlayer } from '@/components/ui/LottiePlayer';
+import CircularGallery from '@/components/ui/CircularGallery';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
-  { label: 'CUSTOMERS', href: '#customers' },
   { label: 'PROJECTS', href: '#projects' },
+  { label: 'CLIENTS', href: '#clients' },
   { label: 'CONTACT', href: '#contact' },
 ];
 
@@ -68,6 +75,233 @@ const projects = [
         ],
     },
 ];
+
+const testimonials = [
+  {
+    image: 'https://picsum.photos/seed/10/800/600',
+    text: 'Madhav is a design wizard. He took our vague ideas and turned them into a masterpiece. Pure magic!',
+    author: 'Jane Doe, CEO of Rylinx Studios',
+  },
+  {
+    image: 'https://picsum.photos/seed/12/800/600',
+    text: 'Working with Madhav was a dream. The communication was seamless and the results were beyond our expectations.',
+    author: 'John Smith, Founder of Aura Creations',
+  },
+  {
+    image: 'https://picsum.photos/seed/14/800/600',
+    text: 'The level of creativity and polish is insane. Our new branding has never looked better.',
+    author: 'Emily White, Marketing Head at Quantum',
+  },
+  {
+    image: 'https://picsum.photos/seed/16/800/600',
+    text: 'Incredible attention to detail. Every pixel is perfect. Highly recommend for any project, big or small.',
+    author: 'Michael Brown, CTO of Nova Digital',
+  },
+   {
+    image: 'https://picsum.photos/seed/18/800/600',
+    text: 'A true professional. Delivered on time and exceeded all our goals. We\'ll be back for more!',
+    author: 'Sarah Green, Project Manager',
+  },
+   {
+    image: 'https://picsum.photos/seed/20/800/600',
+    text: 'The 3D work is simply breathtaking. It has added a whole new dimension to our product showcase.',
+    author: 'David Black, Creative Director',
+  },
+];
+
+
+const AboutSection = () => {
+    const headingRef = useRef(null);
+
+    useLayoutEffect(() => {
+        const heading = headingRef.current;
+        if (!heading) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heading,
+                start: 'top bottom-=100',
+                end: 'bottom top+=100',
+                scrub: 1,
+            },
+        });
+
+        tl.to(heading, {
+            '--bg-size': '100%',
+            duration: 1,
+        });
+
+        return () => {
+          tl.kill();
+          ScrollTrigger.getAll().forEach(t => t.kill());
+        }
+    }, []);
+
+    return (
+        <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
+            </motion.div>
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
+            </motion.div>
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
+            </motion.div>
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
+            </motion.div>
+
+            <h2
+                ref={headingRef}
+                className="animated-heading text-6xl md:text-8xl font-black text-white tracking-tighter mb-8"
+            >
+                ABOUT ME
+            </h2>
+            <div className="max-w-2xl">
+                <ScrollReveal textClassName="text-base md:text-lg text-gray-300" containerClassName="mb-12">
+                    With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
+                </ScrollReveal>
+            </div>
+            <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
+                CONTACT ME
+            </Link>
+        </section>
+    )
+}
+
+const ProjectsSection = () => {
+    const headingRef = useRef(null);
+
+    useLayoutEffect(() => {
+        const heading = headingRef.current;
+        if (!heading) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heading,
+                start: 'top bottom-=100',
+                end: 'bottom top+=100',
+                scrub: 1,
+            },
+        });
+
+        tl.to(heading, {
+            '--bg-size': '100%',
+            duration: 1,
+        });
+        
+        return () => {
+          tl.kill();
+          ScrollTrigger.getAll().forEach(t => t.kill());
+        }
+    }, []);
+
+    return (
+        <section id="projects" className="relative bg-black text-white py-20">
+            <div className="container mx-auto text-center mb-12">
+                <h2 ref={headingRef} className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
+            </div>
+            <div className="relative h-[400vh] w-full">
+                <ScrollStack useWindowScroll>
+                    {projects.map((project, index) => (
+                        <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
+                            <div className='p-6'>
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-5xl font-bold text-gray-500">{project.id}</span>
+                                        <div>
+                                            <p className="text-xs text-gray-400">CLIENT</p>
+                                            <p className="font-semibold text-white">{project.client}</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" size="sm" asChild>
+                                        <Link href={project.liveProjectLink}>LIVE PROJECT</Link>
+                                    </Button>
+                                </div>
+                                <div className="border-b border-gray-800 mb-6"></div>
+                                <div className="grid grid-cols-3 gap-4 h-[400px]">
+                                    <div className="col-span-2 relative rounded-lg overflow-hidden">
+                                        <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
+                                    </div>
+                                    <div className="col-span-1 grid grid-rows-2 gap-4">
+                                        <div className="relative rounded-lg overflow-hidden">
+                                            <Image src={project.images[1].imageUrl} alt={project.images[1].description} fill className="object-cover" data-ai-hint={project.images[1].imageHint} />
+                                        </div>
+                                        <div className="relative rounded-lg overflow-hidden">
+                                            <Image src={project.images[2].imageUrl} alt={project.images[2].description} fill className="object-cover" data-ai-hint={project.images[2].imageHint} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ScrollStackItem>
+                    ))}
+                </ScrollStack>
+            </div>
+        </section>
+    );
+}
+
+const TestimonialsSection = () => {
+    const headingRef = useRef(null);
+    const galleryContainerRef = useRef<HTMLDivElement>(null);
+
+
+    useLayoutEffect(() => {
+        const heading = headingRef.current;
+        if (!heading) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heading,
+                start: 'top bottom-=150',
+                end: 'bottom top+=150',
+                scrub: 1,
+            },
+        });
+
+        tl.to(heading, {
+            '--bg-size': '100%',
+            duration: 1,
+        });
+
+        return () => {
+          tl.kill();
+          ScrollTrigger.getAll().forEach(t => t.kill());
+        }
+    }, []);
+
+    const galleryItems = testimonials.map(t => ({
+      image: t.image,
+      text: `${t.text} - ${t.author}`
+    }));
+
+
+    return (
+        <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
+            <div className="container mx-auto text-center mb-12">
+                 <div className="flex justify-center items-center gap-4">
+                    <motion.div
+                        animate={{ y: [0, -15, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                        <LottiePlayer
+                            src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
+                            style={{ height: 100, width: 100 }}
+                        />
+                    </motion.div>
+                    <h2 ref={headingRef} className="animated-heading text-4xl md:text-6xl font-black tracking-tighter">
+                        WHAT CLIENTS ARE SAYING
+                    </h2>
+                </div>
+            </div>
+            <div ref={galleryContainerRef} className='relative h-[600px]'>
+               <CircularGallery items={galleryItems} autoScrollDirection="left" />
+               <CircularGallery items={[...galleryItems].reverse()} autoScrollDirection="right" />
+            </div>
+        </section>
+    );
+};
 
 export default function Home() {
   return (
@@ -126,79 +360,12 @@ export default function Home() {
           </div>
         </section>
         
-        <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
-            </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
-            </motion.div>
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
-            </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
-            </motion.div>
+        <AboutSection />
 
-            <motion.h2 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8"
-            >
-              ABOUT ME
-            </motion.h2>
-            <div className="max-w-2xl">
-              <ScrollReveal textClassName="text-base md:text-lg text-gray-300" containerClassName="mb-12">
-                  With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
-              </ScrollReveal>
-            </div>
-            <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
-                CONTACT ME
-            </Link>
-        </section>
+        <ProjectsSection />
 
-        <section id="projects" className="relative bg-black text-white py-20">
-            <div className="container mx-auto text-center mb-12">
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
-            </div>
-            <div className="relative h-[400vh] w-full">
-                <ScrollStack useWindowScroll>
-                    {projects.map((project, index) => (
-                        <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
-                            <div className='p-6'>
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-5xl font-bold text-gray-500">{project.id}</span>
-                                        <div>
-                                            <p className="text-xs text-gray-400">CLIENT</p>
-                                            <p className="font-semibold text-white">{project.client}</p>
-                                        </div>
-                                    </div>
-                                    <Button variant="outline" size="sm" asChild>
-                                        <Link href={project.liveProjectLink}>LIVE PROJECT</Link>
-                                    </Button>
-                                </div>
-                                <div className="border-b border-gray-800 mb-6"></div>
-                                <div className="grid grid-cols-3 gap-4 h-[400px]">
-                                    <div className="col-span-2 relative rounded-lg overflow-hidden">
-                                        <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
-                                    </div>
-                                    <div className="col-span-1 grid grid-rows-2 gap-4">
-                                        <div className="relative rounded-lg overflow-hidden">
-                                            <Image src={project.images[1].imageUrl} alt={project.images[1].description} fill className="object-cover" data-ai-hint={project.images[1].imageHint} />
-                                        </div>
-                                        <div className="relative rounded-lg overflow-hidden">
-                                            <Image src={project.images[2].imageUrl} alt={project.images[2].description} fill className="object-cover" data-ai-hint={project.images[2].imageHint} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ScrollStackItem>
-                    ))}
-                </ScrollStack>
-            </div>
-        </section>
+        <TestimonialsSection />
+
       </main>
     </div>
   );
