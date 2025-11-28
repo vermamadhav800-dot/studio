@@ -67,7 +67,7 @@ export const ScrollStack = ({ items, className }: ScrollStackProps) => {
                     <p className="font-semibold text-white">{item.client}</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" asChild className="bg-white text-black hover:bg-gray-200 hover:text-black">
                   <Link href={item.liveProjectLink}>LIVE PROJECT</Link>
                 </Button>
               </div>
@@ -92,5 +92,3 @@ export const ScrollStack = ({ items, className }: ScrollStackProps) => {
     </div>
   );
 };
-
-    
