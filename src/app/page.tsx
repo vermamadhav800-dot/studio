@@ -1,5 +1,8 @@
+
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -35,7 +38,7 @@ export default function Home() {
 
       <main>
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mb-8">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mb-4">
             HI, I'M MADHAV
           </h1>
           
@@ -44,16 +47,21 @@ export default function Home() {
               A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
             </p>
 
-            <div className="flex justify-center">
+            <motion.div
+              className="flex justify-center -mt-16"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               <Image
                 src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311856/image-removebg-preview__1_-removebg-preview_qi2y1i.png"
                 alt="3D character"
-                width={600}
-                height={600}
-                className="w-96 h-96 sm:w-[30rem] sm:h-[30rem] object-contain"
+                width={800}
+                height={800}
+                className="w-[30rem] h-[30rem] sm:w-[40rem] sm:h-[40rem] object-contain"
                 priority
               />
-            </div>
+            </motion.div>
             
             <div className="flex justify-center md:justify-end">
                 <Link href="#contact" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
