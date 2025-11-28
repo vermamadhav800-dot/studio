@@ -288,6 +288,8 @@ const TestimonialsSection = () => {
                      <LottiePlayer
                         src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/lottie.json"
                         style={{ height: 100, width: 100 }}
+                        loop
+                        autoplay
                     />
                 </div>
             </div>
@@ -336,14 +338,14 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Left Side */}
                     <div className="flex flex-col justify-center">
-                        <ScrollFloat
-                          textClassName='!text-black !text-left !text-5xl md:!text-7xl !leading-tight'
-                          stagger={0.02}
-                          scrollStart="top bottom-=10%"
-                          scrollEnd="bottom center"
+                        <motion.h2 
+                            initial={{ opacity: 0, x: -100 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, ease: 'easeOut' }}
+                            className={cn('!text-black !text-left !text-5xl md:!text-7xl !leading-tight', fontHeading.className)}
                         >
-                            LET'S GET IN TOUCH
-                        </ScrollFloat>
+                            LET'S GET<br />IN TOUCH
+                        </motion.h2>
                         <a href="mailto:alex@3dturner.or" className="text-gray-600 mt-4 text-lg hover:underline">alex@3dturner.or</a>
                     </div>
 
