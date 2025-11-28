@@ -460,17 +460,6 @@ export default function Home() {
 
         <ProjectsSection />
 
-        <section className="bg-black w-full py-10">
-            <Image 
-                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif" 
-                alt="Animated banner"
-                width={1920}
-                height={400}
-                className="w-full h-auto max-h-[400px] object-cover"
-                unoptimized
-            />
-        </section>
-
         <TestimonialsSection />
 
         <ContactSection />
