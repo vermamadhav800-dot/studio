@@ -196,7 +196,7 @@ const AboutSection = () => {
 const ProjectsSection = () => {
     return (
         <section id="projects" className="relative bg-black text-white py-20">
-            <div className="container mx-auto text-center mb-20">
+            <div className="container mx-auto text-center mb-12">
                 <div className="flex justify-center items-center gap-4">
                     <ScrollFloat
                         textClassName={cn("!text-6xl md:!text-8xl !text-white", fontHeading.className)}
@@ -238,10 +238,10 @@ const TestimonialsSection = () => {
                 {testimonials.map((testimonial, index) => (
                     <motion.div
                         key={index}
-                        className="bg-[#1C1C1C] p-6 rounded-2xl border border-gray-700/50 flex flex-col items-start gap-4"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4"
+                        initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
                         viewport={{ once: true }}
                     >
                         <div className="flex items-center gap-4">
@@ -422,5 +422,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
