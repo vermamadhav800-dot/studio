@@ -33,7 +33,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-[11vw] font-black text-white tracking-tighter leading-none mt-20 mb-4 w-full" style={{ textShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)' }}>
+          <h1 className="text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none mt-20 mb-4 w-full">
             HI, I'M MADHAV
           </h1>
           
