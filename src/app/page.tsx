@@ -6,7 +6,6 @@ import { TiltableImage } from '@/components/ui/TiltableImage';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
 import { motion } from 'framer-motion';
-import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ScrollStack } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
@@ -131,11 +130,17 @@ const AboutSection = () => {
             >
                 ABOUT ME
             </motion.h2>
-            <div className="max-w-2xl">
-                <ScrollReveal textClassName="text-base md:text-lg text-gray-300" containerClassName="mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="max-w-2xl"
+            >
+                <p className="text-base md:text-lg text-gray-300 mb-12">
                     With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
-                </ScrollReveal>
-            </div>
+                </p>
+            </motion.div>
             <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
                 CONTACT ME
             </Link>
@@ -292,5 +297,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
