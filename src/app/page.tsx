@@ -21,7 +21,7 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm">
         <nav className="container mx-auto flex items-center justify-between p-4">
           <div className="text-lg font-bold">
-            <Link href="#">ALEX</Link>
+            <Link href="#">MADHAV</Link>
           </div>
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
@@ -36,7 +36,7 @@ export default function Home() {
       <main>
         <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-200 tracking-tighter leading-none mb-8">
-            HI, I'M ALEX
+            HI, I'M MADHAV
           </h1>
           
           <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
@@ -48,9 +48,9 @@ export default function Home() {
               <Image
                 src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311377/image-removebg-preview_iehyjw.png"
                 alt="3D character"
-                width={400}
-                height={400}
-                className="w-64 h-64 sm:w-80 sm:h-80 object-contain"
+                width={600}
+                height={600}
+                className="w-96 h-96 sm:w-[30rem] sm:h-[30rem] object-contain"
                 priority
               />
             </div>
