@@ -46,7 +46,7 @@ export default function Home() {
 
             <div className="flex justify-center">
               <Image
-                src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311377/image-removebg-preview_iehyjw.png"
+                src="https://res.cloudinary.com/demtlzrii/image/upload/v1764311856/image-removebg-preview__1_-removebg-preview_qi2y1i.png"
                 alt="3D character"
                 width={600}
                 height={600}
