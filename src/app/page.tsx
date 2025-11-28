@@ -245,9 +245,9 @@ const TestimonialsSection = () => {
     const secondRow = testimonials.slice(2, 4);
     const thirdRow = testimonials.slice(4, 6);
     
-    const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow];
-    const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow];
-    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow];
+    const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow, ...firstRow, ...firstRow];
+    const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow, ...secondRow, ...secondRow];
+    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow];
 
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
@@ -445,5 +445,6 @@ export default function Home() {
     
 
     
+
 
 
