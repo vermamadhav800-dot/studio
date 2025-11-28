@@ -1,4 +1,5 @@
 
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -217,9 +218,34 @@ const ProjectsSection = () => {
     );
 }
 
+const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
+    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] mx-4">
+        <div className="flex items-center gap-4">
+            <Image
+                src={testimonial.image}
+                alt={testimonial.author}
+                width={56}
+                height={56}
+                className="rounded-full object-cover"
+            />
+            <div>
+                <p className="font-bold text-white">{testimonial.author}</p>
+                <p className="text-sm text-gray-400">{testimonial.title}</p>
+            </div>
+        </div>
+        <p className="text-gray-300 text-left text-sm leading-relaxed">
+           "{testimonial.text}"
+        </p>
+    </div>
+);
+
+
 const TestimonialsSection = () => {
+    const firstRow = testimonials.slice(0, Math.ceil(testimonials.length / 2));
+    const secondRow = testimonials.slice(Math.ceil(testimonials.length / 2));
+
     return (
-        <section id="clients" className="relative bg-black text-white py-20 px-4">
+        <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
             <div className="container mx-auto text-center mb-20">
                  <div className="flex justify-center items-center gap-4">
                     <ScrollFloat
@@ -234,34 +260,21 @@ const TestimonialsSection = () => {
                     />
                 </div>
             </div>
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {testimonials.map((testimonial, index) => (
-                    <motion.div
-                        key={index}
-                        className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4"
-                        initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                    >
-                        <div className="flex items-center gap-4">
-                            <Image
-                                src={testimonial.image}
-                                alt={testimonial.author}
-                                width={56}
-                                height={56}
-                                className="rounded-full object-cover"
-                            />
-                            <div>
-                                <p className="font-bold text-white">{testimonial.author}</p>
-                                <p className="text-sm text-gray-400">{testimonial.title}</p>
-                            </div>
-                        </div>
-                        <p className="text-gray-300 text-left text-sm leading-relaxed">
-                           "{testimonial.text}"
-                        </p>
-                    </motion.div>
-                ))}
+            <div className="flex flex-col gap-8">
+                <LogoLoop
+                    logos={firstRow}
+                    direction="left"
+                    speed={50}
+                    gap={0}
+                    renderItem={(item) => <TestimonialCard testimonial={item as any} />}
+                />
+                <LogoLoop
+                    logos={secondRow}
+                    direction="right"
+                    speed={50}
+                    gap={0}
+                    renderItem={(item) => <TestimonialCard testimonial={item as any} />}
+                />
             </div>
         </section>
     );
