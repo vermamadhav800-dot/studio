@@ -10,13 +10,9 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { ScrollStack } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
-import { useLayoutEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LottiePlayer } from '@/components/ui/LottiePlayer';
 import CircularGallery from '@/components/ui/CircularGallery';
 
-gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -112,53 +108,29 @@ const testimonials = [
 
 
 const AboutSection = () => {
-    const headingRef = useRef(null);
-
-    useLayoutEffect(() => {
-        const heading = headingRef.current;
-        if (!heading) return;
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: heading,
-                start: 'top bottom-=100',
-                end: 'bottom top+=100',
-                scrub: 1,
-            },
-        });
-
-        tl.to(heading, {
-            '--bg-size': '100%',
-            duration: 1,
-        });
-
-        return () => {
-          tl.kill();
-          ScrollTrigger.getAll().forEach(t => t.kill());
-        }
-    }, []);
-
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
+            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44">
+            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
             </motion.div>
 
-            <h2
-                ref={headingRef}
+            <motion.h2
+                initial={{ '--bg-size': '0%' }}
+                whileInView={{ '--bg-size': '100%' }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="animated-heading text-6xl md:text-8xl font-black text-white tracking-tighter mb-8"
             >
                 ABOUT ME
-            </h2>
+            </motion.h2>
             <div className="max-w-2xl">
                 <ScrollReveal textClassName="text-base md:text-lg text-gray-300" containerClassName="mb-12">
                     With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
@@ -172,36 +144,16 @@ const AboutSection = () => {
 }
 
 const ProjectsSection = () => {
-    const headingRef = useRef(null);
-
-    useLayoutEffect(() => {
-        const heading = headingRef.current;
-        if (!heading) return;
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: heading,
-                start: 'top bottom-=100',
-                end: 'bottom top+=100',
-                scrub: 1,
-            },
-        });
-
-        tl.to(heading, {
-            '--bg-size': '100%',
-            duration: 1,
-        });
-        
-        return () => {
-          tl.kill();
-          ScrollTrigger.getAll().forEach(t => t.kill());
-        }
-    }, []);
-
     return (
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-20">
-                <h2 ref={headingRef} className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
+                <motion.h2 
+                  initial={{ '--bg-size': '0%' }}
+                  whileInView={{ '--bg-size': '100%' }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
+                    MY PROJECTS
+                </motion.h2>
             </div>
             <ScrollStack items={projects} />
         </section>
@@ -209,34 +161,6 @@ const ProjectsSection = () => {
 }
 
 const TestimonialsSection = () => {
-    const headingRef = useRef(null);
-    const galleryContainerRef = useRef<HTMLDivElement>(null);
-
-
-    useLayoutEffect(() => {
-        const heading = headingRef.current;
-        if (!heading) return;
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: heading,
-                start: 'top bottom-=150',
-                end: 'bottom top+=150',
-                scrub: 1,
-            },
-        });
-
-        tl.to(heading, {
-            '--bg-size': '100%',
-            duration: 1,
-        });
-
-        return () => {
-          tl.kill();
-          ScrollTrigger.getAll().forEach(t => t.kill());
-        }
-    }, []);
-
     const galleryItems = testimonials.map(t => ({
       image: t.image,
       text: `${t.text} - ${t.author}`
@@ -256,12 +180,16 @@ const TestimonialsSection = () => {
                             style={{ height: 100, width: 100 }}
                         />
                     </motion.div>
-                    <h2 ref={headingRef} className="animated-heading text-4xl md:text-6xl font-black tracking-tighter">
+                    <motion.h2 
+                      initial={{ '--bg-size': '0%' }}
+                      whileInView={{ '--bg-size': '100%' }}
+                      transition={{ duration: 0.5, ease: 'easeOut' }}
+                      className="animated-heading text-4xl md:text-6xl font-black tracking-tighter">
                         WHAT CLIENTS ARE SAYING
-                    </h2>
+                    </motion.h2>
                 </div>
             </div>
-            <div ref={galleryContainerRef} className='relative h-[600px]'>
+            <div className='relative h-[600px]'>
                <CircularGallery items={galleryItems} autoScrollDirection="left" />
                <CircularGallery items={[...galleryItems].reverse()} autoScrollDirection="right" />
             </div>
@@ -270,38 +198,16 @@ const TestimonialsSection = () => {
 };
 
 const ShowreelSection = () => {
-    const headingRef = useRef(null);
-
-    useLayoutEffect(() => {
-        const heading = headingRef.current;
-        if (!heading) return;
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: heading,
-                start: 'top bottom-=100',
-                end: 'bottom top+=100',
-                scrub: 1,
-            },
-        });
-
-        tl.to(heading, {
-            '--bg-size': '100%',
-            duration: 1,
-        });
-
-        return () => {
-          tl.kill();
-          ScrollTrigger.getAll().forEach(t => t.kill());
-        }
-    }, []);
-
     return (
         <section id="showreel" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-12">
-                 <h2 ref={headingRef} className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
+                 <motion.h2 
+                    initial={{ '--bg-size': '0%' }}
+                    whileInView={{ '--bg-size': '100%' }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="animated-heading text-6xl md:text-8xl font-black tracking-tighter">
                     SHOWREEL
-                </h2>
+                </motion.h2>
             </div>
             <div className="container mx-auto flex justify-center">
                 <video 
@@ -386,3 +292,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
