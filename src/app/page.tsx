@@ -263,11 +263,13 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 
 
 const TestimonialsSection = () => {
-    const firstRow = testimonials.slice(0, 3);
-    const secondRow = testimonials.slice(3, 6);
+    const firstRow = testimonials.slice(0, 2);
+    const secondRow = testimonials.slice(2, 4);
+    const thirdRow = testimonials.slice(4, 6);
     
     const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow, ...firstRow, ...firstRow];
     const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow, ...secondRow, ...secondRow];
+    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow];
 
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
@@ -307,6 +309,11 @@ const TestimonialsSection = () => {
                         <TestimonialCard key={`second-${index}`} testimonial={testimonial} />
                     ))}
                 </div>
+                <div className="flex w-max items-center gap-4 animate-scroll-left">
+                    {duplicatedThirdRow.map((testimonial, index) => (
+                        <TestimonialCard key={`third-${index}`} testimonial={testimonial} />
+                    ))}
+                </div>
             </div>
             <motion.div 
                 initial={{ x: -100, opacity: 0, rotate: -15 }}
@@ -344,7 +351,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348386/Gemini_Generated_Image_lzcw7klzcw7klzcw__1_-removebg-preview_lpxuli.png" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} />
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
