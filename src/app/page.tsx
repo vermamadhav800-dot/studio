@@ -44,13 +44,13 @@ export default function Home() {
             <p className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
               A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
             </p>
-
-            <TiltableImage
-              src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
-              alt="3D character"
-              className="w-[30rem] h-[30rem] sm:w-[40rem] sm:h-[40rem] object-contain"
-            />
-            
+            <div className="-mt-16 md:-mt-24">
+              <TiltableImage
+                src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
+                alt="3D character"
+                className="w-[30rem] h-[30rem] sm:w-[40rem] sm:h-[40rem] object-contain"
+              />
+            </div>
             <div className="flex justify-center md:justify-end">
                 <Link href="#contact" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
                 CONTACT ME
