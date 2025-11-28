@@ -179,7 +179,7 @@ export default function Home() {
                                 </Button>
                             </div>
                             <div className="border-b border-gray-800 mb-6"></div>
-                            <div className="grid grid-cols-3 gap-4 h-[300px]">
+                            <div className="grid grid-cols-3 gap-4 h-[400px]">
                                 <div className="col-span-2 relative rounded-lg overflow-hidden">
                                     <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
                                 </div>
