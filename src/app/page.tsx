@@ -198,7 +198,7 @@ const ProjectsSection = () => {
     return (
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-12">
-                <div className="flex justify-center items-center gap-4">
+                 <div className="flex justify-center items-center gap-4">
                     <ScrollFloat
                         textClassName={cn("!text-6xl md:!text-8xl !text-white", fontHeading.className)}
                         stagger={0.02}
@@ -219,7 +219,7 @@ const ProjectsSection = () => {
 }
 
 const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] mx-4">
+    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] shrink-0">
         <div className="flex items-center gap-4">
             <Image
                 src={testimonial.image}
@@ -243,6 +243,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
 const TestimonialsSection = () => {
     const firstRow = testimonials.slice(0, Math.ceil(testimonials.length / 2));
     const secondRow = testimonials.slice(Math.ceil(testimonials.length / 2));
+    
+    const duplicatedFirstRow = [...firstRow, ...firstRow];
+    const duplicatedSecondRow = [...secondRow, ...secondRow];
 
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
@@ -261,20 +264,16 @@ const TestimonialsSection = () => {
                 </div>
             </div>
             <div className="flex flex-col gap-8">
-                <LogoLoop
-                    logos={firstRow}
-                    direction="left"
-                    speed={50}
-                    gap={0}
-                    renderItem={(item) => <TestimonialCard testimonial={item as any} />}
-                />
-                <LogoLoop
-                    logos={secondRow}
-                    direction="right"
-                    speed={50}
-                    gap={0}
-                    renderItem={(item) => <TestimonialCard testimonial={item as any} />}
-                />
+                <div className="flex w-max items-center gap-4 animate-scroll-left">
+                    {duplicatedFirstRow.map((testimonial, index) => (
+                        <TestimonialCard key={`first-${index}`} testimonial={testimonial} />
+                    ))}
+                </div>
+                <div className="flex w-max items-center gap-4 animate-scroll-right">
+                    {duplicatedSecondRow.map((testimonial, index) => (
+                        <TestimonialCard key={`second-${index}`} testimonial={testimonial} />
+                    ))}
+                </div>
             </div>
         </section>
     );
@@ -288,7 +287,7 @@ const ContactSection = () => {
                     initial={{ scale: 0.5, opacity: 0, y: -50, x: 50 }}
                     whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className="absolute -top-16 -right-16 w-40 h-40"
+                    className="absolute -top-16 -right-16 w-40 h-40 hidden md:block"
                 >
                     <Image src="https://picsum.photos/seed/yellow-shape/200/200" alt="3D yellow shape" data-ai-hint="3d abstract shape" width={160} height={160} />
                 </motion.div>
@@ -296,7 +295,7 @@ const ContactSection = () => {
                     initial={{ scale: 0.5, opacity: 0, y: 50, x: -50 }}
                     whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                    className="absolute -bottom-16 -left-16 w-32 h-32"
+                    className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
                     <Image src="https://picsum.photos/seed/purple-shape/200/200" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
                 </motion.div>
@@ -439,3 +438,4 @@ export default function Home() {
     
 
     
+

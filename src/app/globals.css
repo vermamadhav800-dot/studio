@@ -80,16 +80,32 @@
   html {
     scroll-behavior: smooth;
   }
-  .animated-heading {
-    background-image: linear-gradient(
-      -225deg,
-      #3f51b5 0%,
-      #00bcd4 29%,
-      #3f51b5 67%,
-      #00bcd4 100%
-    );
-    background-size: var(--bg-size, 0%) 3px;
-    background-repeat: no-repeat;
-    background-position: left bottom;
+}
+
+@layer utilities {
+  @keyframes scroll-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - 1rem));
+    }
+  }
+
+  @keyframes scroll-right {
+    from {
+      transform: translateX(calc(-100% - 1rem));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-scroll-left {
+    animation: scroll-left 40s linear infinite;
+  }
+
+  .animate-scroll-right {
+    animation: scroll-right 40s linear infinite;
   }
 }
