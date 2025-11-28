@@ -302,6 +302,15 @@ const TestimonialsSection = () => {
                     ))}
                 </div>
             </div>
+            <div className="flex justify-center mt-12">
+                <Image 
+                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350615/512_1_tbjopp.gif"
+                    alt="animated character"
+                    width={200}
+                    height={200}
+                    unoptimized
+                />
+            </div>
         </section>
     );
 };
