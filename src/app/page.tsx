@@ -39,7 +39,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
             <p className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
-              A 3D DESIGNER PASSIONATE ABOUT CRAFTING BOLD AND MEMORABLE PROJECTS
+              A Full-Stack Developer building fast, modern & scalable web applications with clean UI & powerful backend.
             </p>
             <div className="-mt-32">
               <TiltableImage
