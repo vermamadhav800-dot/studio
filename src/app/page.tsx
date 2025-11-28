@@ -49,9 +49,10 @@ export default function Home() {
 
             <motion.div
               className="flex justify-center -mt-16"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              style={{ perspective: 800 }}
+              whileHover={{ scale: 1.05, rotateY: 15, rotateX: -10 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <Image
                 src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
