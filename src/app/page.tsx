@@ -102,16 +102,16 @@ export default function Home() {
         
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
             <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1720542385/code-icon_1_j9o5fp.png" alt="Code Icon" data-ai-hint="code icon" width={224} height={224} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
             </motion.div>
             <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1720542385/code-icon_1_j9o5fp.png" alt="Code Icon" data-ai-hint="code icon" width={224} height={224} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
             </motion.div>
             <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1720542385/code-icon_1_j9o5fp.png" alt="Code Icon" data-ai-hint="code icon" width={176} height={176} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
             </motion.div>
             <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1720542385/code-icon_1_j9o5fp.png" alt="Code Icon" data-ai-hint="code icon" width={176} height={176} className="object-contain" />
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
             </motion.div>
 
             <motion.h2 
