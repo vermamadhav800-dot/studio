@@ -34,10 +34,10 @@ export default function Home() {
       </header>
 
       <main>
-        <section id="home" className="min-h-screen flex items-center justify-center">
+        <section id="home" className="min-h-screen flex flex-col justify-center">
           <div className="container mx-auto flex flex-col items-center justify-center text-center relative px-4">
             <div className="relative w-full max-w-5xl flex flex-col items-center">
-              <h1 className="text-8xl md:text-[10rem] font-black uppercase text-gray-200 tracking-tighter">
+              <h1 className="text-9xl md:text-[12rem] font-black uppercase text-gray-200 tracking-tighter">
                 Hi, I'm Madhav
               </h1>
               <div className="mt-8 relative z-20 flex flex-col items-center">
