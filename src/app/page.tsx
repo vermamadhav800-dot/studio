@@ -20,7 +20,7 @@ const PlaceholderSection = ({ id, label }: { id: string; label: string }) => (
 export default function Home() {
   return (
     <div className="bg-black text-foreground">
-      <header className="fixed top-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-sm">
+      <header className="fixed top-0 left-0 right-0 z-20 bg-black">
         <nav className="container mx-auto flex items-center justify-between p-4">
           <div className="text-lg font-bold">
             <Link href="#">MADHAV</Link>
