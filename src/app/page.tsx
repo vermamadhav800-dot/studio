@@ -5,6 +5,7 @@ import { TiltableImage } from '@/components/ui/TiltableImage';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
 import { motion } from 'framer-motion';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const navLinks = [
   { label: 'ABOUT', href: '#about' },
@@ -94,9 +95,11 @@ export default function Home() {
             </motion.div>
 
             <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8">ABOUT ME</h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12">
-                With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
-            </p>
+            <div className="max-w-2xl">
+              <ScrollReveal textClassName="text-lg md:text-xl text-gray-300" containerClassName="mb-12">
+                  With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let&apos;s create something amazing together!
+              </ScrollReveal>
+            </div>
             <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg">
                 CONTACT ME
             </Link>
