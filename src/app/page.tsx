@@ -1,11 +1,8 @@
-
-
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { TiltableImage } from '@/components/ui/TiltableImage';
 import { LogoLoop } from '@/components/ui/LogoLoop';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ScrollStack } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -15,7 +12,7 @@ import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import ScrollReveal from '@/components/ui/ScrollReveal';
-import { Facebook, Instagram, Dribbble, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Dribbble, Linkedin, Mail, Phone, MapPin, Database, Code, Wind } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from "@/components/ui/textarea";
@@ -29,12 +26,12 @@ const navLinks = [
 ];
 
 const techLogos = [
-    { node: <SiReact />, title: "React", href: "https://react.dev" },
-    { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-    { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
-    { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
-    { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
-    { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
+    { node: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-7 w-7"><title>React</title><path d="M12.001 2.002c-5.522 0-10 4.478-10 10 0 5.523 4.478 10 10 10s10-4.477 10-10c0-5.522-4.478-10-10-10zm0 1.576c4.653 0 8.424 3.772 8.424 8.424s-3.771 8.424-8.424 8.424-8.424-3.771-8.424-8.424 3.771-8.424 8.424-8.424zm-.025 2.502c-2.88 0-4.11.96-3.93 2.88.13 1.41.99 2.52 2.16 2.85.33.09.45-.15.45-.33v-1.14c0-.12-.06-.15-.15-.24-1.14-.54-1.53-1.8-.75-2.1.75-.3 1.83.69 1.2 1.5-.51.69-1.29.63-1.29.63s.51 1.5 2.13 1.35c.96-.09 1.17-.78.93-1.32-.21-.51-1.02-.3-1.02-.3s.21-.75 1.05-.75c.9 0 1.02.69 1.02 1.38 0 1.86-2.16 1.89-2.16 1.89s.66.15 1.29.99c.66.87.6 1.65.6 1.65s-.24 1.14-2.52 1.05c-1.44-.09-2.4-.93-2.4-2.28 0-1.56 1.47-1.83 1.47-1.83s-.36-1.02-1.8-1.02c-1.11 0-1.29.75-1.29 1.38 0 .54.36.84.9.96.69.15.66-.27.66-.51 0-.6-1.02-.69-1.02-.69s-1.08.18-1.08 1.44c0 1.95 1.83 2.85 3.63 2.25 1.2-.39 1.38-1.56 1.38-1.56s-.66.81-1.83.81c-.84 0-1.11-.33-1.11-.84 0-.51.48-.84 1.2-.84.9 0 1.38.6 1.38 1.26 0 .63-.33 1.08-1.14 1.2-.9.15-1.14-.3-1.14-.3s.84.87 2.1.6c1.32-.27 1.92-1.35 1.92-2.43.03-1.89-1.89-2.76-3.75-2.19z" fill="currentColor"/></svg> , title: "React", href: "https://react.dev" },
+    { node: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-7 w-7"><title>Next.js</title><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.084 18.511-1.33-2.457v-5.96h1.33v4.54l4.136-6.73h1.4v6.073l1.329 2.344v5.84h-1.329v-4.426l-4.136 6.616h-1.4z" fill="currentColor"/></svg>, title: "Next.js", href: "https://nextjs.org" },
+    { node: <Code/>, title: "TypeScript", href: "https://www.typescriptlang.org" },
+    { node: <Wind/>, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+    { node: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-7 w-7"><title>Node.js</title><path d="M11.987 1.992c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5.125 5.547c.187 0 .343.157.343.344v8.234c0 .188-.156.344-.343.344h-1.578c-.188 0-.344-.156-.344-.344V8.469c0-.188.156-.344.344-.344h1.578zm-3.453 0c.187 0 .343.157.343.344v8.234c0 .188-.156.344-.343.344h-1.578c-.188 0-.344-.156-.344-.344V8.469c0-.188.156-.344.344-.344h1.578zm-3.421 0c.187 0 .344.157.344.344v8.234c0 .188-.157.344-.344.344H6.66c-.188 0-.344-.156-.344-.344V8.469c0-.188.156-.344.344-.344h1.578z" fill="currentColor"/></svg>, title: "Node.js", href: "https://nodejs.org" },
+    { node: <Database/>, title: "Firebase", href: "https://firebase.google.com" },
   ];
 
 const projects = [
@@ -552,14 +549,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
-
-    
-
-
-
-
-    
