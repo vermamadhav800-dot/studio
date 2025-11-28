@@ -162,40 +162,42 @@ export default function Home() {
             <div className="container mx-auto text-center mb-12">
                 <h2 className="text-6xl md:text-8xl font-black tracking-tighter">MY PROJECTS</h2>
             </div>
-            <ScrollStack useWindowScroll itemStackDistance={30}>
-                {projects.map((project, index) => (
-                    <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
-                        <div className='p-6'>
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-4">
-                                    <span className="text-5xl font-bold text-gray-500">{project.id}</span>
-                                    <div>
-                                        <p className="text-xs text-gray-400">CLIENT</p>
-                                        <p className="font-semibold text-white">{project.client}</p>
+            <div className="relative h-screen w-full">
+                <ScrollStack itemStackDistance={30}>
+                    {projects.map((project, index) => (
+                        <ScrollStackItem key={index} itemClassName="bg-gray-950 border border-gray-800 p-0 overflow-hidden">
+                            <div className='p-6'>
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-5xl font-bold text-gray-500">{project.id}</span>
+                                        <div>
+                                            <p className="text-xs text-gray-400">CLIENT</p>
+                                            <p className="font-semibold text-white">{project.client}</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" size="sm" asChild>
+                                        <Link href={project.liveProjectLink}>LIVE PROJECT</Link>
+                                    </Button>
+                                </div>
+                                <div className="border-b border-gray-800 mb-6"></div>
+                                <div className="grid grid-cols-3 gap-4 h-[400px]">
+                                    <div className="col-span-2 relative rounded-lg overflow-hidden">
+                                        <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
+                                    </div>
+                                    <div className="col-span-1 grid grid-rows-2 gap-4">
+                                        <div className="relative rounded-lg overflow-hidden">
+                                            <Image src={project.images[1].imageUrl} alt={project.images[1].description} fill className="object-cover" data-ai-hint={project.images[1].imageHint} />
+                                        </div>
+                                        <div className="relative rounded-lg overflow-hidden">
+                                            <Image src={project.images[2].imageUrl} alt={project.images[2].description} fill className="object-cover" data-ai-hint={project.images[2].imageHint} />
+                                        </div>
                                     </div>
                                 </div>
-                                <Button variant="outline" size="sm" asChild>
-                                    <Link href={project.liveProjectLink}>LIVE PROJECT</Link>
-                                </Button>
                             </div>
-                            <div className="border-b border-gray-800 mb-6"></div>
-                            <div className="grid grid-cols-3 gap-4 h-[400px]">
-                                <div className="col-span-2 relative rounded-lg overflow-hidden">
-                                    <Image src={project.images[0].imageUrl} alt={project.images[0].description} fill className="object-cover" data-ai-hint={project.images[0].imageHint} />
-                                </div>
-                                <div className="col-span-1 grid grid-rows-2 gap-4">
-                                    <div className="relative rounded-lg overflow-hidden">
-                                        <Image src={project.images[1].imageUrl} alt={project.images[1].description} fill className="object-cover" data-ai-hint={project.images[1].imageHint} />
-                                    </div>
-                                    <div className="relative rounded-lg overflow-hidden">
-                                        <Image src={project.images[2].imageUrl} alt={project.images[2].description} fill className="object-cover" data-ai-hint={project.images[2].imageHint} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ScrollStackItem>
-                ))}
-            </ScrollStack>
+                        </ScrollStackItem>
+                    ))}
+                </ScrollStack>
+            </div>
         </section>
       </main>
     </div>
