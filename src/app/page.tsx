@@ -110,23 +110,24 @@ const testimonials = [
 const AboutSection = () => {
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut" } }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
+            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764402597/Gemini_Generated_Image_kcfb5dkcfb5dkcfb-removebg-preview_p8qj1y.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={224} height={224} className="object-contain" />
+            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="absolute top-1/4 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764402597/Gemini_Generated_Image_kcfb5dkcfb5dkcfb-removebg-preview_p8qj1y.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={224} height={224} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: -50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }} animate={{ y: [0, -10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
+            <motion.div initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764402597/Gemini_Generated_Image_kcfb5dkcfb5dkcfb-removebg-preview_p8qj1y.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={176} height={176} className="object-contain" />
             </motion.div>
-            <motion.div initial={{ y: 50, x: 50, opacity: 0 }} whileInView={{ y: 0, x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} animate={{ y: [0, 10, 0], transition: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 } }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d flower icon" width={176} height={176} className="object-contain" />
+            <motion.div initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} className="absolute bottom-1/4 right-10 md:right-40 w-32 h-32 md:w-44 md-h-44">
+                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764402597/Gemini_Generated_Image_kcfb5dkcfb5dkcfb-removebg-preview_p8qj1y.png" alt="Floating 3D element" data-ai-hint="3d code icon" width={176} height={176} className="object-contain" />
             </motion.div>
 
             <motion.h2
                 initial={{ '--bg-size': '0%' }}
                 whileInView={{ '--bg-size': '100%' }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
+                viewport={{ once: true }}
                 className={cn("animated-heading text-6xl md:text-8xl font-black text-white tracking-tighter mb-8", fontHeading.className)}
             >
                 ABOUT ME
@@ -157,6 +158,7 @@ const ProjectsSection = () => {
                   initial={{ '--bg-size': '0%' }}
                   whileInView={{ '--bg-size': '100%' }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
+                  viewport={{ once: true }}
                   className={cn("animated-heading text-6xl md:text-8xl font-black tracking-tighter", fontHeading.className)}>
                     MY PROJECTS
                 </motion.h2>
@@ -190,6 +192,7 @@ const TestimonialsSection = () => {
                       initial={{ '--bg-size': '0%' }}
                       whileInView={{ '--bg-size': '100%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
+                      viewport={{ once: true }}
                       className={cn("animated-heading text-4xl md:text-6xl font-black tracking-tighter", fontHeading.className)}>
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
