@@ -80,18 +80,18 @@ export default function Home() {
         </section>
         
         <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-            <div className="absolute top-1/4 left-10 md:left-20 w-24 h-24 md:w-32 md:h-32">
+            <motion.div initial={{ y: 50 }} whileInView={{ y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="absolute top-1/4 left-10 md:left-20 w-24 h-24 md:w-32 md:h-32">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312210/Gemini_Generated_Image_w9g8dnw9g8dnw9g8-removebg-preview_oprjif.png" alt="3D glass shape" data-ai-hint="3d glass shape" width={200} height={200} className="object-contain" />
-            </div>
-            <div className="absolute top-1/4 right-10 md:right-20 w-24 h-24 md:w-32 md:h-32">
+            </motion.div>
+            <motion.div initial={{ y: 50 }} whileInView={{ y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="absolute top-1/4 right-10 md:right-20 w-24 h-24 md:w-32 md:h-32">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312216/Gemini_Generated_Image_qf5r2fqf5r2fqf5r-removebg-preview_j0yvlw.png" alt="3D geometric shape" data-ai-hint="3d geometric shape" width={200} height={200} className="object-contain" />
-            </div>
-            <div className="absolute bottom-1/4 left-10 md:left-40 w-20 h-20 md:w-24 md:h-24">
+            </motion.div>
+            <motion.div initial={{ y: 50 }} whileInView={{ y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="absolute bottom-1/4 left-10 md:left-40 w-20 h-20 md:w-24 md:h-24">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312204/Gemini_Generated_Image_g9yusbg9yusbg9yu-removebg-preview_s6a7yp.png" alt="3D heart shape" data-ai-hint="3d heart shape" width={150} height={150} className="object-contain" />
-            </div>
-            <div className="absolute bottom-1/4 right-10 md:right-40 w-20 h-20 md:w-24 md:h-24">
+            </motion.div>
+            <motion.div initial={{ y: 50 }} whileInView={{ y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="absolute bottom-1/4 right-10 md:right-40 w-20 h-20 md:w-24 md:h-24">
                 <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312207/Gemini_Generated_Image_npg1nznpg1nznpg1-removebg-preview_ofrnzz.png" alt="3D flower shape" data-ai-hint="3d flower shape" width={150} height={150} className="object-contain" />
-            </div>
+            </motion.div>
 
             <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-8">ABOUT ME</h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-12">
