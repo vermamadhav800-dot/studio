@@ -220,7 +220,7 @@ const ProjectsSection = () => {
     return (
         <section id="projects" className="relative bg-black text-white py-20">
             <div className="container mx-auto text-center mb-12">
-                 <div className="flex justify-center items-center gap-4">
+                <div className="flex justify-center items-center gap-4">
                     <motion.h2
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -243,7 +243,7 @@ const ProjectsSection = () => {
 }
 
 const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-    <div className="bg-black p-6 rounded-2xl border border-white flex flex-col items-start gap-4 w-[350px] shrink-0">
+    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] shrink-0">
         <div className="flex items-center gap-4">
             <Image
                 src={testimonial.image}
@@ -285,7 +285,7 @@ const TestimonialsSection = () => {
                     >
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
-                     <LottiePlayer
+                    <LottiePlayer
                         src="https://lottie.host/e3f1a0e6-2b59-4089-9a63-718a0320b66b/4JIK5aYc1X.json"
                         style={{ height: 100, width: 100 }}
                         loop
@@ -332,7 +332,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348386/Gemini_Generated_Image_lzcw7klzcw7klzcw__1_-removebg-preview_lpxuli.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -459,6 +459,17 @@ export default function Home() {
 
         <ProjectsSection />
 
+        <section className="bg-black w-full py-10">
+            <Image 
+                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif" 
+                alt="Animated banner"
+                width={1920}
+                height={400}
+                className="w-full h-auto max-h-[400px] object-cover"
+                unoptimized
+            />
+        </section>
+
         <TestimonialsSection />
 
         <ContactSection />
@@ -467,3 +478,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
