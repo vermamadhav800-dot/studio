@@ -39,13 +39,13 @@
     {
       "id": "project-2-small-2",
       "description": "A colorful 3D rendered landscape.",
-      "imageUrl": "https://images.unsplash.com/photo-1555410347-b4b31a5da298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb2xvcmZ1bCUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1555410347-b4b31a5da298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb2xvcmZ1bCUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "colorful landscape"
     },
     {
       "id": "project-3-large",
       "description": "A 3D render of a futuristic cityscape.",
-      "imageUrl": "https://images.unsplash.com/photo-1597006372162-848bbbe84b99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmdXR1cmlzdGljJTIwY2l0eXNjYXBlfGVufDB8fHx8MTc2NDIzMjkxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1597006372162-848bbbe84b99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmdXR1cmlzdGljJTIwY2l0eXNjYXBlfGVufDB8fHx8MTc2NDIzMjkxMXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "futuristic cityscape"
     },
     {
@@ -62,21 +62,21 @@
     },
     {
       "id": "project-4-large",
-      "description": "A serene 3D render of a natural landscape.",
-      "imageUrl": "https://images.unsplash.com/photo-1720760637240-45bc41fe31ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzZXJlbmUlMjBsYW5kc2NhcGV8ZW58MHx8fHwxNzY0MjkzMTA3fDA&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "serene landscape"
+      "description": "Screenshot of a weather app.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352617/Screenshot_2025-11-28_232416_psjbvp.jpg",
+      "imageHint": "weather app"
     },
     {
       "id": "project-4-small-1",
-      "description": "A close-up of 3D rendered water.",
-      "imageUrl": "https://images.unsplash.com/photo-1634907959518-a453d38d5aca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8M2QlMjB3YXRlcnxlbnwwfHx8fDE3NjQzMjI0NzF8MA&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "3d water"
+      "description": "Screenshot of a weather app's forecast.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352703/Screenshot_2025-11-28_232456_olj2n2.jpg",
+      "imageHint": "weather forecast"
     },
     {
       "id": "project-4-small-2",
-      "description": "A 3D render of clouds from above.",
-      "imageUrl": "https://images.unsplash.com/photo-1761813409581-b9bb42252d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjbG91ZHMlMjBhYm92ZXxlbnwwfHx8fDE3NjQzMjI0NzJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "clouds above"
+      "description": "Screenshot of a weather app's hourly details.",
+      "imageUrl": "https://res.cloudinary.com/dvfyk41km/image/upload/v1764352750/Screenshot_2025-11-28_232518_h9a3az.jpg",
+      "imageHint": "weather details"
     }
   ]
 }

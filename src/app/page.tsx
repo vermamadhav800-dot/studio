@@ -70,7 +70,7 @@ const projects = [
     },
     {
         id: '04',
-        client: 'Nova Digital',
+        client: 'Madhav Verma',
         liveProjectLink: '#',
         images: [
             PlaceHolderImages.find(p => p.id === 'project-4-large')!,
@@ -560,3 +560,6 @@ export default function Home() {
     
 
 
+
+
+    
