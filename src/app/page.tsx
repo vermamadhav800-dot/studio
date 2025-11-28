@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { TiltableImage } from '@/components/ui/TiltableImage';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiFirebase } from 'react-icons/si';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ScrollStack } from '@/components/ui/ScrollStack';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { LottiePlayer } from '@/components/ui/LottiePlayer';
@@ -119,6 +119,30 @@ const testimonials = [
   },
 ];
 
+const AnimatedTitle = () => {
+  const { scrollYProgress } = useScroll();
+  const backgroundPosition = useTransform(
+    scrollYProgress,
+    [0, 0.2],
+    ['100% 0%', '0% 0%']
+  );
+
+  return (
+    <motion.h1
+      className={cn(
+        "text-6xl md:text-8xl lg:text-[11vw] font-black bg-clip-text text-transparent tracking-tighter leading-none w-full mt-36",
+        fontHeading.className
+      )}
+      style={{
+        backgroundImage: 'linear-gradient(to right, white 50%, #4a4a4a 50%)',
+        backgroundSize: '200% 100%',
+        backgroundPosition,
+      }}
+    >
+      HI, I'M MADHAV
+    </motion.h1>
+  );
+};
 
 const AboutSection = () => {
     const aboutText = "With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let's create something amazing together!";
@@ -390,9 +414,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className={cn("text-6xl md:text-8xl lg:text-[11vw] font-black bg-gradient-to-b from-gray-400 to-white bg-clip-text text-transparent tracking-tighter leading-none w-full mt-36", fontHeading.className)}>
-            HI, I'M MADHAV
-          </h1>
+          <AnimatedTitle />
           
           <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl">
             <div className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
@@ -443,12 +465,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
-
-
-
-
-
