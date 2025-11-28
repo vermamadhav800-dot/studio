@@ -272,7 +272,7 @@ const TestimonialsSection = () => {
     return (
         <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
             <div className="container mx-auto text-center mb-20">
-                 <div className="flex justify-center items-center gap-4">
+                 <div className="flex flex-col md:flex-row justify-center items-center gap-4">
                     <motion.h2
                         initial={{ opacity: 0, x: -100 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -281,6 +281,19 @@ const TestimonialsSection = () => {
                     >
                         WHAT CLIENTS ARE SAYING
                     </motion.h2>
+                    <motion.div
+                        initial={{ opacity: 0, rotate: -15, x: 50 }}
+                        whileInView={{ opacity: 1, rotate: 0, x: 0 }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                    >
+                        <Image 
+                            src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350279/512_acmd9n.gif"
+                            alt="animated character"
+                            width={100}
+                            height={100}
+                            unoptimized
+                        />
+                    </motion.div>
                 </div>
             </div>
             <div className="flex flex-col gap-8">
@@ -331,7 +344,7 @@ const ContactSection = () => {
                     transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
                     className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
                 >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348386/Gemini_Generated_Image_lzcw7klzcw7klzcw__1_-removebg-preview_lpxuli.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
+                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D purple shape" data-ai-hint="3d abstract shape" width={128} height={128} />
                 </motion.div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
