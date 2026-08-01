@@ -19,11 +19,10 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2, Camera
+  CheckCircle2, Camera, ExternalLink
 } from 'lucide-react';
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
-import Stack from '@/components/ui/Stack';
 import FlowingMenu from '@/components/ui/FlowingMenu';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,13 +37,6 @@ const Model3D = dynamic(() => import('@/components/ui/Model3D'), {
 const iconMap: Record<string, any> = {
   Users, MapPin, Trophy, Zap
 };
-
-const DUMMY_EVENTS: Event[] = [
-  { id: '1', day: 'MON', time: '06:00 AM', location: 'CP, DELHI', type: 'INTERVALS' },
-  { id: '2', day: 'WED', time: '06:00 AM', location: 'LODHI GARDEN', type: 'TEMPO HUNT' },
-  { id: '3', day: 'FRI', time: '06:00 AM', location: 'CP, DELHI', type: 'EASY RUN' },
-  { id: '4', day: 'SUN', time: '05:30 AM', location: 'GURGAON', type: 'LONG DISTANCE' },
-];
 
 const DUMMY_STATS: ClubStat[] = [
   { id: 'runs', label: 'TOTAL RUNS', value: '420+', icon_name: 'Zap', sort_order: 1 },
@@ -212,7 +204,6 @@ const ArchivesSection = () => {
                  <h4 className={cn("text-2xl font-black text-white tracking-tighter", fontHeading.className)}>{item.title}</h4>
                  <div className="w-0 h-px bg-primary group-hover:w-full transition-all duration-700 mt-4 opacity-50" />
                </div>
-               {/* Scanline Effect Overlay */}
                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20" />
              </motion.div>
            ))}
@@ -222,86 +213,142 @@ const ArchivesSection = () => {
   );
 };
 
-const ScheduleSection = ({ events, onJoin, joinedIds }: { 
-  events: Event[], 
-  onJoin: (id: string) => void,
-  joinedIds: string[]
-}) => {
-  const cards = events.map((event) => (
-    <div 
-      key={event.id} 
-      className={cn(
-        "w-full h-full bg-zinc-900 border border-white/10 p-10 hover:border-primary transition-all duration-500 rounded-[2.5rem] flex flex-col justify-between relative overflow-hidden",
-        joinedIds.includes(event.id) && "border-primary bg-primary/20"
-      )}
-    >
-      <div>
-        <span className={cn("text-5xl font-black text-white/10 block mb-6 transition-colors", fontHeading.className)}>
-          {event.day}
-        </span>
-        <div className="relative z-10">
-          <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{event.time}</p>
-          <h4 className="text-2xl font-black text-white mb-4 transition-colors">{event.type}</h4>
-          <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-4">
-            <MapPin className="w-4 h-4" /> {event.location}
-          </div>
-        </div>
-      </div>
-      
-      <Button 
-        onClick={(e) => {
-          e.stopPropagation();
-          onJoin(event.id);
-        }}
-        disabled={joinedIds.includes(event.id)}
-        className={cn(
-          "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg cursor-pointer",
-          joinedIds.includes(event.id) 
-            ? "bg-primary text-black" 
-            : "bg-white text-black hover:bg-primary"
-        )}
-      >
-        {joinedIds.includes(event.id) ? (
-          <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
-        ) : (
-          "JOIN EVENT"
-        )}
-      </Button>
-    </div>
-  ));
+const ScheduleSection = () => {
+  const [activeTab, setActiveTab] = useState('All');
+  const tabs = ['All', 'Upcoming', 'Past'];
+  
+  const posters = [
+    {
+      id: 1,
+      title: 'YEH RUN NA MILEGI DOBARA',
+      date: 'AUGUST 2',
+      day: 'SUNDAY',
+      theme: 'red',
+      image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
+      subtitle: 'JOIN US THIS SUNDAY',
+      tags: ['REGISTER NOW']
+    },
+    {
+      id: 2,
+      title: 'MONSOON RUN & CHILL',
+      date: 'JULY 26',
+      day: 'SUNDAY 7:00 AM',
+      theme: 'dark',
+      image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
+      subtitle: 'TRACK SERIES',
+      tags: ['TUG OF WAR', 'SPRINT RACES']
+    },
+    {
+      id: 3,
+      title: 'RUN & PLAY',
+      date: '12 JULY',
+      day: '5:30 AM',
+      theme: 'green',
+      image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
+      subtitle: 'ZUMBA & PICKLE BALL',
+      tags: ['ZUMBA', 'PICKLE BALL']
+    },
+    {
+      id: 4,
+      title: 'THE SOCIAL',
+      date: '28 JUNE',
+      day: 'SUNDAY',
+      theme: 'pink',
+      image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
+      subtitle: 'TRACK SERIES',
+      tags: ['FREE RUN', 'POST-RUN SCHEDULE']
+    }
+  ];
 
   return (
-    <section id="schedule" className="py-40 px-8 bg-black relative">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col items-center mb-24 gap-8 text-center">
-          <div className="space-y-4">
-            <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Operational Schedule</span>
-            <ScrollFloat
-              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter uppercase", fontHeading.className)}
-            >
-              WEEKLY EVENTS
-            </ScrollFloat>
-          </div>
-          <div className="h-20 w-20 rounded-2xl border border-white/10 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
-            <Calendar className="w-8 h-8 text-primary" />
+    <section id="schedule" className="py-32 px-6 md:px-12 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-16">
+          <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter", fontHeading.className)}>
+            Events
+          </h2>
+          <div className="max-w-xl">
+            <p className="text-white/80 text-lg md:text-xl font-medium leading-snug">
+              Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise, and another community waiting for you.
+            </p>
           </div>
         </div>
 
-        <div className="flex justify-center items-center h-[500px]">
-          <div className="w-[350px] h-[450px]">
-            <Stack 
-              cards={cards} 
-              randomRotation={false} 
-              sensitivity={180} 
-              sendToBackOnClick={true}
-              autoplay={true}
-            />
-          </div>
+        <div className="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "px-8 py-3 rounded-full font-bold text-sm tracking-widest uppercase transition-all whitespace-nowrap",
+                activeTab === tab 
+                  ? "bg-white text-black" 
+                  : "bg-zinc-900 text-white/40 hover:text-white"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
-        
-        <p className="text-center text-white/30 text-[10px] font-black uppercase tracking-[0.3em] mt-12">
-          Swipe or click to browse mission roster
-        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {posters.map((poster) => (
+            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden rounded-[2rem] bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
+              <Image 
+                src={poster.image}
+                alt={poster.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-[0.7]"
+              />
+              
+              <div className={cn(
+                "absolute inset-0 transition-opacity duration-500 opacity-60",
+                poster.theme === 'red' && "bg-gradient-to-t from-red-900/80 via-transparent to-red-600/20",
+                poster.theme === 'dark' && "bg-gradient-to-t from-black/80 via-transparent to-zinc-900/20",
+                poster.theme === 'green' && "bg-gradient-to-t from-primary/60 via-transparent to-primary/10",
+                poster.theme === 'pink' && "bg-gradient-to-t from-pink-900/80 via-transparent to-pink-600/20"
+              )} />
+
+              <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
+                <div className="flex flex-col gap-1">
+                   <span className="text-white font-black text-[10px] tracking-widest uppercase opacity-60">{poster.day}</span>
+                   <div className="flex items-center gap-2">
+                     <span className={cn(
+                       "text-4xl font-black italic",
+                       poster.theme === 'green' ? "text-primary" : "text-white"
+                     )}>{poster.date}</span>
+                   </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <span className={cn(
+                      "text-[10px] font-black tracking-[0.3em] uppercase block",
+                      poster.theme === 'green' ? "text-primary" : "text-white/60"
+                    )}>{poster.subtitle}</span>
+                    <h4 className={cn("text-3xl font-black italic text-white leading-none uppercase", fontHeading.className)}>
+                      {poster.title}
+                    </h4>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                    {poster.tags.map(tag => (
+                      <span key={tag} className="text-[8px] font-black text-white/60 tracking-widest uppercase border border-white/20 px-2 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                 <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                    <ArrowRight className="w-4 h-4 text-black" />
+                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -391,10 +438,7 @@ const Footer = () => (
 export default function Home() {
   const router = useRouter();
   const [logoClicks, setLogoClicks] = useState(0);
-  const [events, setEvents] = useState<Event[]>(DUMMY_EVENTS);
   const [stats, setStats] = useState<ClubStat[]>(DUMMY_STATS);
-  const [joinedIds, setJoinedIds] = useState<string[]>([]);
-  const { toast } = useToast();
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -420,19 +464,6 @@ export default function Home() {
     };
   }, []);
 
-  const handleJoin = async (eventId: string) => {
-    if (joinedIds.includes(eventId)) return;
-
-    const email = prompt("Enter Squad Member Email to Confirm Booking:");
-    if (!email) return;
-
-    setJoinedIds(prev => [...prev, eventId]);
-    toast({
-      title: "Event Joined",
-      description: "Squad confirmed. See you at the location.",
-    });
-  };
-
   const handleLogoClick = () => {
     const newCount = logoClicks + 1;
     setLogoClicks(newCount);
@@ -453,11 +484,7 @@ export default function Home() {
         <StatsSection stats={stats} />
         <VisionSection />
         <ArchivesSection />
-        <ScheduleSection 
-          events={events} 
-          onJoin={handleJoin}
-          joinedIds={joinedIds}
-        />
+        <ScheduleSection />
         <GallerySection />
         <TacticalSelection />
         <Footer />
