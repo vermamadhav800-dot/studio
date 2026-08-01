@@ -84,12 +84,13 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1.2, 1.0]);
+  // Reduced zoom initial scale to show more photo as requested
+  const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1.0]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [0.4, 0.9]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
-    <section ref={containerRef} className="relative h-[120vh] flex flex-col items-center justify-center overflow-hidden bg-black">
+    <section ref={containerRef} className="relative h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-black">
       <motion.div 
         style={{ scale }}
         className="absolute inset-0 z-0"
