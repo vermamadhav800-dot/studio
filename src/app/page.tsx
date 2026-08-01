@@ -20,8 +20,9 @@ import {
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
   CheckCircle2, Shield, AlertTriangle, Loader2
 } from 'lucide-react';
-import { type Mission, type ClubStat } from '@/lib/supabase';
+import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
+import Stack from '@/components/ui/Stack';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,8 +37,7 @@ const iconMap: Record<string, any> = {
   Users, MapPin, Trophy, Zap
 };
 
-// DUMMY TACTICAL DATA
-const DUMMY_MISSIONS: Mission[] = [
+const DUMMY_EVENTS: Event[] = [
   { id: '1', day: 'MON', time: '06:00 AM', location: 'CP, DELHI', type: 'INTERVALS' },
   { id: '2', day: 'WED', time: '06:00 AM', location: 'LODHI GARDEN', type: 'TEMPO HUNT' },
   { id: '3', day: 'FRI', time: '06:00 AM', location: 'CP, DELHI', type: 'EASY RUN' },
@@ -65,7 +65,7 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
-      <Link href="#schedule" className="hover:text-primary transition-colors">SCHEDULE</Link>
+      <Link href="#schedule" className="hover:text-primary transition-colors">EVENTS</Link>
       <Link href="#gallery" className="hover:text-primary transition-colors">VAULT</Link>
       <Link href="#join" className="group flex items-center gap-2 text-white border-b border-primary pb-1">
         JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -179,62 +179,81 @@ const VisionSection = () => {
   );
 };
 
-const ScheduleSection = ({ missions, onJoin, joinedIds }: { 
-  missions: Mission[], 
+const ScheduleSection = ({ events, onJoin, joinedIds }: { 
+  events: Event[], 
   onJoin: (id: string) => void,
   joinedIds: string[]
 }) => {
+  const cards = events.map((event) => (
+    <div 
+      key={event.id} 
+      className={cn(
+        "w-full h-full bg-zinc-900 border border-white/20 p-10 hover:border-primary transition-all duration-500 rounded-[2.5rem] flex flex-col justify-between relative overflow-hidden",
+        joinedIds.includes(event.id) && "border-primary bg-primary/20"
+      )}
+    >
+      <div>
+        <span className={cn("text-5xl font-black text-white/10 block mb-6 transition-colors", fontHeading.className)}>
+          {event.day}
+        </span>
+        <div className="relative z-10">
+          <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{event.time}</p>
+          <h4 className="text-2xl font-black text-white mb-4 transition-colors">{event.type}</h4>
+          <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-4">
+            <MapPin className="w-4 h-4" /> {event.location}
+          </div>
+        </div>
+      </div>
+      
+      <Button 
+        onClick={(e) => {
+          e.stopPropagation();
+          onJoin(event.id);
+        }}
+        disabled={joinedIds.includes(event.id)}
+        className={cn(
+          "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg cursor-pointer",
+          joinedIds.includes(event.id) 
+            ? "bg-primary text-black" 
+            : "bg-white text-black hover:bg-primary"
+        )}
+      >
+        {joinedIds.includes(event.id) ? (
+          <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
+        ) : (
+          "JOIN EVENT"
+        )}
+      </Button>
+    </div>
+  ));
+
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
-            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(186,255,0,0.5)]">MISSIONS</span>
+            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(186,255,0,0.5)]">EVENTS</span>
           </h2>
           <div className="h-20 w-20 rounded-2xl border border-white/30 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
             <Calendar className="w-8 h-8 text-primary" />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {missions.map((run) => (
-            <div 
-              key={run.id} 
-              className={cn(
-                "bg-zinc-900/60 border border-white/20 p-12 hover:border-primary transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
-                joinedIds.includes(run.id) && "border-primary bg-primary/20"
-              )}
-            >
-              <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
-                {run.day}
-              </span>
-              <div className="relative z-10">
-                <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
-                <h4 className="text-2xl font-black text-white mb-4 transition-colors">{run.type}</h4>
-                <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-8">
-                  <MapPin className="w-4 h-4" /> {run.location}
-                </div>
-                
-                <Button 
-                  onClick={() => onJoin(run.id)}
-                  disabled={joinedIds.includes(run.id)}
-                  className={cn(
-                    "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg cursor-pointer",
-                    joinedIds.includes(run.id) 
-                      ? "bg-primary text-black" 
-                      : "bg-white text-black hover:bg-primary"
-                  )}
-                >
-                  {joinedIds.includes(run.id) ? (
-                    <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
-                  ) : (
-                    "JOIN MISSION"
-                  )}
-                </Button>
-              </div>
-            </div>
-          ))}
+        <div className="flex justify-center items-center h-[500px]">
+          <div className="w-[350px] h-[450px]">
+            <Stack 
+              cards={cards} 
+              randomRotation={true} 
+              sensitivity={180} 
+              sendToBackOnClick={true}
+              autoplay={true}
+            />
+          </div>
         </div>
+        
+        <p className="text-center text-white/30 text-[10px] font-black uppercase tracking-[0.3em] mt-12">
+          Swipe or click to browse mission roster
+        </p>
       </div>
     </section>
   );
@@ -272,7 +291,7 @@ const Footer = () => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
         <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(186,255,0,0.5)]">JOIN?</span></h2>
         <div className="space-y-10">
-          <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only runs, and tactical gear.</p>
+          <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
           <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
@@ -296,7 +315,7 @@ const Footer = () => (
 export default function Home() {
   const router = useRouter();
   const [logoClicks, setLogoClicks] = useState(0);
-  const [missions, setMissions] = useState<Mission[]>(DUMMY_MISSIONS);
+  const [events, setEvents] = useState<Event[]>(DUMMY_EVENTS);
   const [stats, setStats] = useState<ClubStat[]>(DUMMY_STATS);
   const [joinedIds, setJoinedIds] = useState<string[]>([]);
   const { toast } = useToast();
@@ -325,15 +344,15 @@ export default function Home() {
     };
   }, []);
 
-  const handleJoin = async (missionId: string) => {
-    if (joinedIds.includes(missionId)) return;
+  const handleJoin = async (eventId: string) => {
+    if (joinedIds.includes(eventId)) return;
 
     const email = prompt("Enter Squad Member Email to Confirm Booking:");
     if (!email) return;
 
-    setJoinedIds(prev => [...prev, missionId]);
+    setJoinedIds(prev => [...prev, eventId]);
     toast({
-      title: "Mission Joined",
+      title: "Event Joined",
       description: "Squad confirmed. See you at the location.",
     });
   };
@@ -356,7 +375,7 @@ export default function Home() {
         <StatsSection stats={stats} />
         <VisionSection />
         <ScheduleSection 
-          missions={missions} 
+          events={events} 
           onJoin={handleJoin}
           joinedIds={joinedIds}
         />

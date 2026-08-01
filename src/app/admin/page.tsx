@@ -5,14 +5,13 @@ import { cn } from '@/lib/utils';
 import { fontHeading } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { type Mission, type Booking, type ClubStat } from '@/lib/supabase';
+import { type Mission as Event, type Booking, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Plus, Trash2, Zap, Users, MapPin, Trophy, ArrowLeft, Save, Loader2, RefreshCw
 } from 'lucide-react';
 
-// DUMMY INITIAL STATE
-const INITIAL_MISSIONS: Mission[] = [
+const INITIAL_EVENTS: Event[] = [
   { id: '1', day: 'MON', time: '06:00 AM', location: 'CP, DELHI', type: 'INTERVALS' },
   { id: '2', day: 'WED', time: '06:00 AM', location: 'LODHI GARDEN', type: 'TEMPO HUNT' },
   { id: '3', day: 'FRI', time: '06:00 AM', location: 'CP, DELHI', type: 'EASY RUN' },
@@ -28,14 +27,14 @@ const INITIAL_STATS: ClubStat[] = [
 
 export default function AdminPage() {
   const { toast } = useToast();
-  const [missions, setMissions] = useState<Mission[]>(INITIAL_MISSIONS);
+  const [events, setEvents] = useState<Event[]>(INITIAL_EVENTS);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [stats, setStats] = useState<ClubStat[]>(INITIAL_STATS);
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   
-  const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
+  const [newEvent, setNewEvent] = useState({ day: '', time: '', location: '', type: '' });
 
   useEffect(() => {
     const authStatus = typeof window !== 'undefined' ? localStorage.getItem('c9_admin_auth') : null;
@@ -46,29 +45,29 @@ export default function AdminPage() {
     }
   }, []);
 
-  const handleAddMission = () => {
+  const handleAddEvent = () => {
     if (isSubmitting) return;
-    if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
+    if (!newEvent.day || !newEvent.time || !newEvent.location || !newEvent.type) {
       toast({ variant: "destructive", title: "Intel Missing", description: "All fields required." });
       return;
     }
 
     setIsSubmitting(true);
     setTimeout(() => {
-      const mission: Mission = {
+      const event: Event = {
         id: Math.random().toString(36).substr(2, 9),
-        ...newMission
+        ...newEvent
       };
-      setMissions(prev => [...prev, mission]);
-      setNewMission({ day: '', time: '', location: '', type: '' });
+      setEvents(prev => [...prev, event]);
+      setNewEvent({ day: '', time: '', location: '', type: '' });
       setIsSubmitting(false);
-      toast({ title: "MISSION LOGGED", description: "Local database updated." });
+      toast({ title: "EVENT LOGGED", description: "Local database updated." });
     }, 500);
   };
 
-  const handleDeleteMission = (id: string) => {
-    setMissions(prev => prev.filter(m => m.id !== id));
-    toast({ title: "Mission Erased" });
+  const handleDeleteEvent = (id: string) => {
+    setEvents(prev => prev.filter(m => m.id !== id));
+    toast({ title: "Event Erased" });
   };
 
   const handleUpdateStat = (stat: ClubStat) => {
@@ -85,13 +84,10 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 relative overflow-x-hidden selection:bg-primary selection:text-black">
-      {/* Background Layer - Pointer Events None */}
       <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none z-0" />
       
-      {/* Interaction Layer */}
       <div className="max-w-7xl mx-auto space-y-16 relative z-50 pointer-events-auto">
         
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
           <div>
             <Button 
@@ -114,17 +110,16 @@ export default function AdminPage() {
           </Button>
         </div>
 
-        {/* Missions Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-1 space-y-6">
-            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY MISSION</h2>
+            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY EVENT</h2>
             <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4">
-              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
-              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+              <Input placeholder="DAY (e.g. MON)" value={newEvent.day} onChange={(e) => setNewEvent({...newEvent, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+              <Input placeholder="TIME (e.g. 06:00 AM)" value={newEvent.time} onChange={(e) => setNewEvent({...newEvent, time: e.target.value})} className="bg-black/50 h-14" />
+              <Input placeholder="LOCATION" value={newEvent.location} onChange={(e) => setNewEvent({...newEvent, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+              <Input placeholder="RUN TYPE" value={newEvent.type} onChange={(e) => setNewEvent({...newEvent, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Button 
-                onClick={handleAddMission} 
+                onClick={handleAddEvent} 
                 disabled={isSubmitting} 
                 className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer"
               >
@@ -134,29 +129,28 @@ export default function AdminPage() {
           </div>
 
           <div className="lg:col-span-2 space-y-6">
-            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Zap className="text-primary" /> ACTIVE SCHEDULE</h2>
+            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Zap className="text-primary" /> ACTIVE EVENTS</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {missions.length > 0 ? missions.map(mission => (
-                <div key={mission.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all">
+              {events.length > 0 ? events.map(event => (
+                <div key={event.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all">
                   <div>
-                    <span className="text-primary font-black text-xs block mb-1">{mission.day} • {mission.time}</span>
-                    <h4 className="font-black text-xl uppercase">{mission.type}</h4>
-                    <p className="text-white/40 text-[10px] uppercase">{mission.location}</p>
+                    <span className="text-primary font-black text-xs block mb-1">{event.day} • {event.time}</span>
+                    <h4 className="font-black text-xl uppercase">{event.type}</h4>
+                    <p className="text-white/40 text-[10px] uppercase">{event.location}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer">
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteEvent(event.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer">
                     <Trash2 className="w-5 h-5" />
                   </Button>
                 </div>
               )) : (
                 <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
-                  No missions logged
+                  No events logged
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Stats Section */}
         <div className="space-y-8">
            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Trophy className="text-primary" /> CLUB INTEL (STATS)</h2>
            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -189,9 +183,8 @@ export default function AdminPage() {
            </div>
         </div>
 
-        {/* Roster Section */}
         <div className="space-y-8 pb-20">
-          <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER (DUMMY)</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
              {bookings.length === 0 ? (
                 <div className="col-span-full py-10 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
