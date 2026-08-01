@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -23,8 +22,6 @@ import {
 } from 'lucide-react';
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
-import FlowingMenu from '@/components/ui/FlowingMenu';
-import FlyingPosters from '@/components/ui/FlyingPosters';
 import BubbleMenu from '@/components/ui/BubbleMenu';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import CircularText from '@/components/ui/CircularText';
@@ -82,7 +79,6 @@ const Hero = () => {
 
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.0]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [0.3, 0.8]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
     <section ref={containerRef} className="relative h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-black">
@@ -110,13 +106,12 @@ const Hero = () => {
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: false }}
           transition={{ duration: 1, ease: "easeOut" }}
-          style={{ y: textY }}
           className="text-left space-y-6"
         >
           <div className="overflow-hidden">
              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
              <h1 className={cn("text-6xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>
-               Run beyond <br /> limits
+               Run beyond limits
              </h1>
           </div>
           
@@ -124,7 +119,7 @@ const Hero = () => {
             Elite running community built for athletes, warriors and those who refuse average.
           </p>
 
-          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-10 py-6 font-black text-sm group shadow-xl cursor-pointer">
+          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-10 py-6 font-black text-sm group shadow-xl cursor-pointer uppercase tracking-widest">
             Join the Squad →
           </Button>
         </motion.div>
@@ -159,63 +154,36 @@ const Hero = () => {
   );
 };
 
-const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
+const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }: { images: string[], speed?: number, delay?: number, reverse?: boolean }) => {
   return (
-    <section className="py-20 px-8 bg-black relative border-y border-white/5">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
-        {stats.map((stat, i) => {
-          return (
-            <motion.div 
-              key={i} 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: false }}
-              transition={{ delay: i * 0.1 }}
-              className="flex flex-col items-center text-center group"
-            >
-              <span className={cn("text-5xl md:text-6xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>{stat.value}</span>
-              <span className="text-[10px] font-black tracking-[0.3em] text-primary mt-2 uppercase">{stat.label}</span>
-            </motion.div>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
-
-const VisionSection = () => {
-  return (
-    <section id="about" className="py-40 px-8 overflow-hidden bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <div>
-            <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
-            <ScrollFloat
-              containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
-            >
-              Discipline over motivation.
-            </ScrollFloat>
-          </div>
-          <div className="space-y-8">
-            <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium font-heading">
-              <ScrollReveal baseOpacity={0.2} blurStrength={10} wordAnimationEnd="bottom center">
-                C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
-              </ScrollReveal>
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: false }}
-              >
-                <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-7 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
-                  Learn our Creed →
-                </Button>
-              </motion.div>
+    <div className="flex flex-col gap-6 relative h-[200vh] overflow-hidden">
+      <motion.div 
+        initial={{ y: reverse ? "-50%" : "0%" }}
+        animate={{ y: reverse ? "0%" : "-50%" }}
+        transition={{ 
+          duration: speed, 
+          repeat: Infinity, 
+          ease: "linear",
+          delay: delay
+        }}
+        className="flex flex-col gap-6"
+      >
+        {[...images, ...images].map((img, i) => (
+          <div key={i} className="relative aspect-[4/5] w-full bg-zinc-900 border border-white/10 rounded-[2rem] overflow-hidden group">
+            <Image 
+              src={img} 
+              alt="Archive Item" 
+              fill 
+              className="object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-8 flex flex-col justify-end">
+               <span className="text-primary font-black text-[10px] tracking-widest uppercase mb-2">Intel Log {i}</span>
+               <h4 className="text-white font-black italic text-xl tracking-tighter uppercase font-heading">Archive entry</h4>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        ))}
+      </motion.div>
+    </div>
   );
 };
 
@@ -229,9 +197,9 @@ const ArchivesSection = () => {
   ];
 
   return (
-    <section id="archives" className="h-[120vh] bg-black overflow-hidden relative border-t border-white/5 flex flex-col">
-      <div className="max-w-7xl mx-auto px-8 w-full py-20 z-20">
-         <div className="flex flex-col md:flex-row justify-between items-end gap-8">
+    <section id="archives" className="h-[140vh] bg-black overflow-hidden relative border-t border-white/5 flex flex-col">
+      <div className="max-w-7xl mx-auto px-8 w-full py-24 z-20">
+         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
            <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
              <motion.span 
                initial={{ x: -20, opacity: 0 }}
@@ -259,14 +227,13 @@ const ArchivesSection = () => {
          </div>
       </div>
 
-      <div className="flex-1 w-full relative">
-        <FlyingPosters 
-          items={archiveImages}
-          planeWidth={400}
-          planeHeight={500}
-          distortion={2.5}
-          scrollEase={0.02}
-        />
+      <div className="flex-1 w-full max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 relative overflow-hidden h-[800px]">
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent z-10" />
+        
+        <VerticalScrollColumn images={archiveImages} speed={40} />
+        <VerticalScrollColumn images={[...archiveImages].reverse()} speed={30} reverse />
+        <VerticalScrollColumn images={archiveImages} speed={35} delay={5} />
       </div>
     </section>
   );
@@ -448,6 +415,66 @@ const GallerySection = () => {
          autoScrollDirection="left"
          font="black 32px var(--font-heading)"
        />
+    </section>
+  );
+};
+
+const VisionSection = () => {
+  return (
+    <section id="about" className="py-40 px-8 overflow-hidden bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div>
+            <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
+            <ScrollFloat
+              containerClassName="!text-left"
+              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+            >
+              Discipline over motivation.
+            </ScrollFloat>
+          </div>
+          <div className="space-y-8">
+            <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium font-heading">
+              <ScrollReveal baseOpacity={0.2} blurStrength={10} wordAnimationEnd="bottom center">
+                C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
+              </ScrollReveal>
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: false }}
+              >
+                <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-7 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
+                  Learn our Creed →
+                </Button>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
+  return (
+    <section className="py-20 px-8 bg-black relative border-y border-white/5">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
+        {stats.map((stat, i) => {
+          return (
+            <motion.div 
+              key={i} 
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: false }}
+              transition={{ delay: i * 0.1 }}
+              className="flex flex-col items-center text-center group"
+            >
+              <span className={cn("text-5xl md:text-6xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>{stat.value}</span>
+              <span className="text-[10px] font-black tracking-[0.3em] text-primary mt-2 uppercase">{stat.label}</span>
+            </motion.div>
+          );
+        })}
+      </div>
     </section>
   );
 };

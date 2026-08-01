@@ -2,28 +2,8 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import Image from 'next/image';
 import './Masonry.css';
-
-interface MasonryItem {
-  id: string;
-  img: string;
-  url?: string;
-  height: number;
-  title?: string;
-  category?: string;
-}
-
-interface MasonryProps {
-  items: MasonryItem[];
-  ease?: string;
-  duration?: number;
-  stagger?: number;
-  animateFrom?: 'top' | 'bottom' | 'left' | 'right' | 'center' | 'random';
-  scaleOnHover?: boolean;
-  hoverScale?: number;
-  blurToFocus?: boolean;
-  colorShiftOnHover?: boolean;
-}
 
 const useMedia = (queries: string[], values: number[], defaultValue: number) => {
   const get = () => {
@@ -64,13 +44,22 @@ const preloadImages = async (urls: string[]) => {
     urls.map(
       src =>
         new Promise<void>(resolve => {
-          const img = new Image();
+          const img = new (window as any).Image();
           img.src = src;
           img.onload = img.onerror = () => resolve();
         })
     )
   );
 };
+
+interface MasonryItem {
+  id: string;
+  img: string;
+  url?: string;
+  height: number;
+  title?: string;
+  category?: string;
+}
 
 const Masonry = ({
   items,
@@ -82,10 +71,20 @@ const Masonry = ({
   hoverScale = 0.95,
   blurToFocus = true,
   colorShiftOnHover = false
-}: MasonryProps) => {
+}: {
+  items: MasonryItem[];
+  ease?: string;
+  duration?: number;
+  stagger?: number;
+  animateFrom?: string;
+  scaleOnHover?: boolean;
+  hoverScale?: number;
+  blurToFocus?: boolean;
+  colorShiftOnHover?: boolean;
+}) => {
   const columns = useMedia(
     ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-    [4, 3, 2, 1],
+    [5, 4, 3, 2],
     1
   );
 
@@ -93,12 +92,13 @@ const Masonry = ({
   const [imagesReady, setImagesReady] = useState(false);
 
   const getInitialPosition = (item: any) => {
-    if (typeof window === 'undefined') return { x: item.x, y: item.y };
-    
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    if (!containerRect) return { x: item.x, y: item.y };
+
     let direction = animateFrom;
 
     if (animateFrom === 'random') {
-      const directions: Array<'top' | 'bottom' | 'left' | 'right'> = ['top', 'bottom', 'left', 'right'];
+      const directions = ['top', 'bottom', 'left', 'right'];
       direction = directions[Math.floor(Math.random() * directions.length)];
     }
 
@@ -113,8 +113,8 @@ const Masonry = ({
         return { x: window.innerWidth + 200, y: item.y };
       case 'center':
         return {
-          x: (width || 0) / 2 - item.w / 2,
-          y: 200
+          x: containerRect.width / 2 - item.w / 2,
+          y: containerRect.height / 2 - item.h / 2
         };
       default:
         return { x: item.x, y: item.y + 100 };
@@ -134,7 +134,7 @@ const Masonry = ({
     return items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      const height = child.height;
+      const height = child.height / 2;
       const y = colHeights[col];
 
       colHeights[col] += height;
@@ -146,7 +146,7 @@ const Masonry = ({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!imagesReady || !grid.length) return;
+    if (!imagesReady) return;
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -189,8 +189,7 @@ const Masonry = ({
     hasMounted.current = true;
   }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>, item: MasonryItem) => {
-    const element = e.currentTarget;
+  const handleMouseEnter = (e: React.MouseEvent, item: MasonryItem) => {
     const selector = `[data-key="${item.id}"]`;
 
     if (scaleOnHover) {
@@ -202,7 +201,7 @@ const Masonry = ({
     }
 
     if (colorShiftOnHover) {
-      const overlay = element.querySelector('.color-overlay');
+      const overlay = e.currentTarget.querySelector('.color-overlay');
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0.3,
@@ -212,8 +211,7 @@ const Masonry = ({
     }
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>, item: MasonryItem) => {
-    const element = e.currentTarget;
+  const handleMouseLeave = (e: React.MouseEvent, item: MasonryItem) => {
     const selector = `[data-key="${item.id}"]`;
 
     if (scaleOnHover) {
@@ -225,7 +223,7 @@ const Masonry = ({
     }
 
     if (colorShiftOnHover) {
-      const overlay = element.querySelector('.color-overlay');
+      const overlay = e.currentTarget.querySelector('.color-overlay');
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0,
@@ -236,46 +234,41 @@ const Masonry = ({
   };
 
   return (
-    <div ref={containerRef} className="list" style={{ minHeight: '800px' }}>
-      {grid.map(item => {
-        return (
-          <div
-            key={item.id}
-            data-key={item.id}
-            className="item-wrapper"
-            onClick={() => item.url && window.open(item.url, '_blank', 'noopener')}
-            onMouseEnter={e => handleMouseEnter(e, item)}
-            onMouseLeave={e => handleMouseLeave(e, item)}
-          >
-            <div className="item-img" style={{ backgroundImage: `url(${item.img})` }}>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 right-4 pointer-events-none">
-                <span className="text-primary font-black text-[8px] tracking-[0.2em] uppercase block mb-1 opacity-70">
-                  {item.category || 'INTEL'}
-                </span>
-                <h4 className="text-sm font-black text-white tracking-tighter uppercase leading-tight">
-                  {item.title || 'SQUAD_LOG'}
-                </h4>
-              </div>
-              {colorShiftOnHover && (
-                <div
-                  className="color-overlay"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(45deg, rgba(186,255,0,0.2), rgba(0,0,0,0.5))',
-                    opacity: 0,
-                    pointerEvents: 'none'
-                  }}
-                />
-              )}
+    <div ref={containerRef} className="list">
+      {grid.map(item => (
+        <div
+          key={item.id}
+          data-key={item.id}
+          className="item-wrapper"
+          onClick={() => item.url && window.open(item.url, '_blank', 'noopener')}
+          onMouseEnter={e => handleMouseEnter(e, item)}
+          onMouseLeave={e => handleMouseLeave(e, item)}
+        >
+          <div className="item-img relative overflow-hidden group" style={{ backgroundImage: `url(${item.img})` }}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+               <span className="text-primary font-black text-[8px] tracking-[0.2em] uppercase block mb-1">Archive {item.id}</span>
+               <h4 className="text-white font-black italic text-lg tracking-tighter leading-none font-heading uppercase">Squad intel</h4>
             </div>
+            {colorShiftOnHover && (
+              <div
+                className="color-overlay"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(45deg, rgba(186,255,0,0.2), rgba(0,0,0,0.5))',
+                  opacity: 0,
+                  pointerEvents: 'none',
+                  borderRadius: '10px'
+                }}
+              />
+            )}
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 };
