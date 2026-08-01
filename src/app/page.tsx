@@ -159,11 +159,13 @@ const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: ()
 };
 
 const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }: { images: string[], speed?: number, delay?: number, reverse?: boolean }) => {
+  const tripleImages = [...images, ...images, ...images];
+  
   return (
-    <div className="flex flex-col gap-6 relative h-[200vh] overflow-hidden will-change-transform">
+    <div className="flex flex-col gap-6 relative h-full overflow-hidden">
       <motion.div 
-        initial={{ y: reverse ? "-50%" : "0%" }}
-        animate={{ y: reverse ? "0%" : "-50%" }}
+        initial={{ y: reverse ? "-33.33%" : "0%" }}
+        animate={{ y: reverse ? "0%" : "-33.33%" }}
         transition={{ 
           duration: speed, 
           repeat: Infinity, 
@@ -172,18 +174,18 @@ const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }
         }}
         className="flex flex-col gap-6 will-change-transform"
       >
-        {[...images, ...images].map((img, i) => (
-          <div key={i} className="relative aspect-[4/5] w-full bg-zinc-900 border border-white/10 rounded-[2rem] overflow-hidden group">
+        {tripleImages.map((img, i) => (
+          <div key={i} className="relative aspect-[4/5] w-full bg-zinc-900 border border-white/10 rounded-[2rem] overflow-hidden group shadow-2xl">
             <Image 
               src={img} 
               alt="Archive Item" 
               fill 
-              className="object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+              className="object-cover brightness-[0.7] group-hover:scale-110 transition-transform duration-1000 ease-out"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-8 flex flex-col justify-end">
-               <span className="text-primary font-black text-[10px] tracking-widest uppercase mb-2">Intel Log {i}</span>
-               <h4 className="text-white font-black italic text-xl tracking-tighter uppercase font-heading">Archive entry</h4>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+               <span className="text-primary font-black text-[10px] tracking-[0.4em] uppercase mb-2">Intel Log {i}</span>
+               <h4 className="text-white font-black italic text-2xl tracking-tighter uppercase font-heading">Archive entry</h4>
             </div>
           </div>
         ))}
@@ -232,7 +234,7 @@ const ArchivesSection = () => {
          </div>
       </div>
 
-      <div className="flex-1 w-full max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 relative overflow-hidden h-[800px]">
+      <div className="flex-1 w-full max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 relative overflow-hidden h-[900px]">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent z-10" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent z-10" />
         
@@ -440,7 +442,7 @@ const VisionSection = () => {
             >
               <Model3D
                 modelPath="/models/model.glb"
-                className="w-full h-[400px] relative z-10"
+                className="w-full h-[500px] relative z-10"
               />
             </motion.div>
             <div>
