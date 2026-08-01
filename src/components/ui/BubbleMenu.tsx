@@ -132,7 +132,7 @@ export default function BubbleMenu({
           <div className="relative w-full h-full flex items-center justify-between px-12 md:px-24">
              {/* LEFT FLANK: MASSIVE BRANDING */}
              <div className="hidden lg:block">
-                <h2 className="text-[15vw] font-black tracking-tighter leading-none text-white/5 select-none pointer-events-none uppercase font-anton">
+                <h2 className="text-[15vw] font-black tracking-tighter leading-none text-white/5 select-none pointer-events-none uppercase font-anton italic">
                   C9 CLUB
                 </h2>
              </div>
@@ -141,7 +141,7 @@ export default function BubbleMenu({
              <div className="w-full max-w-[360px] flex flex-col items-end gap-4">
                 <button 
                   onClick={handleToggle}
-                  className="w-[54px] h-[54px] bg-zinc-900 border border-white/10 flex items-center justify-center mb-8 hover:bg-primary hover:text-black transition-all"
+                  className="w-[54px] h-[54px] bg-zinc-900 border border-white/10 flex items-center justify-center mb-8 hover:bg-primary hover:text-black transition-all rounded-[18px]"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -152,7 +152,7 @@ export default function BubbleMenu({
                       <a
                         href={item.href}
                         onClick={handleToggle}
-                        className="group relative flex items-center justify-between w-[340px] h-[88px] px-8 bg-zinc-900/80 border border-white/10 overflow-hidden hover:bg-primary hover:text-black hover:-translate-x-[10px] transition-all duration-300"
+                        className="group relative flex items-center justify-between w-[340px] h-[88px] px-8 bg-zinc-900/80 border border-white/10 overflow-hidden hover:bg-primary hover:text-black hover:-translate-x-[10px] transition-all duration-300 rounded-[24px]"
                         ref={el => {
                           if (el) bubblesRef.current[idx] = el;
                         }}
@@ -182,7 +182,7 @@ export default function BubbleMenu({
                   ))}
                 </ul>
 
-                <div className="mt-12 w-full flex justify-between px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">
+                <div className="mt-12 w-full flex justify-between px-4 text-[10px] font-black tracking-widest text-white/40 uppercase font-heading">
                    <a href="#" className="hover:text-primary transition-colors">Instagram</a>
                    <a href="#" className="hover:text-primary transition-colors">Strava</a>
                    <a href="#" className="hover:text-primary transition-colors">Discord</a>

@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-run",
-      "description": "Athlete running in urban setting at dawn.",
-      "imageUrl": "https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?q=80&w=1920&auto=format&fit=crop",
-      "imageHint": "running marathon"
+      "description": "Elite C9 squad running in high-performance urban gear.",
+      "imageUrl": "https://res.cloudinary.com/ye0rjwuc/image/upload/v1785609810/ChatGPT_Image_Aug_2_2026_12_10_28_AM-compressed_qub9mu.jpg",
+      "imageHint": "elite runners marathon"
     },
     {
       "id": "gallery-1",
@@ -32,9 +32,9 @@
     },
     {
       "id": "squad-joy",
-      "description": "Joyful group of runners celebrating.",
-      "imageUrl": "https://images.unsplash.com/photo-1526676037777-05a232554f77?q=80&w=800&auto=format&fit=crop",
-      "imageHint": "joyful runners"
+      "description": "Elite squad celebrating after a successful mission.",
+      "imageUrl": "https://res.cloudinary.com/ye0rjwuc/image/upload/v1785609810/ChatGPT_Image_Aug_2_2026_12_10_28_AM-compressed_qub9mu.jpg",
+      "imageHint": "squad celebration"
     }
   ]
 }
