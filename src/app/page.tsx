@@ -126,35 +126,26 @@ const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: ()
           </Button>
         </motion.div>
 
-        <motion.div 
-          initial={{ scale: 0.7, opacity: 0, rotateY: 45 }}
-          whileInView={{ scale: 1, opacity: 1, rotateY: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-          className="relative hidden lg:block"
-        >
-          <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full" />
-          
-          <div className="absolute top-0 right-0 z-20 pointer-events-auto">
-            <div 
-              onClick={onLogoClick}
-              className={cn(
-                "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 font-heading italic hover:text-primary",
-                logoClicks > 0 && "text-primary scale-110"
-              )}
-            >
-              C9 Club {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
-            </div>
-          </div>
-
-          <Model3D
-            modelPath="/models/model.glb"
-            className="w-full h-[500px] relative z-10"
-          />
-          <div className="absolute -bottom-12 right-0 text-right">
-             <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase">Est. 2026</span>
-          </div>
-        </motion.div>
+        <div className="relative flex flex-col items-end justify-center">
+           <motion.div 
+             initial={{ x: 50, opacity: 0 }}
+             whileInView={{ x: 0, opacity: 1 }}
+             viewport={{ once: false }}
+             transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+             className="text-right space-y-2 pointer-events-auto"
+           >
+              <div 
+                onClick={onLogoClick}
+                className={cn(
+                  "text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 font-heading italic hover:text-primary",
+                  logoClicks > 0 && "text-primary scale-110"
+                )}
+              >
+                C9 Club {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
+              </div>
+              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase">Est. 2026</span>
+           </motion.div>
+        </div>
       </div>
 
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20">
@@ -171,7 +162,7 @@ const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: ()
 
 const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }: { images: string[], speed?: number, delay?: number, reverse?: boolean }) => {
   return (
-    <div className="flex flex-col gap-6 relative h-[200vh] overflow-hidden">
+    <div className="flex flex-col gap-6 relative h-[200vh] overflow-hidden will-change-transform">
       <motion.div 
         initial={{ y: reverse ? "-50%" : "0%" }}
         animate={{ y: reverse ? "0%" : "-50%" }}
@@ -308,7 +299,7 @@ const ScheduleSection = () => {
         />
       </div>
 
-      <div className="max-w-7xl auto">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
           <ScrollFloat
             containerClassName="!text-left"
@@ -442,14 +433,27 @@ const VisionSection = () => {
     <section id="about" className="py-40 px-8 overflow-hidden bg-black">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <div>
-            <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
-            <ScrollFloat
-              containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+          <div className="space-y-12">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: false }}
+              transition={{ duration: 1 }}
             >
-              Discipline over motivation.
-            </ScrollFloat>
+              <Model3D
+                modelPath="/models/model.glb"
+                className="w-full h-[400px] relative z-10"
+              />
+            </motion.div>
+            <div>
+              <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
+              <ScrollFloat
+                containerClassName="!text-left"
+                textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+              >
+                Discipline over motivation.
+              </ScrollFloat>
+            </div>
           </div>
           <div className="space-y-8">
             <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium font-heading">
