@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -14,7 +15,9 @@ import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2 } from 'lucide-react';
+import { supabase, type Mission } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,13 +26,6 @@ const stats = [
   { label: 'CITIES', value: '35', icon: MapPin },
   { label: 'KM COVERED', value: '42K+', icon: Trophy },
   { label: 'RUNS', value: '500+', icon: Zap },
-];
-
-const schedule = [
-  { day: 'MON', time: '06:00 AM', location: 'Central Park', type: 'Intervals' },
-  { day: 'WED', time: '06:30 PM', location: 'Marina Bay', type: 'Tempo Run' },
-  { day: 'FRI', time: '06:00 AM', location: 'Track Field', type: 'Speed Work' },
-  { day: 'SUN', time: '05:30 AM', location: 'City Square', type: 'Long Run' },
 ];
 
 const Nav = () => (
@@ -68,7 +64,7 @@ const Hero = () => {
           priority
           className="object-cover brightness-[0.4]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-black" />
       </motion.div>
 
       <div className="relative z-10 text-center px-4">
@@ -148,6 +144,48 @@ const VisionSection = () => {
 };
 
 const ScheduleSection = () => {
+  const [missions, setMissions] = useState<Mission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [joinedIds, setJoinedIds] = useState<string[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    async function fetchMissions() {
+      const { data, error } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
+      if (error) {
+        console.error('Tactical Error:', error);
+      } else {
+        setMissions(data || []);
+      }
+      setLoading(false);
+    }
+    fetchMissions();
+  }, []);
+
+  const handleJoin = async (missionId: string) => {
+    if (joinedIds.includes(missionId)) return;
+
+    // Tactical simulation: normally you'd use real auth, but we'll use a prompt for demo squad name
+    const email = prompt("Enter Squad Member Email to Confirm Booking:");
+    if (!email) return;
+
+    const { error } = await supabase.from('bookings').insert([{ mission_id: missionId, user_email: email }]);
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Tactical Failure",
+        description: "Already joined or database connection failed.",
+      });
+    } else {
+      setJoinedIds(prev => [...prev, missionId]);
+      toast({
+        title: "Mission Joined",
+        description: "Squad confirmed. See you at the location.",
+      });
+    }
+  };
+
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
       <div className="absolute inset-0 bg-noise opacity-[0.05]" />
@@ -161,20 +199,51 @@ const ScheduleSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {schedule.map((run, i) => (
-            <div key={i} className="bg-zinc-900/50 border border-white/10 p-12 hover:bg-primary group transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden">
-              <span className={cn("text-6xl font-black text-white/20 group-hover:text-black/30 block mb-12 transition-colors", fontHeading.className)}>{run.day}</span>
-              <div className="relative z-10">
-                <p className="text-primary group-hover:text-black font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
-                <h4 className="text-2xl font-black text-white group-hover:text-black mb-4 transition-colors">{run.type}</h4>
-                <div className="flex items-center gap-2 text-white/70 group-hover:text-black/80 text-sm font-bold">
-                  <MapPin className="w-4 h-4" /> {run.location}
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {missions.map((run, i) => (
+              <div 
+                key={run.id} 
+                className={cn(
+                  "bg-zinc-900/40 border border-white/5 p-12 hover:border-primary/50 group transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
+                  joinedIds.includes(run.id) && "border-primary bg-primary/5"
+                )}
+              >
+                <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
+                  {run.day}
+                </span>
+                <div className="relative z-10">
+                  <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
+                  <h4 className="text-2xl font-black text-white mb-4 transition-colors">{run.type}</h4>
+                  <div className="flex items-center gap-2 text-white/70 text-sm font-bold mb-8">
+                    <MapPin className="w-4 h-4" /> {run.location}
+                  </div>
+                  
+                  <Button 
+                    onClick={() => handleJoin(run.id)}
+                    disabled={joinedIds.includes(run.id)}
+                    className={cn(
+                      "w-full rounded-full font-black tracking-widest text-xs py-6",
+                      joinedIds.includes(run.id) 
+                        ? "bg-primary text-black" 
+                        : "bg-white text-black hover:bg-primary"
+                    )}
+                  >
+                    {joinedIds.includes(run.id) ? (
+                      <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
+                    ) : (
+                      "JOIN MISSION"
+                    )}
+                  </Button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
