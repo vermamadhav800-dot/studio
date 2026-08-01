@@ -37,15 +37,11 @@ const Model3D = dynamic(() => import('@/components/ui/Model3D'), {
   ),
 });
 
-const iconMap: Record<string, any> = {
-  Users, MapPin, Trophy, Zap
-};
-
 const DUMMY_STATS: ClubStat[] = [
-  { id: 'runs', label: 'WEEKLY RUNS', value: '12+', icon_name: 'Zap', sort_order: 1 },
-  { id: 'members', label: 'ACTIVE SQUAD', value: '500+', icon_name: 'Users', sort_order: 2 },
-  { id: 'km', label: 'KM COMPLETED', value: '35K+', icon_name: 'MapPin', sort_order: 3 },
-  { id: 'founded', label: 'ESTABLISHED', value: '2026', icon_name: 'Trophy', sort_order: 4 },
+  { id: 'runs', label: 'Weekly runs', value: '12+', icon_name: 'Zap', sort_order: 1 },
+  { id: 'members', label: 'Active squad', value: '500+', icon_name: 'Users', sort_order: 2 },
+  { id: 'km', label: 'KM completed', value: '35K+', icon_name: 'MapPin', sort_order: 3 },
+  { id: 'founded', label: 'Established', value: '2026', icon_name: 'Trophy', sort_order: 4 },
 ];
 
 const MENU_ITEMS = [
@@ -83,9 +79,8 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  // Reduced zoom initial scale to show more photo as requested (1.0 = FULL PHOTO)
-  const scale = useTransform(scrollYProgress, [0, 1], [1.0, 0.95]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [0.4, 0.9]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [0.3, 0.8]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
@@ -96,7 +91,7 @@ const Hero = () => {
       >
         <Image 
           src={PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || ''}
-          alt="Hero Running"
+          alt="Elite Squad"
           fill
           priority
           className="object-cover"
@@ -118,7 +113,7 @@ const Hero = () => {
         >
           <div>
              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
-             <h1 className={cn("text-5xl md:text-7xl leading-none font-black text-white tracking-tighter font-heading italic", fontHeading.className)}>
+             <h1 className={cn("text-6xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>
                Run beyond <br /> limits
              </h1>
           </div>
@@ -187,7 +182,7 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading", fontHeading.className)}
+              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
             >
               Discipline over motivation.
             </ScrollFloat>
@@ -210,14 +205,14 @@ const VisionSection = () => {
 
 const ArchivesSection = () => {
   const archiveItems = [
-    { id: '1', title: 'Urban Ops', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
-    { id: '2', title: 'Elite Gear', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
-    { id: '3', title: 'Squad Intel', category: 'SQUAD INTEL', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
-    { id: '4', title: 'Dawn Hunt', category: 'DAWN HUNT', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
-    { id: '5', title: 'Street Attack', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
-    { id: '6', title: 'Track Data', category: 'TRACK DATA', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
-    { id: '7', title: 'Elite Training', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
-    { id: '8', title: 'Mission Log', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
+    { id: '1', title: 'Urban Ops', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
+    { id: '2', title: 'Elite Gear', category: 'Elite gear', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
+    { id: '3', title: 'Squad Intel', category: 'Squad intel', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
+    { id: '4', title: 'Dawn Hunt', category: 'Dawn hunt', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
+    { id: '5', title: 'Street Attack', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
+    { id: '6', title: 'Track Data', category: 'Track data', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
+    { id: '7', title: 'Elite Training', category: 'Elite gear', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
+    { id: '8', title: 'Mission Log', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
   ];
 
   return (
@@ -226,7 +221,7 @@ const ArchivesSection = () => {
          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
            <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
              <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
-             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>Squad Archives</h2>
+             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>Squad archives</h2>
            </div>
            <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
              <Camera className="w-4 h-4" /> Scroll to scan vault
@@ -257,7 +252,7 @@ const ScheduleSection = () => {
       theme: 'red',
       image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
       subtitle: 'Join the hunt',
-      tags: ['REGISTER NOW']
+      tags: ['Register now']
     },
     {
       id: 2,
@@ -266,7 +261,7 @@ const ScheduleSection = () => {
       theme: 'dark',
       image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
       subtitle: 'Elite Ops',
-      tags: ['SQUAD ONLY']
+      tags: ['Squad only']
     },
     {
       id: 3,
@@ -275,7 +270,7 @@ const ScheduleSection = () => {
       theme: 'green',
       image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
       subtitle: 'Hybrid Training',
-      tags: ['ELITE OPS']
+      tags: ['Elite ops']
     },
     {
       id: 4,
@@ -284,7 +279,7 @@ const ScheduleSection = () => {
       theme: 'pink',
       image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
       subtitle: 'Social Mission',
-      tags: ['VAULT ACCESS']
+      tags: ['Vault access']
     }
   ];
 
@@ -301,7 +296,7 @@ const ScheduleSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
           <h2 className={cn("text-6xl md:text-8xl font-black text-white italic tracking-tighter leading-[0.9] font-heading", fontHeading.className)}>
-            Weekly<br/>Events
+            Weekly<br/>events
           </h2>
           <div className="space-y-6">
             <p className="text-white/60 text-lg max-w-lg font-heading">
@@ -387,17 +382,17 @@ const ScheduleSection = () => {
 
 const GallerySection = () => {
   const galleryItems = [
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'Street Attack' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'Elite Gear' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'Data Driven' },
-    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'Dawn Hunt' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'Street attack' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'Elite gear' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'Data driven' },
+    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'Dawn hunt' },
   ];
 
   return (
     <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>The Vault</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite Intelligence</span>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>The vault</h2>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -413,7 +408,7 @@ const GallerySection = () => {
 
 const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <div className="relative group overflow-hidden bg-zinc-900 border border-white/10 p-1 mb-20 shadow-2xl rounded-[24px]">
         <div className="relative aspect-[16/7] md:aspect-[21/9] w-full overflow-hidden rounded-[22px]">
           <Image 
@@ -423,7 +418,7 @@ const Footer = () => (
             className="object-cover brightness-50 transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-center text-center p-8">
-            <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment Protocol</span>
+            <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment protocol</span>
             <h2 className={cn("text-4xl md:text-6xl font-black text-white tracking-tighter leading-none mb-8 font-heading italic", fontHeading.className)}>
               Ready to <span className="text-primary">join?</span>
             </h2>
@@ -454,7 +449,6 @@ const Footer = () => (
 export default function Home() {
   const router = useRouter();
   const [logoClicks, setLogoClicks] = useState(0);
-  const [stats, setStats] = useState<ClubStat[]>(DUMMY_STATS);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -493,11 +487,11 @@ export default function Home() {
   const logos = [
     { node: <span className="font-heading font-black italic">C9 Club</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-heading font-black italic">Tactical Running</span> },
+    { node: <span className="font-heading font-black italic">Tactical running</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-heading font-black italic">Elite Squad</span> },
+    { node: <span className="font-heading font-black italic">Elite squad</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-heading font-black italic">Train Endure Dominate</span> },
+    { node: <span className="font-heading font-black italic">Train endure dominate</span> },
     { node: <span className="text-primary px-4">•</span> },
   ];
 
@@ -536,7 +530,7 @@ export default function Home() {
             scaleOnHover
           />
         </div>
-        <StatsSection stats={stats} />
+        <StatsSection stats={DUMMY_STATS} />
         <VisionSection />
         <ArchivesSection />
         <ScheduleSection />
