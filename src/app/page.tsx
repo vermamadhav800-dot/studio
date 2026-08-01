@@ -105,8 +105,7 @@ const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: ()
       <div className="relative z-10 w-full max-w-7xl px-8 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
         <motion.div 
           initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: false }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-left space-y-6"
         >
@@ -129,8 +128,7 @@ const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: ()
         <div className="relative flex flex-col items-end justify-center">
            <motion.div 
              initial={{ x: 50, opacity: 0 }}
-             whileInView={{ x: 0, opacity: 1 }}
-             viewport={{ once: false }}
+             animate={{ x: 0, opacity: 1 }}
              transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
              className="text-right space-y-2 pointer-events-auto"
            >
@@ -291,9 +289,9 @@ const ScheduleSection = () => {
 
   return (
     <section id="schedule" className="py-32 px-6 md:px-12 bg-black relative">
-      <div className="absolute right-0 top-0 hidden lg:block">
+      <div className="absolute left-0 top-0 hidden lg:block">
         <CircularText 
-          text="C9 CLUB • ELITE SQUAD • TACTICAL TRAINING • "
+          text="C9 Club • Elite Squad • Tactical Training • "
           spinDuration={15}
           onHover="goBonkers"
         />

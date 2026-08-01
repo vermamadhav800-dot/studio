@@ -20,7 +20,8 @@
   left: 50%;
   top: 50%;
   font-size: 16px;
-  text-transform: uppercase;
+  /* STYLISH TYPOGRAPHY PROTOCOL: ALLOW MIXED CASE */
+  text-transform: none;
   font-family: var(--font-heading);
   transition: all 0.5s cubic-bezier(0, 0, 0, 1);
   margin-left: -0.5em;
