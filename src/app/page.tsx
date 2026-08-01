@@ -67,7 +67,7 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
-      <Link href="#schedule" className="hover:text-primary transition-colors">REPORTS</Link>
+      <Link href="#schedule" className="hover:text-primary transition-colors">EVENTS</Link>
       <Link href="#gallery" className="hover:text-primary transition-colors">VAULT</Link>
       <Link href="#join" className="group flex items-center gap-2 text-white border-b border-primary pb-1">
         JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -98,7 +98,7 @@ const Hero = () => {
         </div>
         <ScrollFloat
           containerClassName="mb-12"
-          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl tracking-tight", fontHeading.className)}
+          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl tracking-tighter", fontHeading.className)}
         >
           RUN BEYOND
         </ScrollFloat>
@@ -123,7 +123,7 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
               <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
-              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-md", fontHeading.className)}>{stat.value}</span>
+              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
               <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
             </div>
           );
@@ -142,7 +142,7 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName="!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tight"
+              textClassName="!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter"
             >
               WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
             </ScrollFloat>
@@ -222,9 +222,9 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
           <div className="space-y-4">
             <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Operational Schedule</span>
             <ScrollFloat
-              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tight", fontHeading.className)}
+              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter uppercase", fontHeading.className)}
             >
-              WEEKLY REPORTS
+              WEEKLY EVENTS
             </ScrollFloat>
           </div>
           <div className="h-20 w-20 rounded-2xl border border-white/10 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
@@ -263,7 +263,7 @@ const GallerySection = () => {
   return (
     <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tight", fontHeading.className)}>THE VAULT</h2>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
@@ -290,7 +290,7 @@ const TacticalSelection = () => {
     <section className="py-20 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto px-8 mb-12 text-center md:text-left">
          <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Squad Selection</span>
-         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tight", fontHeading.className)}>TACTICAL SELECTION</h2>
+         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter", fontHeading.className)}>TACTICAL SELECTION</h2>
       </div>
       <FlowingMenu items={menuItems} />
     </section>
@@ -304,7 +304,7 @@ const Footer = () => (
         <div className="space-y-4 text-center lg:text-left">
           <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Recruitment Protocol</span>
           <ScrollFloat
-            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tight", fontHeading.className)}
+            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}
           >
             READY TO JOIN?
           </ScrollFloat>
@@ -390,7 +390,6 @@ export default function Home() {
 
   return (
     <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden relative">
-      {/* Global Tactical Noise Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')]" />
       
       <Nav onLogoClick={handleLogoClick} clickCount={logoClicks} />
