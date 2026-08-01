@@ -23,6 +23,7 @@ import {
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import FlowingMenu from '@/components/ui/FlowingMenu';
+import Masonry from '@/components/ui/Masonry';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,8 +59,9 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
+      <Link href="#archives" className="hover:text-primary transition-colors">ARCHIVES</Link>
       <Link href="#schedule" className="hover:text-primary transition-colors">EVENTS</Link>
-      <Link href="#gallery" className="hover:text-primary transition-colors">VAULT</Link>
+      <Link href="#vault" className="hover:text-primary transition-colors">VAULT</Link>
       <Link href="#join" className="group flex items-center gap-2 text-white border-b border-primary pb-1">
         JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
       </Link>
@@ -159,17 +161,19 @@ const VisionSection = () => {
 };
 
 const ArchivesSection = () => {
-  const archives = [
-    { id: '1', title: 'MISSION_01', category: 'URBAN OPS', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
-    { id: '2', title: 'MISSION_02', category: 'ELITE GEAR', image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '' },
-    { id: '3', title: 'MISSION_03', category: 'SQUAD INTEL', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
-    { id: '4', title: 'MISSION_04', category: 'DAWN HUNT', image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '' },
-    { id: '5', title: 'MISSION_05', category: 'CP ATTACK', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
-    { id: '6', title: 'MISSION_06', category: 'TRACK DATA', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
+  const archiveItems = [
+    { id: '1', title: 'MISSION_01', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
+    { id: '2', title: 'MISSION_02', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
+    { id: '3', title: 'MISSION_03', category: 'SQUAD INTEL', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
+    { id: '4', title: 'MISSION_04', category: 'DAWN HUNT', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
+    { id: '5', title: 'MISSION_05', category: 'CP ATTACK', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
+    { id: '6', title: 'MISSION_06', category: 'TRACK DATA', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
+    { id: '7', title: 'MISSION_07', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
+    { id: '8', title: 'MISSION_08', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
   ];
 
   return (
-    <section className="py-40 bg-black overflow-hidden relative">
+    <section id="archives" className="py-40 bg-black overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-8">
          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
            <div className="space-y-4">
@@ -181,32 +185,13 @@ const ArchivesSection = () => {
            </div>
          </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           {archives.map((item, idx) => (
-             <motion.div 
-               key={item.id}
-               initial={{ opacity: 0, y: 50 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               transition={{ delay: idx * 0.1 }}
-               viewport={{ once: true }}
-               className="group relative aspect-[4/5] bg-zinc-900 overflow-hidden rounded-none border border-white/5 hover:border-primary/50 transition-all duration-700"
-             >
-               <Image 
-                 src={item.image}
-                 alt={item.title}
-                 fill
-                 className="object-cover transition-transform duration-700 group-hover:scale-110 brightness-[0.7] group-hover:brightness-[0.9]"
-               />
-               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-               <div className="absolute bottom-10 left-10 right-10">
-                 <span className="text-primary font-black text-[10px] tracking-[0.3em] uppercase block mb-2">{item.category}</span>
-                 <h4 className={cn("text-2xl font-black text-white tracking-tighter", fontHeading.className)}>{item.title}</h4>
-                 <div className="w-0 h-px bg-primary group-hover:w-full transition-all duration-700 mt-4 opacity-50" />
-               </div>
-               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20" />
-             </motion.div>
-           ))}
-         </div>
+         <Masonry 
+            items={archiveItems}
+            animateFrom="bottom"
+            stagger={0.08}
+            scaleOnHover={true}
+            hoverScale={0.97}
+         />
       </div>
     </section>
   );
@@ -264,7 +249,7 @@ const ScheduleSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-16">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter", fontHeading.className)}>
-            Events
+            WEEKLY EVENTS
           </h2>
           <div className="max-w-xl text-center md:text-left mx-auto lg:mx-0">
             <p className="text-white/80 text-lg md:text-xl font-medium leading-snug">
@@ -362,7 +347,7 @@ const GallerySection = () => {
   ];
 
   return (
-    <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden">
+    <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
           <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
