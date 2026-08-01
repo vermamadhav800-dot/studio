@@ -24,6 +24,7 @@ import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import FlowingMenu from '@/components/ui/FlowingMenu';
 import Masonry from '@/components/ui/Masonry';
+import BubbleMenu from '@/components/ui/BubbleMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,27 +47,21 @@ const DUMMY_STATS: ClubStat[] = [
 ];
 
 const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount: number }) => (
-  <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
-    <div 
-      onClick={onLogoClick}
-      className={cn(
-        "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
-        fontHeading.className,
-        clickCount > 0 && "text-primary scale-110"
-      )}
-    >
-      C9 CLUB {clickCount > 0 && <span className="text-[10px] ml-1">[{clickCount}/10]</span>}
-    </div>
-    <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
-      <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
-      <Link href="#archives" className="hover:text-primary transition-colors">ARCHIVES</Link>
-      <Link href="#schedule" className="hover:text-primary transition-colors">EVENTS</Link>
-      <Link href="#vault" className="hover:text-primary transition-colors">VAULT</Link>
-      <Link href="#join" className="group flex items-center gap-2 text-white border-b border-primary pb-1">
-        JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-      </Link>
-    </div>
-  </nav>
+  <>
+    <nav className="fixed top-0 left-0 z-[100] px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
+      <div 
+        onClick={onLogoClick}
+        className={cn(
+          "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
+          fontHeading.className,
+          clickCount > 0 && "text-primary scale-110"
+        )}
+      >
+        C9 CLUB {clickCount > 0 && <span className="text-[10px] ml-1 text-primary">[{clickCount}/10]</span>}
+      </div>
+    </nav>
+    <BubbleMenu logo="SQUAD MENU" useFixedPosition />
+  </>
 );
 
 const Hero = () => {
@@ -176,9 +171,9 @@ const ArchivesSection = () => {
     <section id="archives" className="py-40 bg-black overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-8">
          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-           <div className="space-y-4">
+           <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
              <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
-             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>SQUAD ARCHIVES</h2>
+             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none italic", fontHeading.className)}>SQUAD ARCHIVES</h2>
            </div>
            <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
              <Camera className="w-4 h-4" /> SCROLL TO SCAN VAULT
@@ -247,11 +242,11 @@ const ScheduleSection = () => {
   return (
     <section id="schedule" className="py-32 px-6 md:px-12 bg-black">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-16">
-          <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter", fontHeading.className)}>
+        <div className="text-center mb-16 space-y-6">
+          <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter leading-none", fontHeading.className)}>
             WEEKLY EVENTS
           </h2>
-          <div className="max-w-xl text-center md:text-left mx-auto lg:mx-0">
+          <div className="max-w-2xl mx-auto">
             <p className="text-white/80 text-lg md:text-xl font-medium leading-snug">
               Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise, and another community waiting for you.
             </p>
@@ -349,7 +344,7 @@ const GallerySection = () => {
   return (
     <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic", fontHeading.className)}>THE VAULT</h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
@@ -376,7 +371,7 @@ const TacticalSelection = () => {
     <section className="py-20 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto px-8 mb-12 text-center md:text-left">
          <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Squad Selection</span>
-         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter", fontHeading.className)}>TACTICAL SELECTION</h2>
+         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter italic", fontHeading.className)}>TACTICAL SELECTION</h2>
       </div>
       <FlowingMenu items={menuItems} />
     </section>
@@ -390,7 +385,7 @@ const Footer = () => (
         <div className="space-y-4 text-center lg:text-left">
           <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Recruitment Protocol</span>
           <ScrollFloat
-            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}
+            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter italic", fontHeading.className)}
           >
             READY TO JOIN?
           </ScrollFloat>
