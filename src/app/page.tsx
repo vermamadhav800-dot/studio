@@ -14,6 +14,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
@@ -23,6 +24,13 @@ import { type Mission, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const Model3D = dynamic(() => import('@/components/ui/Model3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[400px] md:h-[500px] animate-pulse" />
+  ),
+});
 
 const iconMap: Record<string, any> = {
   Users, MapPin, Trophy, Zap
@@ -119,7 +127,6 @@ const Hero = () => {
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
     <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
@@ -152,13 +159,19 @@ const VisionSection = () => {
               WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
             </ScrollFloat>
           </div>
-          <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium">
-            <ScrollReveal baseOpacity={0.2} blurStrength={10}>
-              C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
-            </ScrollReveal>
-            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
-              LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+          <div className="space-y-8">
+            <Model3D
+              modelPath="/models/model.glb"
+              className="w-full h-[400px] md:h-[500px]"
+            />
+            <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium">
+              <ScrollReveal baseOpacity={0.2} blurStrength={10}>
+                C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
+              </ScrollReveal>
+              <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
+                LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -173,7 +186,6 @@ const ScheduleSection = ({ missions, onJoin, joinedIds }: {
 }) => {
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
-      <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
