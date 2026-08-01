@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -12,7 +11,6 @@ import Lenis from 'lenis';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import dynamic from 'next/dynamic';
@@ -26,6 +24,7 @@ import { useToast } from '@/hooks/use-toast';
 import BubbleMenu from '@/components/ui/BubbleMenu';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import CircularText from '@/components/ui/CircularText';
+import FlowingMenu from '@/components/ui/FlowingMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,7 +77,6 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  // Scale calibrated to 1.0 for "Puri Photo" visibility as requested
   const scale = useTransform(scrollYProgress, [0, 1], [1.0, 1.0]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [0.3, 0.8]);
 
@@ -394,15 +392,15 @@ const ScheduleSection = () => {
 };
 
 const GallerySection = () => {
-  const galleryItems = [
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'Street attack' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'Elite gear' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'Data driven' },
-    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'Dawn hunt' },
+  const flowingItems = [
+    { link: '#', text: 'Street attack', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
+    { link: '#', text: 'Elite gear', image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '' },
+    { link: '#', text: 'Data driven', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
+    { link: '#', text: 'Dawn hunt', image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '' },
   ];
 
   return (
-    <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
+    <section id="vault" className="py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
           <ScrollFloat
             containerClassName="!text-left"
@@ -412,14 +410,15 @@ const GallerySection = () => {
           </ScrollFloat>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite intelligence</span>
        </div>
-       <CircularGallery 
-         items={galleryItems} 
-         bend={3} 
-         textColor="#BAFF00" 
-         borderRadius={0}
-         autoScrollDirection="left"
-         font="black 32px var(--font-heading)"
-       />
+       <div className="h-[600px] relative">
+         <FlowingMenu 
+            items={flowingItems} 
+            speed={12} 
+            marqueeBgColor="#BAFF00" 
+            marqueeTextColor="#000"
+            borderColor="rgba(255,255,255,0.05)"
+         />
+       </div>
     </section>
   );
 };

@@ -160,7 +160,7 @@ export default function FlowingMenu({
   bgColor = 'transparent',
   marqueeBgColor = '#BAFF00',
   marqueeTextColor = '#000',
-  borderColor = 'rgba(255,255,255,0.1)'
+  borderColor = 'rgba(255,255,255,0.05)'
 }: FlowingMenuProps) {
   return (
     <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
