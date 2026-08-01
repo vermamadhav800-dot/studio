@@ -34,32 +34,21 @@ export default function AdminPage() {
         supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
       ]);
 
-      // Detailed Tactical Error Reporting
-      if (mRes.error) {
-        console.error('Mission Sync Failed:', mRes.error);
-        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message || "Network Error" });
-      } else {
-        setMissions(mRes.data || []);
-      }
+      if (mRes.error) console.error('Mission Sync Failure:', mRes.error);
+      else setMissions(mRes.data || []);
 
-      if (bRes.error) {
-        console.error('Booking Sync Failed:', bRes.error);
-      } else {
-        setBookings(bRes.data || []);
-      }
+      if (bRes.error) console.error('Booking Sync Failure:', bRes.error);
+      else setBookings(bRes.data || []);
 
-      if (sRes.error) {
-        console.error('Stats Sync Failed:', sRes.error);
-      } else {
-        setStats(sRes.data || []);
-      }
+      if (sRes.error) console.error('Stats Sync Failure:', sRes.error);
+      else setStats(sRes.data || []);
 
     } catch (err: any) {
-      console.error('CRITICAL NETWORK FAILURE:', err?.message || 'Unknown Error');
+      console.error('CRITICAL NETWORK FAILURE:', err?.message);
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     const authStatus = localStorage.getItem('c9_admin_auth');
@@ -112,7 +101,7 @@ export default function AdminPage() {
       }).eq('id', stat.id);
       
       if (error) throw error;
-      toast({ title: "INTELLIGENCE UPDATED", description: `${stat.label} is now ${stat.value}` });
+      toast({ title: "INTELLIGENCE UPDATED", description: `${stat.label} synced.` });
     } catch (err: any) {
       toast({ variant: "destructive", title: "Stat Sync Failed", description: err.message });
     }
@@ -127,7 +116,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 relative selection:bg-primary selection:text-black">
-      {/* Interaction Shield - Noise background set to z-0 and pointer-events-none */}
+      {/* Background decoration - pointer-events-none to fix "click not working" issue */}
       <div className="fixed inset-0 bg-noise opacity-5 pointer-events-none z-0" />
       
       <div className="max-w-7xl mx-auto space-y-16 relative z-50 pointer-events-auto">
@@ -156,14 +145,14 @@ export default function AdminPage() {
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY MISSION</h2>
             <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4 relative z-50">
-              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
-              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 pointer-events-auto" />
-              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
-              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
+              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
+              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Button 
                 onClick={handleAddMission} 
                 disabled={isSubmitting} 
-                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer pointer-events-auto z-50"
+                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer"
               >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
@@ -210,7 +199,7 @@ export default function AdminPage() {
                      <Input 
                         value={stat.value} 
                         onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
-                        className="bg-black/50 border-white/10 h-14 font-black pointer-events-auto" 
+                        className="bg-black/50 border-white/10 h-14 font-black" 
                      />
                    </div>
                    <div className="space-y-2">
@@ -218,16 +207,11 @@ export default function AdminPage() {
                      <Input 
                         value={stat.label} 
                         onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
-                        className="bg-black/50 border-white/10 h-10 text-[10px] font-black pointer-events-auto" 
+                        className="bg-black/50 border-white/10 h-10 text-[10px] font-black" 
                      />
                    </div>
                 </div>
               ))}
-              {stats.length === 0 && !loading && (
-                <div className="col-span-full py-10 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
-                  Stats table empty or missing.
-                </div>
-              )}
            </div>
         </div>
 

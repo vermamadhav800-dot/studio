@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -25,14 +23,17 @@ export default function AdminLoginPage() {
 
     setLoading(true);
 
+    // Hard Tactical Verification
     if (password === 'madhav@123321') {
       localStorage.setItem('c9_admin_auth', 'true');
       toast({
         title: "ACCESS GRANTED",
         description: "Inbound to Command Center...",
       });
-      // Force tactical redirect
-      window.location.href = '/admin';
+      // Force Tactical Handover
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 500);
     } else {
       toast({
         variant: "destructive",
@@ -46,9 +47,10 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
+      {/* Interaction Shield - pointer-events-none to fix "click ni hora" */}
+      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none z-0" />
       
-      <div className="max-w-md w-full space-y-8 relative z-50">
+      <div className="max-w-md w-full space-y-8 relative z-50 pointer-events-auto">
         <div className="text-center space-y-4">
           <div className="w-20 h-20 bg-zinc-900 border border-white/10 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-xl mb-6">
             <Shield className="w-10 h-10 text-primary" />
@@ -58,7 +60,7 @@ export default function AdminLoginPage() {
           </h1>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-zinc-900/80 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl relative z-50 pointer-events-auto">
+        <form onSubmit={handleLogin} className="bg-zinc-900/80 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl">
           <div className="space-y-3">
              <label className="text-[10px] font-black text-white/40 uppercase tracking-widest block ml-2">Encryption Key</label>
              <div className="relative">
@@ -68,7 +70,7 @@ export default function AdminLoginPage() {
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-black border-white/10 pl-12 h-16 font-mono text-primary text-2xl focus:border-primary transition-all rounded-2xl relative z-50 pointer-events-auto"
+                className="bg-black border-white/10 pl-12 h-16 font-mono text-primary text-2xl focus:border-primary transition-all rounded-2xl"
                 autoFocus
                 required
               />
@@ -78,7 +80,7 @@ export default function AdminLoginPage() {
           <Button 
             type="submit" 
             disabled={loading || !password}
-            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg group transition-all relative z-50 pointer-events-auto cursor-pointer"
+            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg group transition-all cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center gap-2">
@@ -94,7 +96,7 @@ export default function AdminLoginPage() {
 
         <p 
           onClick={() => window.location.href = '/'}
-          className="text-center text-[10px] font-black text-white/20 hover:text-white cursor-pointer uppercase tracking-widest pt-4 relative z-50 pointer-events-auto"
+          className="text-center text-[10px] font-black text-white/20 hover:text-white cursor-pointer uppercase tracking-widest pt-4"
         >
           Exit Protocol
         </p>
