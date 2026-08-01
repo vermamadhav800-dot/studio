@@ -38,34 +38,30 @@ export default function Model3D({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.5;
+    renderer.toneMappingExposure = 1.2;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
 
-    // TACTICAL LIGHTING RIG - HIGH GLOW
-    // 1. Hemisphere Light for soft global illumination
+    // TACTICAL LIGHTING RIG - NEUTRAL FOR ORIGINAL COLORS
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 2);
     hemiLight.position.set(0, 20, 0);
     scene.add(hemiLight);
 
-    // 2. Main Directional Light for sharp highlights
-    const dirLight = new THREE.DirectionalLight(0xffffff, 3);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 4);
     dirLight.position.set(5, 5, 5);
     scene.add(dirLight);
 
-    // 3. Neon Glow Light (Primary Glow Source)
-    const glowLight = new THREE.PointLight(0xBAFF00, 15, 20); // Intense Volt Green
+    const glowLight = new THREE.PointLight(0xffffff, 10, 20); 
     glowLight.position.set(0, 2, 2);
     scene.add(glowLight);
 
-    // 4. Rim Light for silhouette definition
-    const rimLight = new THREE.SpotLight(0xffffff, 10);
+    const rimLight = new THREE.SpotLight(0xffffff, 8);
     rimLight.position.set(-5, 0, -5);
     scene.add(rimLight);
 
     // CONTROLS
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false; // Keep it focused
+    controls.enableZoom = false; 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.autoRotate = true;
@@ -83,24 +79,19 @@ export default function Model3D({
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.8 / maxDim; // Tactical size increase
+        const scale = 2.8 / maxDim; 
 
         model.scale.setScalar(scale);
         model.position.sub(center.multiplyScalar(scale));
         
-        // Material Boost
+        // Material Boost - Maintaining Original Colors
         model.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
             if (mesh.material instanceof THREE.MeshStandardMaterial) {
-              mesh.material.metalness = 0.8;
-              mesh.material.roughness = 0.2;
-              mesh.material.envMapIntensity = 2.5;
-              // Emissive boost if possible
-              if (mesh.material.emissive) {
-                mesh.material.emissive.setHex(0xBAFF00);
-                mesh.material.emissiveIntensity = 0.5;
-              }
+              mesh.material.metalness = Math.max(mesh.material.metalness, 0.6);
+              mesh.material.roughness = Math.min(mesh.material.roughness, 0.4);
+              mesh.material.envMapIntensity = 2.0;
             }
           }
         });
@@ -115,7 +106,7 @@ export default function Model3D({
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       
-      // Dynamic glow movement
+      // Dynamic light movement for subtle shine
       glowLight.position.x = Math.sin(Date.now() * 0.002) * 2;
       
       controls.update();
