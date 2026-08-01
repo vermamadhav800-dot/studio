@@ -118,8 +118,8 @@ const Hero = () => {
         >
           <div>
              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
-             <h1 className={cn("text-7xl md:text-[10vw] leading-[0.85] font-black text-white italic tracking-tighter uppercase font-anton", fontAnton.className)}>
-               RUN BEYOND LIMITS
+             <h1 className={cn("text-6xl md:text-8xl leading-none font-black text-white italic tracking-tighter uppercase font-anton", fontAnton.className)}>
+               RUN BEYOND
              </h1>
           </div>
           

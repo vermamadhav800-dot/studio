@@ -55,7 +55,6 @@ class Title {
   font: string;
   mesh!: Mesh;
 
-
   constructor({ gl, plane, renderer, text, textColor = '#ffffff', font = '30px sans-serif' }: { gl: Renderer['gl'], plane: Mesh, renderer: Renderer, text: string, textColor?: string, font?: string }) {
     autoBind(this);
     this.gl = gl;
@@ -148,7 +147,6 @@ class Media {
   isAfter!: boolean;
   speed: number = 0;
   scale!: number;
-
 
   constructor({
     geometry,
@@ -425,8 +423,8 @@ class App {
   }
   createGeometry() {
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
+      heightSegments: 20,
+      widthSegments: 40
     });
   }
   createMedias(items: { image: string; text: string; }[] | undefined, bend = 1, textColor: string, borderRadius: number, font: string) {
