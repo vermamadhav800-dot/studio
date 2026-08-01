@@ -56,6 +56,7 @@ export default function Stack({
 }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [rotations, setRotations] = useState<number[]>([]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -66,6 +67,13 @@ export default function Stack({
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, [mobileBreakpoint]);
+
+  // Fix hydration mismatch by generating random rotations only on client
+  useEffect(() => {
+    if (cards.length) {
+      setRotations(cards.map(() => randomRotation ? Math.random() * 10 - 5 : 0));
+    }
+  }, [cards, randomRotation]);
 
   const shouldDisableDrag = mobileClickOnly && isMobile;
   const shouldEnableClick = sendToBackOnClick || shouldDisableDrag;
@@ -109,7 +117,7 @@ export default function Stack({
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       {stack.map((card, index) => {
-        const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const randomRotate = rotations[index] || 0;
         return (
           <CardRotate
             key={card.id}

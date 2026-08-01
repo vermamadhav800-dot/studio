@@ -104,7 +104,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(186,255,0,0.6)]">TACTICAL TRAINING SYSTEMS</span>
+          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(var(--primary),0.6)]">TACTICAL TRAINING SYSTEMS</span>
           <h1 className={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}>
             RUN <br /> BEYOND
           </h1>
@@ -126,13 +126,13 @@ const Hero = () => {
 
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
-    <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
+    <section className="py-32 px-8 border-y border-white/10 bg-zinc-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/20 shadow-[0_0_20px_rgba(186,255,0,0.1)]">
+              <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.1)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
               <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
@@ -232,7 +232,7 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
-            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(186,255,0,0.5)]">EVENTS</span>
+            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(var(--primary),0.5)]">EVENTS</span>
           </h2>
           <div className="h-20 w-20 rounded-2xl border border-white/30 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
             <Calendar className="w-8 h-8 text-primary" />
@@ -271,7 +271,7 @@ const GallerySection = () => {
     <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden border-t border-white/20">
        <div className="px-8 mb-16 flex justify-between items-center max-w-7xl mx-auto">
           <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(var(--primary),0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -289,10 +289,10 @@ const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-        <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(186,255,0,0.5)]">JOIN?</span></h2>
+        <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(var(--primary),0.5)]">JOIN?</span></h2>
         <div className="space-y-10">
           <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
-          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
+          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(var(--primary),0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
