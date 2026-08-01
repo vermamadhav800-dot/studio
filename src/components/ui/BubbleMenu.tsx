@@ -132,14 +132,12 @@ export default function BubbleMenu({
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" onClick={handleToggle} />
           
           <div className="relative w-full h-full flex items-center justify-between px-12 md:px-24">
-             {/* LEFT FLANK: MASSIVE BRANDING */}
              <div className="hidden lg:block">
                 <h2 className="text-[15vw] font-black tracking-tighter leading-none text-white/5 select-none pointer-events-none uppercase font-anton italic">
                   C9 CLUB
                 </h2>
              </div>
 
-             {/* RIGHT FLANK: COMMAND PANEL */}
              <div className="w-full max-w-[360px] flex flex-col items-end gap-4">
                 <button 
                   onClick={handleToggle}
