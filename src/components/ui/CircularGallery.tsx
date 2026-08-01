@@ -422,6 +422,7 @@ class App {
     this.scene = new Transform();
   }
   createGeometry() {
+    // REDUCED VERTEX DENSITY FOR PERFORMANCE
     this.planeGeometry = new Plane(this.gl, {
       heightSegments: 20,
       widthSegments: 40

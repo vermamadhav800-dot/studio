@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -29,7 +30,7 @@ export default function Model3D({
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 5);
 
-    // RENDERER SETUP - Elite Quality
+    // RENDERER SETUP - Optimized for HMR Stability and Performance
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true,
@@ -42,7 +43,7 @@ export default function Model3D({
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
 
-    // TACTICAL LIGHTING RIG - NEUTRAL FOR ORIGINAL COLORS
+    // TACTICAL LIGHTING RIG
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 2);
     hemiLight.position.set(0, 20, 0);
     scene.add(hemiLight);
@@ -55,17 +56,13 @@ export default function Model3D({
     glowLight.position.set(0, 2, 2);
     scene.add(glowLight);
 
-    const rimLight = new THREE.SpotLight(0xffffff, 8);
-    rimLight.position.set(-5, 0, -5);
-    scene.add(rimLight);
-
     // CONTROLS
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false; 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 4;
+    controls.autoRotateSpeed = 2; // CAPPED FOR STABILITY
 
     // OPTIMIZED GLB LOADER
     const loader = new GLTFLoader();
@@ -84,18 +81,6 @@ export default function Model3D({
         model.scale.setScalar(scale);
         model.position.sub(center.multiplyScalar(scale));
         
-        // Material Boost - Maintaining Original Colors
-        model.traverse((child) => {
-          if ((child as THREE.Mesh).isMesh) {
-            const mesh = child as THREE.Mesh;
-            if (mesh.material instanceof THREE.MeshStandardMaterial) {
-              mesh.material.metalness = Math.max(mesh.material.metalness, 0.6);
-              mesh.material.roughness = Math.min(mesh.material.roughness, 0.4);
-              mesh.material.envMapIntensity = 2.0;
-            }
-          }
-        });
-
         scene.add(model);
       },
       undefined,
@@ -106,7 +91,7 @@ export default function Model3D({
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       
-      // Dynamic light movement for subtle shine
+      // Dynamic light movement
       glowLight.position.x = Math.sin(Date.now() * 0.002) * 2;
       
       controls.update();
