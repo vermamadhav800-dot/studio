@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -46,6 +47,35 @@ const DUMMY_STATS: ClubStat[] = [
   { id: 'wins', label: 'PODIUM FINISHES', value: '55', icon_name: 'Trophy', sort_order: 4 },
 ];
 
+const MENU_ITEMS = [
+  {
+    label: 'VISION',
+    href: '#about',
+    thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl
+  },
+  {
+    label: 'ARCHIVES',
+    href: '#archives',
+    thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl
+  },
+  {
+    label: 'EVENTS',
+    href: '#schedule',
+    thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl
+  },
+  {
+    label: 'VAULT',
+    href: '#vault',
+    thumbnail: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl
+  },
+  {
+    label: 'JOIN SQUAD',
+    href: '#join',
+    thumbnail: PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl,
+    hoverStyles: { bgColor: '#BAFF00', textColor: '#000' }
+  }
+];
+
 const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount: number }) => (
   <>
     <nav className="fixed top-0 left-0 z-[100] px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
@@ -60,7 +90,11 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
         C9 CLUB {clickCount > 0 && <span className="text-[10px] ml-1 text-primary">[{clickCount}/10]</span>}
       </div>
     </nav>
-    <BubbleMenu logo="SQUAD MENU" useFixedPosition />
+    <BubbleMenu 
+      logo="COMMAND HUB" 
+      items={MENU_ITEMS}
+      useFixedPosition 
+    />
   </>
 );
 
@@ -380,23 +414,27 @@ const TacticalSelection = () => {
 
 const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
-    <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-        <div className="space-y-4 text-center lg:text-left">
-          <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Recruitment Protocol</span>
-          <ScrollFloat
-            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter italic", fontHeading.className)}
-          >
-            READY TO JOIN?
-          </ScrollFloat>
-        </div>
-        <div className="space-y-10 text-center lg:text-left">
-          <ScrollReveal baseOpacity={0.2}>
-            <p className="text-2xl text-white/80 max-w-md font-medium leading-tight mx-auto lg:mx-0">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
-          </ScrollReveal>
-          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
-            JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
-          </Button>
+    <div className="max-w-4xl mx-auto">
+      <div className="relative group overflow-hidden rounded-[3rem] bg-zinc-900 border border-white/10 p-1 mb-20 shadow-2xl">
+        <div className="relative aspect-[16/7] md:aspect-[21/9] w-full overflow-hidden rounded-[2.8rem]">
+          <Image 
+            src={PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl || ''}
+            alt="Squad Joy"
+            fill
+            className="object-cover brightness-50 transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-center text-center p-8">
+            <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment Protocol</span>
+            <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-8", fontHeading.className)}>
+              READY TO <span className="text-primary">JOIN?</span>
+            </h2>
+            <p className="text-white/80 text-sm md:text-lg max-w-md font-medium leading-snug mb-8">
+              Join the squad today and gain access to elite coaching, member-only events, and tactical gear.
+            </p>
+            <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-12 py-7 font-black text-lg group shadow-xl cursor-pointer">
+              JOIN SQUAD <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
         </div>
       </div>
 
