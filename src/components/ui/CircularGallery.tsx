@@ -69,6 +69,8 @@ class Title {
     const { texture, width, height } = createTextTexture(this.gl, this.text, this.font, this.textColor);
     const geometry = new Plane(this.gl);
     const program = new Program(this.gl, {
+      depthTest: false,
+      depthWrite: false,
       vertex: `
         attribute vec3 position;
         attribute vec2 uv;
@@ -204,7 +206,8 @@ class Media {
         void main() {
           vUv = uv;
           vec3 p = position;
-          p.z = (sin(p.x * 4.0 + uTime) * 1.5 + cos(p.y * 2.0 + uTime) * 1.5) * (0.1 + uSpeed * 0.5);
+          // TACTICAL DISPLACEMENT: Subtle wave effect
+          p.z = (sin(p.x * 2.0 + uTime) * 0.5) * (0.1 + uSpeed * 0.2);
           gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
         }
       `,
@@ -233,10 +236,7 @@ class Media {
           vec4 color = texture2D(tMap, uv);
           
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
-          
-          // Smooth antialiasing for edges
-          float edgeSmooth = 0.002;
-          float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
+          float alpha = 1.0 - smoothstep(-0.002, 0.002, d);
           
           gl_FragColor = vec4(color.rgb, alpha);
         }
@@ -422,10 +422,10 @@ class App {
     this.scene = new Transform();
   }
   createGeometry() {
-    // LAG SUPPRESSION: REDUCED VERTEX DENSITY FOR PERFORMANCE
+    // LAG SUPPRESSION: REDUCED VERTEX DENSITY TO THE MINIMUM
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 10,
-      widthSegments: 20
+      heightSegments: 4,
+      widthSegments: 8
     });
   }
   createMedias(items: { image: string; text: string; }[] | undefined, bend = 1, textColor: string, borderRadius: number, font: string) {
@@ -541,7 +541,7 @@ class App {
     this.container.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
     this.container.addEventListener('touchstart', this.boundOnTouchDown);
-    this.container.addEventListener('touchmove', this.boundOnTouchMove);
+    this.container.addEventListener('touchmove', this.boundOnTouchDown);
     window.addEventListener('touchend', this.boundOnTouchUp);
   }
   destroy() {
@@ -553,7 +553,7 @@ class App {
     this.container.removeEventListener('mousemove', this.boundOnTouchMove);
     window.removeEventListener('mouseup', this.boundOnTouchUp);
     this.container.removeEventListener('touchstart', this.boundOnTouchDown);
-    this.container.removeEventListener('touchmove', this.boundOnTouchMove);
+    this.container.removeEventListener('touchmove', this.boundOnTouchDown);
     window.removeEventListener('touchend', this.boundOnTouchUp);
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
