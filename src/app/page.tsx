@@ -23,6 +23,7 @@ import {
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import Stack from '@/components/ui/Stack';
+import FlowingMenu from '@/components/ui/FlowingMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,17 +77,9 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
 
 const Hero = () => {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-
   return (
     <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
-      <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0">
         <Image 
           src={PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || ''}
           alt="Hero Running"
@@ -96,43 +89,37 @@ const Hero = () => {
           data-ai-hint="running athlete"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
-      </motion.div>
-
-      <div className="relative z-10 text-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(var(--primary),0.6)]">TACTICAL TRAINING SYSTEMS</span>
-          <h1 className={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}>
-            RUN <br /> BEYOND
-          </h1>
-        </motion.div>
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-12 flex flex-col items-center gap-4"
-      >
+      <div className="relative z-10 text-center px-4">
+        <div className="mb-6">
+           <span className="text-primary font-black tracking-[0.4em] text-[10px] block drop-shadow-[0_0_10px_rgba(186,255,0,0.6)]">TACTICAL TRAINING SYSTEMS</span>
+        </div>
+        <ScrollFloat
+          containerClassName="mb-12"
+          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}
+        >
+          RUN BEYOND
+        </ScrollFloat>
+      </div>
+
+      <div className="absolute bottom-12 flex flex-col items-center gap-4">
         <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Scroll to Ascend</span>
         <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
-      </motion.div>
+      </div>
     </section>
   );
 };
 
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
-    <section className="py-32 px-8 border-y border-white/10 bg-zinc-950 relative overflow-hidden">
+    <section className="py-32 px-8 bg-zinc-950/50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.1)]">
+              <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
               <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
@@ -188,7 +175,7 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
     <div 
       key={event.id} 
       className={cn(
-        "w-full h-full bg-zinc-900 border border-white/20 p-10 hover:border-primary transition-all duration-500 rounded-[2.5rem] flex flex-col justify-between relative overflow-hidden",
+        "w-full h-full bg-zinc-900 border border-white/10 p-10 hover:border-primary transition-all duration-500 rounded-[2.5rem] flex flex-col justify-between relative overflow-hidden",
         joinedIds.includes(event.id) && "border-primary bg-primary/20"
       )}
     >
@@ -231,10 +218,15 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
     <section id="schedule" className="py-40 px-8 bg-black relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-          <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
-            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(var(--primary),0.5)]">EVENTS</span>
-          </h2>
-          <div className="h-20 w-20 rounded-2xl border border-white/30 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
+          <div className="space-y-4">
+            <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Operational Schedule</span>
+            <ScrollFloat
+              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}
+            >
+              WEEKLY EVENTS
+            </ScrollFloat>
+          </div>
+          <div className="h-20 w-20 rounded-2xl border border-white/10 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
             <Calendar className="w-8 h-8 text-primary" />
           </div>
         </div>
@@ -268,10 +260,10 @@ const GallerySection = () => {
   ];
 
   return (
-    <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden border-t border-white/20">
+    <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden">
        <div className="px-8 mb-16 flex justify-between items-center max-w-7xl mx-auto">
           <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(var(--primary),0.6)] uppercase">Elite Intelligence</span>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -285,20 +277,48 @@ const GallerySection = () => {
   );
 };
 
+const TacticalSelection = () => {
+  const menuItems = [
+    { link: '#', text: 'URBAN INTERVALS', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
+    { link: '#', text: 'DAWN HUNTS', image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '' },
+    { link: '#', text: 'ELITE VAULT', image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '' },
+    { link: '#', text: 'SQUAD CREED', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
+  ];
+
+  return (
+    <section className="py-20 bg-black overflow-hidden">
+      <div className="max-w-7xl mx-auto px-8 mb-12">
+         <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Squad Selection</span>
+         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter", fontHeading.className)}>TACTICAL SELECTION</h2>
+      </div>
+      <FlowingMenu items={menuItems} />
+    </section>
+  );
+};
+
 const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-        <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(var(--primary),0.5)]">JOIN?</span></h2>
+        <div className="space-y-4">
+          <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Recruitment Protocol</span>
+          <ScrollFloat
+            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}
+          >
+            READY TO JOIN?
+          </ScrollFloat>
+        </div>
         <div className="space-y-10">
-          <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
-          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(var(--primary),0.3)] cursor-pointer">
+          <ScrollReveal baseOpacity={0.2}>
+            <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
+          </ScrollReveal>
+          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
       </div>
 
-      <div className="pt-16 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-12">
+      <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12">
         <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/50">
           <Link href="#" className="hover:text-primary transition-colors uppercase">Instagram</Link>
           <Link href="#" className="hover:text-primary transition-colors uppercase">Strava</Link>
@@ -368,7 +388,10 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden">
+    <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden relative">
+      {/* Global Tactical Noise Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')]" />
+      
       <Nav onLogoClick={handleLogoClick} clickCount={logoClicks} />
       <main>
         <Hero />
@@ -380,12 +403,13 @@ export default function Home() {
           joinedIds={joinedIds}
         />
         <GallerySection />
+        <TacticalSelection />
         <Footer />
       </main>
       
       {/* Tactical Bottom Bar for Mobile */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-sm">
-        <div className="bg-zinc-900/95 backdrop-blur-3xl border border-white/30 rounded-full px-10 py-5 flex items-center justify-between shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
+        <div className="bg-zinc-900/95 backdrop-blur-3xl border border-white/20 rounded-full px-10 py-5 flex items-center justify-between shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
           <Link href="#about"><Zap className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#schedule"><Calendar className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#gallery"><Users className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
