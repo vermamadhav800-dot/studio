@@ -17,7 +17,6 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  // Clear any existing session on login mount
   useEffect(() => {
     localStorage.removeItem('c9_admin_auth');
   }, []);
@@ -29,22 +28,24 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(false);
 
+    console.log('Authorization Sequence Initiated...');
+
     // Tactical Key: madhav@123321
     if (password === 'madhav@123321') {
+      console.log('Key Accepted. Locking session.');
+      
+      localStorage.setItem('c9_admin_auth', 'true');
+      localStorage.setItem('c9_auth_time', Date.now().toString());
+      
       toast({
         title: "AUTHORIZATION GRANTED",
         description: "Bypassing security filters... Redirecting to Command Center.",
       });
-      
-      // Store session with timestamp
-      localStorage.setItem('c9_admin_auth', 'true');
-      localStorage.setItem('c9_auth_time', Date.now().toString());
-      
-      // Force tactical redirect
-      setTimeout(() => {
-        window.location.href = '/admin';
-      }, 500);
+
+      // Using direct navigation for absolute reliability
+      router.push('/admin');
     } else {
+      console.warn('Invalid Key Entered.');
       setError(true);
       toast({
         variant: "destructive",
@@ -61,7 +62,7 @@ export default function AdminLoginPage() {
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
       <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       
-      <div className="max-w-md w-full space-y-8 relative z-10">
+      <div className="max-w-md w-full space-y-8 relative z-50">
         <div className="text-center space-y-4">
           <div className="w-20 h-20 bg-zinc-900 border border-white/10 rounded-[2rem] flex items-center justify-center mx-auto shadow-[0_0_50px_rgba(186,255,0,0.1)] mb-6">
             <Shield className="w-10 h-10 text-primary" />
@@ -75,7 +76,7 @@ export default function AdminLoginPage() {
         </div>
 
         <form onSubmit={handleLogin} className={cn(
-          "bg-zinc-900/50 border p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl transition-all duration-300",
+          "bg-zinc-900/50 border p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl transition-all duration-300 pointer-events-auto",
           error ? "border-destructive/50" : "border-white/10"
         )}>
           <div className="space-y-3">
@@ -104,7 +105,7 @@ export default function AdminLoginPage() {
           <Button 
             type="submit" 
             disabled={loading || !password}
-            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-[0_0_30px_rgba(186,255,0,0.2)] group transition-all"
+            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-[0_0_30px_rgba(186,255,0,0.2)] group transition-all relative z-50 pointer-events-auto cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center gap-2">

@@ -38,7 +38,7 @@ export default function AdminPage() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      console.log('Tactical Sync Initiated at:', new Date().toISOString());
+      console.log('Supabase Sync Initiated...');
       
       const [mRes, bRes, sRes] = await Promise.all([
         supabase.from('missions').select('*').order('created_at', { ascending: true }),
@@ -46,49 +46,41 @@ export default function AdminPage() {
         supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
       ]);
 
-      // Detailed Tactical Error Reporting
       if (mRes.error) {
-        console.error('Mission Fetch Failure:', mRes.error);
-        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message });
+        console.error('Mission Fetch Error Detail:', JSON.stringify(mRes.error, null, 2));
+        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message || "Failed to fetch missions." });
       } else {
         setMissions(mRes.data || []);
       }
 
-      if (bRes.error) {
-        console.error('Booking Fetch Failure:', bRes.error);
-      } else {
-        setBookings(bRes.data || []);
-      }
+      if (bRes.error) console.error('Booking Fetch Error Detail:', JSON.stringify(bRes.error, null, 2));
+      else setBookings(bRes.data || []);
 
-      if (sRes.error) {
-        console.error('Stats Fetch Failure:', sRes.error);
-      } else {
-        setStats(sRes.data || []);
-      }
+      if (sRes.error) console.error('Stats Fetch Error Detail:', JSON.stringify(sRes.error, null, 2));
+      else setStats(sRes.data || []);
 
     } catch (err: any) {
-      console.error('Critical Link Failure:', err);
+      console.error('Tactical Critical Error:', err);
       toast({ 
         variant: "destructive", 
-        title: "Connection Timed Out", 
-        description: "The Supabase tactical server is unreachable." 
+        title: "Connection Blocked", 
+        description: err.message || "The network request to Supabase failed." 
       });
     } finally {
       setLoading(false);
     }
   }, [toast]);
 
-  const handleAddMission = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    console.log('Mission Deployment Requested:', newMission);
+  const handleAddMission = async () => {
+    console.log('Add Mission Triggered. Payload:', newMission);
     
     if (isSubmitting) return;
 
     if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
       toast({ 
         variant: "destructive", 
-        title: "Incomplete Coordinates", 
-        description: "Day, Time, Location, and Type are mandatory." 
+        title: "Incomplete Intel", 
+        description: "All mission fields are mandatory." 
       });
       return;
     }
@@ -101,20 +93,20 @@ export default function AdminPage() {
         .select();
 
       if (error) {
-        console.error('Deployment Failed:', error);
+        console.error('Deployment Failed Logic:', JSON.stringify(error, null, 2));
         throw error;
       }
 
       console.log('Deployment Success:', data);
-      toast({ title: "MISSION DEPLOYED", description: "Tactical schedule updated." });
+      toast({ title: "MISSION DEPLOYED", description: "Schedule updated in database." });
       setNewMission({ day: '', time: '', location: '', type: '' });
       fetchData();
     } catch (err: any) {
-      console.error('Submission Error:', err);
+      console.error('Insertion Exception:', err);
       toast({ 
         variant: "destructive", 
-        title: "Deployment Failure", 
-        description: err.message || "Network blockage detected."
+        title: "Database Rejection", 
+        description: err.message || "Network blockage detected during write."
       });
     } finally {
       setIsSubmitting(false);
@@ -156,7 +148,7 @@ export default function AdminPage() {
   if (!isAuthorized) return null;
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-12 selection:bg-primary selection:text-black relative">
+    <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-x-hidden">
       <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
@@ -176,7 +168,7 @@ export default function AdminPage() {
               variant="outline" 
               onClick={fetchData} 
               disabled={loading}
-              className="rounded-full border-white/20 hover:border-primary text-[10px] font-black tracking-widest uppercase py-6 px-8 bg-zinc-900/40"
+              className="rounded-full border-white/20 hover:border-primary text-[10px] font-black tracking-widest uppercase py-6 px-8 bg-zinc-900/40 relative z-50 pointer-events-auto"
             >
               <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} /> REFRESH SYNC
             </Button>
@@ -194,20 +186,20 @@ export default function AdminPage() {
               {stats.length > 0 ? stats.map(stat => (
                 <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all pointer-events-auto">
                    <div className="flex justify-between items-center">
-                     <span className="text-[10px] font-black text-white/30 uppercase">STAT_ID: {stat.id.toUpperCase()}</span>
-                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/10">
+                     <span className="text-[10px] font-black text-white/30 uppercase">ID: {stat.id.toUpperCase()}</span>
+                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/10 relative z-20 pointer-events-auto">
                         <Save className="w-4 h-4" />
                      </Button>
                    </div>
                    <Input 
                      value={stat.value} 
                      onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
-                     className="bg-black/50 border-white/10 text-2xl font-black text-white h-16 rounded-xl" 
+                     className="bg-black/50 border-white/10 text-2xl font-black text-white h-16 rounded-xl relative z-20 pointer-events-auto" 
                    />
                    <Input 
                      value={stat.label} 
                      onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
-                     className="bg-black/50 border-white/10 text-[10px] font-black text-white/50 h-10 rounded-lg" 
+                     className="bg-black/50 border-white/10 text-[10px] font-black text-white/50 h-10 rounded-lg relative z-20 pointer-events-auto" 
                    />
                 </div>
               )) : (
@@ -223,16 +215,16 @@ export default function AdminPage() {
           {/* Mission Deployment Form */}
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Plus className="w-6 h-6 text-primary" /> DEPLOY MISSION</h2>
-            <div className="bg-zinc-900/40 border border-white/5 p-10 rounded-[3rem] space-y-4 pointer-events-auto relative z-20">
+            <div className="bg-zinc-900/40 border border-white/5 p-10 rounded-[3rem] space-y-4 relative z-20 pointer-events-auto">
               <div className="space-y-4">
-                <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-                <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
-                <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-                <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+                <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
+                <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
+                <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
+                <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
                 <Button 
                   onClick={() => handleAddMission()} 
                   disabled={isSubmitting} 
-                  className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 relative z-30 cursor-pointer pointer-events-auto"
+                  className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 relative z-40 cursor-pointer pointer-events-auto"
                 >
                   {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
                 </Button>
@@ -245,13 +237,13 @@ export default function AdminPage() {
             <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Zap className="w-6 h-6 text-primary" /> ACTIVE MISSIONS</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {missions.length > 0 ? missions.map(mission => (
-                <div key={mission.id} className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between hover:border-primary/50 transition-all pointer-events-auto">
+                <div key={mission.id} className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between hover:border-primary/50 transition-all pointer-events-auto relative z-20">
                   <div>
                     <span className="text-primary font-black text-xs block mb-2">{mission.day} • {mission.time}</span>
                     <h4 className="font-black text-xl mb-3 uppercase">{mission.type}</h4>
                     <p className="text-white/40 text-[10px] font-black uppercase flex items-center gap-2"><MapPin className="w-3 h-3" /> {mission.location}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 h-12 w-12"><Trash2 className="w-5 h-5" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 h-12 w-12 relative z-30 pointer-events-auto"><Trash2 className="w-5 h-5" /></Button>
                 </div>
               )) : (
                 <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
@@ -269,7 +261,7 @@ export default function AdminPage() {
              {bookings.length > 0 ? bookings.map(booking => {
                const mission = missions.find(m => m.id === booking.mission_id);
                return (
-                 <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] space-y-3 hover:border-white/20 transition-all">
+                 <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] space-y-3 hover:border-white/20 transition-all pointer-events-auto relative z-20">
                     <span className="text-primary font-black text-[10px] uppercase truncate block">{booking.user_email}</span>
                     <div className="text-white/40 text-[9px] font-black uppercase tracking-widest border-t border-white/5 pt-3">
                       MISSION: {mission ? `${mission.day} ${mission.type}` : 'DECOMMISSIONED'}
