@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -14,9 +14,20 @@ import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2, Shield, AlertTriangle } from 'lucide-react';
-import { supabase, type Mission } from '@/lib/supabase';
+import { Input } from '@/components/ui/input';
+import { 
+  ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
+  CheckCircle2, Shield, AlertTriangle, Lock, Trash2, Plus, X 
+} from 'lucide-react';
+import { supabase, type Mission, type Booking } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,11 +38,14 @@ const stats = [
   { label: 'MISSIONS LOGGED', value: '500+', icon: Zap },
 ];
 
-const Nav = () => (
+const Nav = ({ onLogoClick }: { onLogoClick: () => void }) => (
   <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference">
-    <Link href="/" className={cn("text-2xl md:text-3xl font-black tracking-tighter text-white", fontHeading.className)}>
+    <div 
+      onClick={onLogoClick}
+      className={cn("text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none", fontHeading.className)}
+    >
       C9 CLUB
-    </Link>
+    </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
       <Link href="#schedule" className="hover:text-primary transition-colors">SCHEDULE</Link>
@@ -151,28 +165,29 @@ const ScheduleSection = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    async function fetchMissions() {
-      try {
-        setError(null);
-        const { data, error } = await supabase
-          .from('missions')
-          .select('*')
-          .order('created_at', { ascending: true });
-        
-        if (error) throw error;
-        setMissions(data || []);
-      } catch (err: any) {
-        // Handle tactical connection errors gracefully
-        const msg = err.message === 'Failed to fetch' 
-          ? 'Squad HQ is currently unreachable. Check your connection.' 
-          : err.message;
-        setError(msg);
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchMissions();
   }, []);
+
+  async function fetchMissions() {
+    try {
+      setLoading(true);
+      setError(null);
+      const { data, error } = await supabase
+        .from('missions')
+        .select('*')
+        .order('created_at', { ascending: true });
+      
+      if (error) throw error;
+      setMissions(data || []);
+    } catch (err: any) {
+      const msg = err.message === 'Failed to fetch' 
+        ? 'Squad HQ is currently unreachable. Check your connection.' 
+        : err.message;
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleJoin = async (missionId: string) => {
     if (joinedIds.includes(missionId)) return;
@@ -330,6 +345,13 @@ const Footer = () => (
 );
 
 export default function Home() {
+  const [logoClicks, setLogoClicks] = useState(0);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [missions, setMissions] = useState<Mission[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
+  const { toast } = useToast();
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -348,15 +370,63 @@ export default function Home() {
     }
 
     requestAnimationFrame(raf);
+    fetchAdminData();
 
     return () => {
       lenis.destroy();
     };
   }, []);
 
+  async function fetchAdminData() {
+    const { data: missionsData } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
+    const { data: bookingsData } = await supabase.from('bookings').select('*');
+    if (missionsData) setMissions(missionsData);
+    if (bookingsData) setBookings(bookingsData);
+  }
+
+  const handleLogoClick = () => {
+    const newCount = logoClicks + 1;
+    setLogoClicks(newCount);
+    if (newCount === 10) {
+      const password = prompt("Enter Tactical Override Password:");
+      if (password === 'madhav@123321') {
+        setIsAdminOpen(true);
+        setLogoClicks(0);
+      } else {
+        toast({ variant: "destructive", title: "Access Denied", description: "Invalid Override Credentials." });
+        setLogoClicks(0);
+      }
+    }
+  };
+
+  const handleAddMission = async () => {
+    if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
+      toast({ variant: "destructive", title: "Missing Intel", description: "Complete all fields for the mission." });
+      return;
+    }
+    const { error } = await supabase.from('missions').insert([newMission]);
+    if (error) {
+      toast({ variant: "destructive", title: "Tactical Error", description: error.message });
+    } else {
+      toast({ title: "Mission Logged", description: "The squad schedule has been updated." });
+      setNewMission({ day: '', time: '', location: '', type: '' });
+      fetchAdminData();
+    }
+  };
+
+  const handleDeleteMission = async (id: string) => {
+    const { error } = await supabase.from('missions').delete().eq('id', id);
+    if (error) {
+      toast({ variant: "destructive", title: "Erasure Failed", description: error.message });
+    } else {
+      toast({ title: "Mission Erased", description: "Target removed from operational schedule." });
+      fetchAdminData();
+    }
+  };
+
   return (
     <div className="bg-black text-foreground selection:bg-primary selection:text-black">
-      <Nav />
+      <Nav onLogoClick={handleLogoClick} />
       <main>
         <Hero />
         <StatsSection />
@@ -365,6 +435,84 @@ export default function Home() {
         <GallerySection />
         <Footer />
       </main>
+      
+      {/* Admin Panel Modal */}
+      <Dialog open={isAdminOpen} onOpenChange={setIsAdminOpen}>
+        <DialogContent className="max-w-4xl bg-zinc-950 border-white/20 text-white rounded-[2.5rem] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className={cn("text-4xl font-black text-primary", fontHeading.className)}>TACTICAL COMMAND CENTER</DialogTitle>
+            <DialogDescription className="text-white/60 font-bold uppercase tracking-widest text-[10px]">Mission Control & Squad Intelligence</DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-12 py-8">
+            {/* Add Mission Form */}
+            <div className="p-8 border border-white/10 rounded-[2rem] bg-zinc-900/50">
+              <h3 className="text-xl font-black mb-6 flex items-center gap-2"><Plus className="w-5 h-5 text-primary" /> NEW MISSION</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input 
+                  placeholder="Day (e.g. MON)" 
+                  value={newMission.day} 
+                  onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})}
+                  className="bg-black/50 border-white/10"
+                />
+                <Input 
+                  placeholder="Time (e.g. 06:00 AM)" 
+                  value={newMission.time} 
+                  onChange={(e) => setNewMission({...newMission, time: e.target.value})}
+                  className="bg-black/50 border-white/10"
+                />
+                <Input 
+                  placeholder="Location" 
+                  value={newMission.location} 
+                  onChange={(e) => setNewMission({...newMission, location: e.target.value})}
+                  className="bg-black/50 border-white/10"
+                />
+                <Input 
+                  placeholder="Run Type" 
+                  value={newMission.type} 
+                  onChange={(e) => setNewMission({...newMission, type: e.target.value})}
+                  className="bg-black/50 border-white/10"
+                />
+              </div>
+              <Button onClick={handleAddMission} className="w-full mt-6 bg-primary text-black font-black hover:bg-white transition-all rounded-full py-6">
+                DEPLOY MISSION
+              </Button>
+            </div>
+
+            {/* Missions List */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-black flex items-center gap-2"><Zap className="w-5 h-5 text-primary" /> ACTIVE MISSIONS</h3>
+              {missions.map(mission => (
+                <div key={mission.id} className="flex items-center justify-between p-6 border border-white/10 rounded-2xl bg-zinc-900/30">
+                  <div>
+                    <span className="text-primary font-black text-xs mr-4">{mission.day}</span>
+                    <span className="font-bold">{mission.type} @ {mission.location}</span>
+                    <div className="text-[10px] text-white/40 mt-1 uppercase font-black">
+                      {bookings.filter(b => b.mission_id === mission.id).length} SQUADDIES CONFIRMED
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-xl">
+                    <Trash2 className="w-5 h-5" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            {/* Bookings Intel */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-black flex items-center gap-2"><Users className="w-5 h-5 text-primary" /> SQUAD ROSTER (ALL BOOKINGS)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {bookings.map(booking => (
+                  <div key={booking.id} className="p-4 border border-white/5 rounded-xl bg-black/40 text-[10px] flex justify-between items-center">
+                    <span className="font-bold text-white/60 uppercase">{booking.user_email}</span>
+                    <span className="text-primary/50">{new Date(booking.created_at).toLocaleDateString()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       
       {/* Tactical Bottom Bar for Mobile */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-sm">
