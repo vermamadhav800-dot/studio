@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -10,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { supabase, type Mission, type Booking, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Plus, Trash2, Zap, Users, MapPin, Trophy, ArrowLeft, Save, RefreshCcw, Loader2 
+  Plus, Trash2, Zap, Users, MapPin, Trophy, ArrowLeft, Save, Loader2, AlertCircle 
 } from 'lucide-react';
 
 export default function AdminPage() {
@@ -38,24 +37,27 @@ export default function AdminPage() {
   async function fetchData() {
     try {
       setLoading(true);
-      // Fetch each table individually to handle partial failures
-      const mRes = await supabase.from('missions').select('*').order('created_at', { ascending: true });
-      const bRes = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
-      const sRes = await supabase.from('club_stats').select('*').order('sort_order', { ascending: true });
+      
+      // Fetch each table individually to prevent one error from breaking everything
+      const [mRes, bRes, sRes] = await Promise.all([
+        supabase.from('missions').select('*').order('created_at', { ascending: true }),
+        supabase.from('bookings').select('*').order('created_at', { ascending: false }),
+        supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
+      ]);
 
-      setMissions(mRes.data || []);
-      setBookings(bRes.data || []);
-      setStats(sRes.data || []);
+      if (mRes.data) setMissions(mRes.data);
+      if (bRes.data) setBookings(bRes.data);
+      if (sRes.data) setStats(sRes.data);
       
       if (mRes.error || bRes.error || sRes.error) {
-        console.warn('Tactical Partial Sync Warning:', mRes.error || bRes.error || sRes.error);
+        console.warn('Tactical Partial Load Warning:', mRes.error || bRes.error || sRes.error);
       }
     } catch (err: any) {
-      console.error('Tactical Sync Error:', err.message);
+      console.error('Tactical Connection Error:', err.message);
       toast({ 
         variant: "destructive", 
-        title: "Sync Failure", 
-        description: "Network blocked. Check Supabase connection." 
+        title: "Connection Failure", 
+        description: "Failed to fetch tactical data. Ensure Supabase tables exist." 
       });
     } finally {
       setLoading(false);
@@ -68,8 +70,8 @@ export default function AdminPage() {
     if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
       toast({ 
         variant: "destructive", 
-        title: "Missing Intel", 
-        description: "All coordinates required." 
+        title: "Missing Coordinates", 
+        description: "All mission data required." 
       });
       return;
     }
@@ -82,11 +84,15 @@ export default function AdminPage() {
 
       if (error) throw error;
 
-      toast({ title: "MISSION DEPLOYED" });
+      toast({ title: "MISSION LOGGED" });
       setNewMission({ day: '', time: '', location: '', type: '' });
       fetchData();
     } catch (err: any) {
-      toast({ variant: "destructive", title: "Deployment Failed", description: err.message });
+      toast({ 
+        variant: "destructive", 
+        title: "Deployment Failed", 
+        description: err.message 
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -111,7 +117,7 @@ export default function AdminPage() {
         .eq('id', stat.id);
 
       if (error) throw error;
-      toast({ title: "Stats Updated" });
+      toast({ title: "Intelligence Updated" });
     } catch (err: any) {
       toast({ variant: "destructive", title: "Update Failed", description: err.message });
     }
@@ -145,7 +151,7 @@ export default function AdminPage() {
         </div>
 
         <div className="space-y-8">
-           <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Trophy className="w-6 h-6 text-primary" /> SQUAD INTELLIGENCE</h2>
+           <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Trophy className="w-6 h-6 text-primary" /> CLUB INTELLIGENCE</h2>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.length > 0 ? stats.map(stat => (
                 <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all">
@@ -159,7 +165,9 @@ export default function AdminPage() {
                    <Input value={stat.label} onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} className="bg-black/50 border-white/10 text-[10px] font-black text-white/50 h-10 rounded-lg" />
                 </div>
               )) : (
-                <div className="col-span-full py-12 text-center text-white/20 text-[10px] font-black uppercase">Stats Table Empty</div>
+                <div className="col-span-full py-12 text-center text-white/20 text-[10px] font-black uppercase border border-dashed border-white/10 rounded-[2rem]">
+                  {loading ? "FETCHING STATS..." : "Stats Table Empty or Missing"}
+                </div>
               )}
            </div>
         </div>
@@ -173,7 +181,7 @@ export default function AdminPage() {
               <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Button onClick={handleAddMission} disabled={isSubmitting} className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4">
-                {isSubmitting ? "LOGGING..." : "LOG TO SCHEDULE"}
+                {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
             </div>
           </div>
@@ -191,7 +199,9 @@ export default function AdminPage() {
                   <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 h-12 w-12"><Trash2 className="w-5 h-5" /></Button>
                 </div>
               )) : (
-                <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">No missions logged</div>
+                <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
+                  {loading ? "SYNCHRONIZING..." : "No missions logged in database"}
+                </div>
               )}
             </div>
           </div>
@@ -206,12 +216,14 @@ export default function AdminPage() {
                  <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] space-y-3 hover:border-white/20 transition-all">
                     <span className="text-primary font-black text-[10px] uppercase truncate block">{booking.user_email}</span>
                     <div className="text-white/40 text-[9px] font-black uppercase tracking-widest border-t border-white/5 pt-3">
-                      MISSION: {mission ? `${mission.day} ${mission.type}` : 'DELETED'}
+                      MISSION: {mission ? `${mission.day} ${mission.type}` : 'ERASED'}
                     </div>
                  </div>
                )
              }) : (
-               <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">Roster empty</div>
+               <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
+                 {loading ? "SEARCHING VAULT..." : "Roster empty"}
+               </div>
              )}
           </div>
         </div>

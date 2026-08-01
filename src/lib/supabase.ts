@@ -1,22 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-// TACTICAL CREDENTIALS - PRIORITIZING ENV VARS WITH HARDCODED FALLBACKS
+// TACTICAL CREDENTIALS - PRIORITIZING PROVIDED KEYS
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://imofjiwswuoguxwgivmh.supabase.co';
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imltb2ZpandzdW9ndXh3Z2l2bWhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1Njg5OTMsImV4cCI6MjEwMTE0NDk5M30.8ATXphzYLvKV46z5FxxCLvxMdNjQX5Z9HdiITJwDp4E';
 
-// Initialize Supabase with enhanced fetch settings for resilience
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-  global: {
-    fetch: (...args) => fetch(...args).catch(err => {
-      console.error('Supabase Network Error:', err);
-      throw err;
-    })
-  }
-});
+// Initialize Supabase with default fetch for maximum stability
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export type Mission = {
   id: string;
