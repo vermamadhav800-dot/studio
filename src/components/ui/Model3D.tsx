@@ -26,7 +26,7 @@ export default function Model3D({
     const scene = new THREE.Scene();
     
     // CAMERA SETUP - Tactical FOV
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
     camera.position.set(0, 0, 5);
 
     // RENDERER SETUP - Optimized for HMR Stability and Performance
@@ -38,7 +38,7 @@ export default function Model3D({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.5;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(renderer.domElement);
 
@@ -52,9 +52,14 @@ export default function Model3D({
     scene.add(dirLight);
 
     // TACTICAL SHINE LIGHT - High Intensity White Light for orbital shine
-    const shineLight = new THREE.PointLight(0xffffff, 80, 25); 
+    const shineLight = new THREE.PointLight(0xffffff, 100, 25); 
     shineLight.position.set(0, 2, 2);
     scene.add(shineLight);
+
+    // TACTICAL GLOW LIGHT - Backside Halo Effect
+    const glowLight = new THREE.PointLight(0xffffff, 40, 15);
+    glowLight.position.set(0, 0, -2);
+    scene.add(glowLight);
 
     // CONTROLS
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -72,12 +77,12 @@ export default function Model3D({
       (gltf) => {
         loadedModel = gltf.scene;
 
-        // Scale and Center Logic
+        // Scale and Center Logic - ENHANCED SIZE PROTOCOL
         const box = new THREE.Box3().setFromObject(loadedModel);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.8 / maxDim; 
+        const scale = 4.2 / maxDim; // BUMPED SCALE
 
         loadedModel.scale.setScalar(scale);
         loadedModel.position.sub(center.multiplyScalar(scale));
@@ -94,16 +99,16 @@ export default function Model3D({
       
       const time = Date.now() * 0.001;
 
-      // Frontal Oscillation Protocol: Sway +/- 0.4 radians around the center
-      // This ensures the backside is never shown during auto-animation
+      // Frontal Oscillation Protocol: Sway +/- 0.3 radians around the center
+      // This ensures a heavy, majestic presence where the backside is never shown automatically
       if (loadedModel) {
-        loadedModel.rotation.y = Math.sin(time * 0.6) * 0.4;
-        loadedModel.rotation.x = Math.sin(time * 0.4) * 0.05; // Subtle pitch
+        loadedModel.rotation.y = Math.sin(time * 0.5) * 0.3;
+        loadedModel.rotation.x = Math.sin(time * 0.3) * 0.08; // Subtle majestic pitch
       }
       
       // Dynamic white shine light orbiting the front face
-      shineLight.position.x = Math.sin(time * 2) * 3;
-      shineLight.position.y = Math.cos(time * 2) * 3;
+      shineLight.position.x = Math.sin(time * 1.5) * 4;
+      shineLight.position.y = Math.cos(time * 1.5) * 4;
       shineLight.position.z = 3;
       
       controls.update();
