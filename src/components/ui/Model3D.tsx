@@ -52,7 +52,7 @@ export default function Model3D({
     scene.add(dirLight);
 
     // TACTICAL SHINE LIGHT - High Intensity White Light for Shine
-    const shineLight = new THREE.PointLight(0xffffff, 50, 20); 
+    const shineLight = new THREE.PointLight(0xffffff, 60, 20); 
     shineLight.position.set(0, 2, 2);
     scene.add(shineLight);
 
@@ -61,27 +61,28 @@ export default function Model3D({
     controls.enableZoom = false; 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 2;
+    controls.autoRotate = false; // Disable full rotation for oscillation
+
+    let loadedModel: THREE.Group | null = null;
 
     // OPTIMIZED GLB LOADER
     const loader = new GLTFLoader();
     loader.load(
       modelPath,
       (gltf) => {
-        const model = gltf.scene;
+        loadedModel = gltf.scene;
 
         // Scale and Center Logic
-        const box = new THREE.Box3().setFromObject(model);
+        const box = new THREE.Box3().setFromObject(loadedModel);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 2.8 / maxDim; 
 
-        model.scale.setScalar(scale);
-        model.position.sub(center.multiplyScalar(scale));
+        loadedModel.scale.setScalar(scale);
+        loadedModel.position.sub(center.multiplyScalar(scale));
         
-        scene.add(model);
+        scene.add(loadedModel);
       },
       undefined,
       (error) => console.error('3D Loading System Failure:', error)
@@ -91,8 +92,15 @@ export default function Model3D({
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       
+      const time = Date.now() * 0.001;
+
+      // Oscillation Protocol: Prevent backside from showing automatically
+      if (loadedModel) {
+        // Sway side-to-side +/- 0.4 radians (~23 degrees)
+        loadedModel.rotation.y = Math.sin(time * 0.6) * 0.4;
+      }
+      
       // Dynamic shine light movement to create a shimmering effect
-      const time = Date.now() * 0.002;
       shineLight.position.x = Math.sin(time) * 3;
       shineLight.position.z = Math.cos(time) * 3;
       shineLight.position.y = Math.sin(time * 0.5) * 2;
