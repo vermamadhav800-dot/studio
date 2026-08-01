@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -23,7 +24,7 @@ import {
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import FlowingMenu from '@/components/ui/FlowingMenu';
-import Masonry from '@/components/ui/Masonry';
+import FlyingPosters from '@/components/ui/FlyingPosters';
 import BubbleMenu from '@/components/ui/BubbleMenu';
 import { LogoLoop } from '@/components/ui/LogoLoop';
 import CircularText from '@/components/ui/CircularText';
@@ -106,12 +107,13 @@ const Hero = () => {
       <div className="relative z-10 w-full max-w-7xl px-8 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
         <motion.div 
           initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: false }}
           transition={{ duration: 1, ease: "easeOut" }}
           style={{ y: textY }}
           className="text-left space-y-6"
         >
-          <div>
+          <div className="overflow-hidden">
              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
              <h1 className={cn("text-6xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>
                Run beyond <br /> limits
@@ -129,7 +131,8 @@ const Hero = () => {
 
         <motion.div 
           initial={{ scale: 0.7, opacity: 0, rotateY: 45 }}
-          animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+          whileInView={{ scale: 1, opacity: 1, rotateY: 0 }}
+          viewport={{ once: false }}
           transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
           className="relative hidden lg:block"
         >
@@ -166,8 +169,8 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
               key={i} 
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: false }}
               transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
               className="flex flex-col items-center text-center group"
             >
               <span className={cn("text-5xl md:text-6xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>{stat.value}</span>
@@ -196,12 +199,18 @@ const VisionSection = () => {
           </div>
           <div className="space-y-8">
             <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium font-heading">
-              <ScrollReveal baseOpacity={0.2} blurStrength={10}>
+              <ScrollReveal baseOpacity={0.2} blurStrength={10} wordAnimationEnd="bottom center">
                 C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
               </ScrollReveal>
-              <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-7 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
-                Learn our Creed →
-              </Button>
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: false }}
+              >
+                <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-7 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
+                  Learn our Creed →
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -211,37 +220,55 @@ const VisionSection = () => {
 };
 
 const ArchivesSection = () => {
-  const archiveItems = [
-    { id: '1', title: 'Urban Ops', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
-    { id: '2', title: 'Elite Gear', category: 'Elite gear', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
-    { id: '3', title: 'Squad Intel', category: 'Squad intel', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
-    { id: '4', title: 'Dawn Hunt', category: 'Dawn hunt', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
-    { id: '5', title: 'Street Attack', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
-    { id: '6', title: 'Track Data', category: 'Track data', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
-    { id: '7', title: 'Elite Training', category: 'Elite gear', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
-    { id: '8', title: 'Mission Log', category: 'Urban ops', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
+  const archiveImages = [
+    PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl || '',
   ];
 
   return (
-    <section id="archives" className="py-40 bg-black overflow-hidden relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-8">
-         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+    <section id="archives" className="h-[120vh] bg-black overflow-hidden relative border-t border-white/5 flex flex-col">
+      <div className="max-w-7xl mx-auto px-8 w-full py-20 z-20">
+         <div className="flex flex-col md:flex-row justify-between items-end gap-8">
            <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
-             <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
-             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>Squad archives</h2>
+             <motion.span 
+               initial={{ x: -20, opacity: 0 }}
+               whileInView={{ x: 0, opacity: 1 }}
+               viewport={{ once: false }}
+               className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase"
+             >
+               Tactical Database
+             </motion.span>
+             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>
+               <ScrollFloat
+                  containerClassName="!text-left"
+                  textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-none !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+               >
+                 Squad archives
+               </ScrollFloat>
+             </h2>
            </div>
-           <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
-             <Camera className="w-4 h-4" /> Scroll to scan vault
-           </div>
+           <motion.div 
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
+             viewport={{ once: false }}
+             className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4"
+           >
+             <Camera className="w-4 h-4" /> Infinite drift active
+           </motion.div>
          </div>
+      </div>
 
-         <Masonry 
-            items={archiveItems}
-            animateFrom="bottom"
-            stagger={0.08}
-            scaleOnHover={true}
-            hoverScale={0.97}
-         />
+      <div className="flex-1 w-full relative">
+        <FlyingPosters 
+          items={archiveImages}
+          planeWidth={400}
+          planeHeight={500}
+          distortion={2.5}
+          scrollEase={0.02}
+        />
       </div>
     </section>
   );
@@ -303,12 +330,17 @@ const ScheduleSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
           <h2 className={cn("text-6xl md:text-8xl font-black text-white italic tracking-tighter leading-[0.9] font-heading", fontHeading.className)}>
-            Weekly<br/>events
+            <ScrollFloat
+              containerClassName="!text-left"
+              textClassName={cn("!text-white !text-6xl md:!text-8xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+            >
+              Weekly events
+            </ScrollFloat>
           </h2>
           <div className="space-y-6">
-            <p className="text-white/60 text-lg max-w-lg font-heading">
+            <ScrollReveal baseOpacity={0.2} blurStrength={10} wordAnimationEnd="bottom center">
               Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise.
-            </p>
+            </ScrollReveal>
             <div className="flex gap-2">
               {tabs.map(tab => (
                 <button
@@ -334,7 +366,7 @@ const ScheduleSection = () => {
               key={poster.id} 
               initial={{ scale: 0.9, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="group relative aspect-[1/1.6] overflow-hidden bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2"
             >
               <Image 
@@ -404,7 +436,14 @@ const GallerySection = () => {
   return (
     <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>The vault</h2>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>
+            <ScrollFloat
+              containerClassName="!text-left"
+              textClassName={cn("!text-white !text-5xl !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+            >
+              The vault
+            </ScrollFloat>
+          </h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite intelligence</span>
        </div>
        <CircularGallery 
