@@ -48,7 +48,7 @@ export default function AdminPage() {
 
       if (mRes.error) {
         console.error('Mission Fetch Error Detail:', JSON.stringify(mRes.error, null, 2));
-        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message || "Failed to fetch missions." });
+        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message || "Network Error" });
       } else {
         setMissions(mRes.data || []);
       }
@@ -64,7 +64,7 @@ export default function AdminPage() {
       toast({ 
         variant: "destructive", 
         title: "Connection Blocked", 
-        description: err.message || "The network request to Supabase failed." 
+        description: err.message || "Failed to fetch from Supabase." 
       });
     } finally {
       setLoading(false);
@@ -72,7 +72,7 @@ export default function AdminPage() {
   }, [toast]);
 
   const handleAddMission = async () => {
-    console.log('Add Mission Triggered. Payload:', newMission);
+    console.log('Deployment Command Received...', newMission);
     
     if (isSubmitting) return;
 
@@ -93,12 +93,12 @@ export default function AdminPage() {
         .select();
 
       if (error) {
-        console.error('Deployment Failed Logic:', JSON.stringify(error, null, 2));
+        console.error('Deployment Rejected:', JSON.stringify(error, null, 2));
         throw error;
       }
 
-      console.log('Deployment Success:', data);
-      toast({ title: "MISSION DEPLOYED", description: "Schedule updated in database." });
+      console.log('Deployment Logged:', data);
+      toast({ title: "MISSION DEPLOYED", description: "Operation added to database." });
       setNewMission({ day: '', time: '', location: '', type: '' });
       fetchData();
     } catch (err: any) {
@@ -106,7 +106,7 @@ export default function AdminPage() {
       toast({ 
         variant: "destructive", 
         title: "Database Rejection", 
-        description: err.message || "Network blockage detected during write."
+        description: err.message || "Link failure during write."
       });
     } finally {
       setIsSubmitting(false);
@@ -149,14 +149,14 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative overflow-x-hidden">
-      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
+      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none z-0" />
       
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
           <div>
-            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase">
+            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase relative z-50">
               <ArrowLeft className="w-4 h-4 mr-2" /> EXIT COMMAND
             </Button>
             <h1 className={cn("text-6xl md:text-9xl font-black text-primary leading-none tracking-tighter", fontHeading.className)}>
@@ -184,22 +184,22 @@ export default function AdminPage() {
            <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Trophy className="w-6 h-6 text-primary" /> CLUB INTELLIGENCE</h2>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.length > 0 ? stats.map(stat => (
-                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all pointer-events-auto">
+                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all pointer-events-auto relative z-20">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-white/30 uppercase">ID: {stat.id.toUpperCase()}</span>
-                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/10 relative z-20 pointer-events-auto">
+                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/10 relative z-30">
                         <Save className="w-4 h-4" />
                      </Button>
                    </div>
                    <Input 
                      value={stat.value} 
                      onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
-                     className="bg-black/50 border-white/10 text-2xl font-black text-white h-16 rounded-xl relative z-20 pointer-events-auto" 
+                     className="bg-black/50 border-white/10 text-2xl font-black text-white h-16 rounded-xl relative z-30" 
                    />
                    <Input 
                      value={stat.label} 
                      onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
-                     className="bg-black/50 border-white/10 text-[10px] font-black text-white/50 h-10 rounded-lg relative z-20 pointer-events-auto" 
+                     className="bg-black/50 border-white/10 text-[10px] font-black text-white/50 h-10 rounded-lg relative z-30" 
                    />
                 </div>
               )) : (
@@ -217,10 +217,10 @@ export default function AdminPage() {
             <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Plus className="w-6 h-6 text-primary" /> DEPLOY MISSION</h2>
             <div className="bg-zinc-900/40 border border-white/5 p-10 rounded-[3rem] space-y-4 relative z-20 pointer-events-auto">
               <div className="space-y-4">
-                <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
-                <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
-                <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
-                <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30 pointer-events-auto" />
+                <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30" />
+                <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 relative z-30" />
+                <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30" />
+                <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 relative z-30" />
                 <Button 
                   onClick={() => handleAddMission()} 
                   disabled={isSubmitting} 
