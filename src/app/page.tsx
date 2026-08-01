@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -93,6 +94,7 @@ const Hero = () => {
           fill
           priority
           className="object-cover"
+          sizes="100vw"
           data-ai-hint="running marathon"
         />
         <motion.div 
@@ -167,7 +169,7 @@ const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }
           ease: "linear",
           delay: delay
         }}
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 will-change-transform"
       >
         {[...images, ...images].map((img, i) => (
           <div key={i} className="relative aspect-[4/5] w-full bg-zinc-900 border border-white/10 rounded-[2rem] overflow-hidden group">
@@ -175,7 +177,8 @@ const VerticalScrollColumn = ({ images, speed = 20, delay = 0, reverse = false }
               src={img} 
               alt="Archive Item" 
               fill 
-              className="object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700" 
+              className="object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-8 flex flex-col justify-end">
                <span className="text-primary font-black text-[10px] tracking-widest uppercase mb-2">Intel Log {i}</span>
@@ -338,6 +341,7 @@ const ScheduleSection = () => {
                 alt={poster.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-[0.7]"
+                sizes="(max-width: 768px) 100vw, 25vw"
               />
               
               <div className={cn(
@@ -490,12 +494,16 @@ const Footer = () => (
             alt="Squad Joy"
             fill
             className="object-cover brightness-50 transition-transform duration-700 group-hover:scale-105"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-center text-center p-8">
             <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment protocol</span>
-            <h2 className={cn("text-4xl md:text-6xl font-black text-white tracking-tighter leading-none mb-8 font-heading italic", fontHeading.className)}>
-              Ready to <span className="text-primary">join?</span>
-            </h2>
+            <ScrollFloat
+              containerClassName="!text-center mb-8"
+              textClassName={cn("!text-white !text-4xl md:!text-6xl !leading-none !tracking-tighter font-heading italic", fontHeading.className)}
+            >
+              Ready to join?
+            </ScrollFloat>
             <p className="text-white/80 text-sm md:text-lg max-w-md font-medium leading-snug mb-8 font-heading">
               Join the squad today and gain access to elite coaching, member-only events, and tactical gear.
             </p>

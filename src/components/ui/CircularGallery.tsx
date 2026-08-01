@@ -422,10 +422,10 @@ class App {
     this.scene = new Transform();
   }
   createGeometry() {
-    // REDUCED VERTEX DENSITY FOR PERFORMANCE
+    // LAG SUPPRESSION: REDUCED VERTEX DENSITY FOR PERFORMANCE
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 20,
-      widthSegments: 40
+      heightSegments: 10,
+      widthSegments: 20
     });
   }
   createMedias(items: { image: string; text: string; }[] | undefined, bend = 1, textColor: string, borderRadius: number, font: string) {
