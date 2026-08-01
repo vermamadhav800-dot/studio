@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -112,7 +111,7 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
+              <div className="w-16 h-16 rounded-none border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
               <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
@@ -148,7 +147,7 @@ const VisionSection = () => {
               <ScrollReveal baseOpacity={0.2} blurStrength={10}>
                 C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
               </ScrollReveal>
-              <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
+              <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
                 LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
@@ -190,7 +189,7 @@ const ArchivesSection = () => {
                whileInView={{ opacity: 1, y: 0 }}
                transition={{ delay: idx * 0.1 }}
                viewport={{ once: true }}
-               className="group relative aspect-[4/5] bg-zinc-900 overflow-hidden rounded-[2.5rem] border border-white/5 hover:border-primary/50 transition-all duration-700"
+               className="group relative aspect-[4/5] bg-zinc-900 overflow-hidden rounded-none border border-white/5 hover:border-primary/50 transition-all duration-700"
              >
                <Image 
                  src={item.image}
@@ -267,20 +266,20 @@ const ScheduleSection = () => {
           <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter", fontHeading.className)}>
             Events
           </h2>
-          <div className="max-w-xl">
+          <div className="max-w-xl text-center md:text-left mx-auto lg:mx-0">
             <p className="text-white/80 text-lg md:text-xl font-medium leading-snug">
               Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise, and another community waiting for you.
             </p>
           </div>
         </div>
 
-        <div className="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
+        <div className="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar justify-center">
           {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                "px-8 py-3 rounded-full font-bold text-sm tracking-widest uppercase transition-all whitespace-nowrap",
+                "px-8 py-3 rounded-none font-bold text-sm tracking-widest uppercase transition-all whitespace-nowrap",
                 activeTab === tab 
                   ? "bg-white text-black" 
                   : "bg-zinc-900 text-white/40 hover:text-white"
@@ -293,7 +292,7 @@ const ScheduleSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {posters.map((poster) => (
-            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden rounded-[2rem] bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
+            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden rounded-none bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
               <Image 
                 src={poster.image}
                 alt={poster.title}
@@ -333,7 +332,7 @@ const ScheduleSection = () => {
                   
                   <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
                     {poster.tags.map(tag => (
-                      <span key={tag} className="text-[8px] font-black text-white/60 tracking-widest uppercase border border-white/20 px-2 py-1 rounded-full">
+                      <span key={tag} className="text-[8px] font-black text-white/60 tracking-widest uppercase border border-white/20 px-2 py-1 rounded-none">
                         {tag}
                       </span>
                     ))}
@@ -342,7 +341,7 @@ const ScheduleSection = () => {
               </div>
 
               <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                 <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                 <div className="w-10 h-10 rounded-none bg-white flex items-center justify-center">
                     <ArrowRight className="w-4 h-4 text-black" />
                  </div>
               </div>
@@ -372,7 +371,7 @@ const GallerySection = () => {
          items={galleryItems} 
          bend={3} 
          textColor="#BAFF00" 
-         borderRadius={0.1}
+         borderRadius={0}
          autoScrollDirection="left"
          font="black 32px var(--font-heading)"
        />
@@ -415,7 +414,7 @@ const Footer = () => (
           <ScrollReveal baseOpacity={0.2}>
             <p className="text-2xl text-white/80 max-w-md font-medium leading-tight mx-auto lg:mx-0">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
           </ScrollReveal>
-          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
+          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
