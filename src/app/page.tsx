@@ -262,7 +262,7 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
           <div className="w-[350px] h-[450px]">
             <Stack 
               cards={cards} 
-              randomRotation={true} 
+              randomRotation={false} 
               sensitivity={180} 
               sendToBackOnClick={true}
               autoplay={true}

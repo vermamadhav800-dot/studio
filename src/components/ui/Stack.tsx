@@ -7,8 +7,8 @@ import './Stack.css';
 function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }: any) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [60, -60]);
-  const rotateY = useTransform(x, [-100, 100], [-60, 60]);
+  const rotateX = useTransform(y, [-100, 100], [30, -30]);
+  const rotateY = useTransform(x, [-100, 100], [-30, 30]);
 
   function handleDragEnd(_: any, info: any) {
     if (Math.abs(info.offset.x) > sensitivity || Math.abs(info.offset.y) > sensitivity) {
@@ -68,10 +68,9 @@ export default function Stack({
     return () => window.removeEventListener('resize', checkMobile);
   }, [mobileBreakpoint]);
 
-  // Fix hydration mismatch by generating random rotations only on client
   useEffect(() => {
     if (cards.length) {
-      setRotations(cards.map(() => randomRotation ? Math.random() * 10 - 5 : 0));
+      setRotations(cards.map(() => randomRotation ? Math.random() * 6 - 3 : 0));
     }
   }, [cards, randomRotation]);
 
@@ -118,6 +117,8 @@ export default function Stack({
     >
       {stack.map((card, index) => {
         const randomRotate = rotations[index] || 0;
+        const offsetFromTop = stack.length - index - 1;
+        
         return (
           <CardRotate
             key={card.id}
@@ -129,9 +130,10 @@ export default function Stack({
               className="card"
               onClick={() => shouldEnableClick && sendToBack(card.id)}
               animate={{
-                rotateZ: (stack.length - index - 1) * 4 + randomRotate,
-                scale: 1 + index * 0.06 - stack.length * 0.06,
-                transformOrigin: '90% 90%'
+                y: offsetFromTop * -12, // Move cards behind UP so they show
+                rotateZ: offsetFromTop * 1.5 + randomRotate, // Very slight tilt
+                scale: 1 - offsetFromTop * 0.05, // Clearer scale steps
+                transformOrigin: 'bottom center'
               }}
               initial={false}
               transition={{
