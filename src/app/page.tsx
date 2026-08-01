@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -18,13 +19,12 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2
+  CheckCircle2, Camera
 } from 'lucide-react';
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import Stack from '@/components/ui/Stack';
 import FlowingMenu from '@/components/ui/FlowingMenu';
-import FlyingPosters from '@/components/ui/FlyingPosters';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -168,26 +168,55 @@ const VisionSection = () => {
 };
 
 const ArchivesSection = () => {
-  const items = [
-    PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
-    PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
-    PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
-    PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
+  const archives = [
+    { id: '1', title: 'MISSION_01', category: 'URBAN OPS', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
+    { id: '2', title: 'MISSION_02', category: 'ELITE GEAR', image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '' },
+    { id: '3', title: 'MISSION_03', category: 'SQUAD INTEL', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
+    { id: '4', title: 'MISSION_04', category: 'DAWN HUNT', image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '' },
+    { id: '5', title: 'MISSION_05', category: 'CP ATTACK', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
+    { id: '6', title: 'MISSION_06', category: 'TRACK DATA', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
   ];
 
   return (
-    <section className="py-40 bg-black overflow-hidden h-screen flex flex-col">
-       <div className="max-w-7xl mx-auto px-8 mb-16 w-full text-center">
-         <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Tactical Intelligence</span>
-         <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>SQUAD ARCHIVES</h2>
-      </div>
-      <div className="flex-1 min-h-0">
-        <FlyingPosters 
-          items={items} 
-          planeWidth={400} 
-          planeHeight={400} 
-          distortion={4}
-        />
+    <section className="py-40 bg-black overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-8">
+         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+           <div className="space-y-4">
+             <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
+             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>SQUAD ARCHIVES</h2>
+           </div>
+           <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
+             <Camera className="w-4 h-4" /> SCROLL TO SCAN VAULT
+           </div>
+         </div>
+
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+           {archives.map((item, idx) => (
+             <motion.div 
+               key={item.id}
+               initial={{ opacity: 0, y: 50 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ delay: idx * 0.1 }}
+               viewport={{ once: true }}
+               className="group relative aspect-[4/5] bg-zinc-900 overflow-hidden rounded-[2.5rem] border border-white/5 hover:border-primary/50 transition-all duration-700"
+             >
+               <Image 
+                 src={item.image}
+                 alt={item.title}
+                 fill
+                 className="object-cover transition-transform duration-700 group-hover:scale-110 brightness-[0.7] group-hover:brightness-[0.9]"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+               <div className="absolute bottom-10 left-10 right-10">
+                 <span className="text-primary font-black text-[10px] tracking-[0.3em] uppercase block mb-2">{item.category}</span>
+                 <h4 className={cn("text-2xl font-black text-white tracking-tighter", fontHeading.className)}>{item.title}</h4>
+                 <div className="w-0 h-px bg-primary group-hover:w-full transition-all duration-700 mt-4 opacity-50" />
+               </div>
+               {/* Scanline Effect Overlay */}
+               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20" />
+             </motion.div>
+           ))}
+         </div>
       </div>
     </section>
   );
