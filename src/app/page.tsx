@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -57,7 +58,7 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     <div 
       onClick={onLogoClick}
       className={cn(
-        "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95",
+        "text-2xl md:text-3xl font-black tracking-tight text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
         fontHeading.className,
         clickCount > 0 && "text-primary scale-110"
       )}
@@ -66,7 +67,7 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
-      <Link href="#schedule" className="hover:text-primary transition-colors">EVENTS</Link>
+      <Link href="#schedule" className="hover:text-primary transition-colors">REPORTS</Link>
       <Link href="#gallery" className="hover:text-primary transition-colors">VAULT</Link>
       <Link href="#join" className="group flex items-center gap-2 text-white border-b border-primary pb-1">
         JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -97,7 +98,7 @@ const Hero = () => {
         </div>
         <ScrollFloat
           containerClassName="mb-12"
-          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}
+          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl tracking-tight", fontHeading.className)}
         >
           RUN BEYOND
         </ScrollFloat>
@@ -122,7 +123,7 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
               <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
-              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
+              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-md", fontHeading.className)}>{stat.value}</span>
               <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
             </div>
           );
@@ -141,7 +142,7 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName="!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter"
+              textClassName="!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tight"
             >
               WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
             </ScrollFloat>
@@ -217,13 +218,13 @@ const ScheduleSection = ({ events, onJoin, joinedIds }: {
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+        <div className="flex flex-col items-center mb-24 gap-8 text-center">
           <div className="space-y-4">
             <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Operational Schedule</span>
             <ScrollFloat
-              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}
+              textClassName={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tight", fontHeading.className)}
             >
-              WEEKLY EVENTS
+              WEEKLY REPORTS
             </ScrollFloat>
           </div>
           <div className="h-20 w-20 rounded-2xl border border-white/10 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
@@ -261,8 +262,8 @@ const GallerySection = () => {
 
   return (
     <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden">
-       <div className="px-8 mb-16 flex justify-between items-center max-w-7xl mx-auto">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
+       <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
+          <h2 className={cn("text-5xl font-black text-white tracking-tight", fontHeading.className)}>THE VAULT</h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
@@ -287,9 +288,9 @@ const TacticalSelection = () => {
 
   return (
     <section className="py-20 bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-8 mb-12">
+      <div className="max-w-7xl mx-auto px-8 mb-12 text-center md:text-left">
          <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Squad Selection</span>
-         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter", fontHeading.className)}>TACTICAL SELECTION</h2>
+         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tight", fontHeading.className)}>TACTICAL SELECTION</h2>
       </div>
       <FlowingMenu items={menuItems} />
     </section>
@@ -300,17 +301,17 @@ const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-        <div className="space-y-4">
+        <div className="space-y-4 text-center lg:text-left">
           <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Recruitment Protocol</span>
           <ScrollFloat
-            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}
+            textClassName={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tight", fontHeading.className)}
           >
             READY TO JOIN?
           </ScrollFloat>
         </div>
-        <div className="space-y-10">
+        <div className="space-y-10 text-center lg:text-left">
           <ScrollReveal baseOpacity={0.2}>
-            <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
+            <p className="text-2xl text-white/80 max-w-md font-medium leading-tight mx-auto lg:mx-0">Join the squad today and gain access to elite coaching, member-only events, and tactical gear.</p>
           </ScrollReveal>
           <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
@@ -406,16 +407,6 @@ export default function Home() {
         <TacticalSelection />
         <Footer />
       </main>
-      
-      {/* Tactical Bottom Bar for Mobile */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-sm">
-        <div className="bg-zinc-900/95 backdrop-blur-3xl border border-white/20 rounded-full px-10 py-5 flex items-center justify-between shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
-          <Link href="#about"><Zap className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
-          <Link href="#schedule"><Calendar className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
-          <Link href="#gallery"><Users className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
-          <Link href="#join" className="text-primary font-black text-xs tracking-tighter uppercase">Join Now</Link>
-        </div>
-      </div>
     </div>
   );
 }
