@@ -21,7 +21,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   
   const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
-  const [editingStat, setEditingStat] = useState<ClubStat | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -32,7 +31,7 @@ export default function AdminPage() {
       setLoading(true);
       const [missionsRes, bookingsRes, statsRes] = await Promise.all([
         supabase.from('missions').select('*').order('created_at', { ascending: true }),
-        supabase.from('bookings').select('*'),
+        supabase.from('bookings').select('*').order('created_at', { ascending: false }),
         supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
       ]);
 
@@ -85,7 +84,6 @@ export default function AdminPage() {
       toast({ variant: "destructive", title: "Update Failed", description: error.message });
     } else {
       toast({ title: "Intelligence Updated", description: "New values synced." });
-      setEditingStat(null);
       fetchData();
     }
   };
@@ -131,7 +129,7 @@ export default function AdminPage() {
               {stats.map(stat => (
                 <div key={stat.id} className="bg-zinc-900/50 border border-white/10 p-6 rounded-2xl space-y-4">
                    <div className="flex justify-between items-center">
-                     <span className="text-[10px] font-black text-white/40 uppercase">{stat.label}</span>
+                     <span className="text-[10px] font-black text-white/40 uppercase">METRIC ID: {stat.id.slice(0, 8)}</span>
                      <Save 
                        className="w-4 h-4 text-primary cursor-pointer hover:scale-110 transition-transform" 
                        onClick={() => handleUpdateStat(stat)}
@@ -191,7 +189,7 @@ export default function AdminPage() {
           <div className="lg:col-span-2 space-y-6">
             <h2 className="text-2xl font-black flex items-center gap-3"><Zap className="w-6 h-6 text-primary" /> ACTIVE MISSIONS</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {missions.map(mission => (
+              {missions.length > 0 ? missions.map(mission => (
                 <div key={mission.id} className="bg-zinc-900 border border-white/10 p-6 rounded-2xl flex items-center justify-between group hover:border-primary/50 transition-colors">
                   <div>
                     <span className="text-primary font-black text-xs block mb-1">{mission.day} @ {mission.time}</span>
@@ -204,7 +202,11 @@ export default function AdminPage() {
                     <Trash2 className="w-5 h-5" />
                   </Button>
                 </div>
-              ))}
+              )) : (
+                <div className="col-span-full py-12 text-center text-white/20 text-xs font-black uppercase border border-dashed border-white/10 rounded-2xl">
+                  No operational missions logged.
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -213,20 +215,24 @@ export default function AdminPage() {
         <div className="space-y-8">
           <h2 className="text-2xl font-black flex items-center gap-3"><Users className="w-6 h-6 text-primary" /> SQUAD ROSTER</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-             {bookings.map(booking => {
+             {bookings.length > 0 ? bookings.map(booking => {
                const mission = missions.find(m => m.id === booking.mission_id);
                return (
                  <div key={booking.id} className="bg-zinc-950 border border-white/5 p-6 rounded-xl space-y-2">
                     <span className="text-primary font-black text-[10px] uppercase block tracking-tighter truncate">{booking.user_email}</span>
                     <div className="text-white/30 text-[9px] font-black uppercase">
-                      MISSION: {mission ? `${mission.day} ${mission.type}` : 'EXPIRED'}
+                      MISSION: {mission ? `${mission.day} ${mission.type}` : 'EXPIRED/REMOVED'}
                     </div>
                     <div className="text-white/20 text-[8px] font-bold">
                       LOGGED: {new Date(booking.created_at).toLocaleDateString()}
                     </div>
                  </div>
                )
-             })}
+             }) : (
+               <div className="col-span-full py-12 text-center text-white/20 text-xs font-black uppercase border border-dashed border-white/10 rounded-2xl">
+                 Roster is currently empty.
+               </div>
+             )}
           </div>
         </div>
 

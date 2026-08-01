@@ -102,7 +102,7 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
     <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-noise opacity-10" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
-        {stats.map((stat, i) => {
+        {stats.length > 0 ? stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
@@ -113,7 +113,9 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
               <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
             </div>
           );
-        })}
+        }) : (
+          <div className="col-span-full text-center text-[10px] font-black tracking-widest text-white/20">LOADING INTEL...</div>
+        )}
       </div>
     </section>
   );
@@ -369,9 +371,11 @@ export default function Home() {
   const handleLogoClick = () => {
     const newCount = logoClicks + 1;
     setLogoClicks(newCount);
+    
     if (newCount === 10) {
       const password = prompt("Enter Tactical Override Password:");
       if (password === 'madhav@123321') {
+        toast({ title: "Access Granted", description: "Redirecting to Command Center..." });
         setLogoClicks(0);
         router.push('/admin');
       } else {
