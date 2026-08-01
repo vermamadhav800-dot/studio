@@ -67,7 +67,7 @@ export default function Model3D({
     controls.enableZoom = false; 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = false; // Controlled by oscillation script
+    controls.autoRotate = false;
 
     let loadedModel: THREE.Group | null = null;
 
@@ -78,15 +78,19 @@ export default function Model3D({
       (gltf) => {
         loadedModel = gltf.scene;
 
-        // Scale and Center Logic - ENHANCED SIZE PROTOCOL
+        // Scale and Center Logic - TACTICAL SIZE (Slightly smaller)
         const box = new THREE.Box3().setFromObject(loadedModel);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 4.2 / maxDim; // BUMPED SCALE
+        const scale = 3.8 / maxDim; // Adjusted from 4.2 to 3.8
 
         loadedModel.scale.setScalar(scale);
         loadedModel.position.sub(center.multiplyScalar(scale));
+        
+        // Initial frontal rotation
+        loadedModel.rotation.y = 0;
+        loadedModel.rotation.x = 0;
         
         scene.add(loadedModel);
       },
@@ -101,10 +105,10 @@ export default function Model3D({
       const time = Date.now() * 0.001;
 
       // Frontal Oscillation Protocol: Sway +/- 0.3 radians around the center
-      // This ensures a heavy, majestic presence where the backside is never shown automatically
+      // Centered on 0 (Front) for a high-performance majestic sway
       if (loadedModel) {
-        loadedModel.rotation.y = Math.sin(time * 0.5) * 0.3;
-        loadedModel.rotation.x = Math.sin(time * 0.3) * 0.08; // Subtle majestic pitch
+        loadedModel.rotation.y = Math.sin(time * 0.5) * 0.25; // Narrower sway for front focus
+        loadedModel.rotation.x = Math.sin(time * 0.3) * 0.05; // Subtle pitch
       }
       
       // Dynamic white shine light orbiting the front face
