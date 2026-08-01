@@ -15,6 +15,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <link 
+          rel="preload" 
+          href="/models/model.glb" 
+          as="fetch" 
+          crossOrigin="anonymous" 
+        />
+      </head>
       <body className={cn(fontBody.className, 'bg-black text-white antialiased selection:bg-primary selection:text-black')}>
         {children}
       </body>
