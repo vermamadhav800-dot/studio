@@ -1,44 +1,55 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Shield, Zap, ArrowRight, Lock, Loader2 } from 'lucide-react';
+import { Shield, Zap, ArrowRight, Lock, Loader2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
+  // Clear any existing session on login mount
+  useEffect(() => {
+    localStorage.removeItem('c9_admin_auth');
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+
     setLoading(true);
+    setError(false);
 
     // Tactical Key: madhav@123321
     if (password === 'madhav@123321') {
       toast({
         title: "AUTHORIZATION GRANTED",
-        description: "Establishing secure link to Command Center...",
+        description: "Bypassing security filters... Redirecting to Command Center.",
       });
       
-      // Store session for persistence
+      // Store session with timestamp
       localStorage.setItem('c9_admin_auth', 'true');
+      localStorage.setItem('c9_auth_time', Date.now().toString());
       
-      // Explicit delay to ensure toast is visible and state is committed
+      // Force tactical redirect
       setTimeout(() => {
-        router.replace('/admin');
-      }, 800);
+        window.location.href = '/admin';
+      }, 500);
     } else {
+      setError(true);
       toast({
         variant: "destructive",
         title: "ACCESS DENIED",
-        description: "Invalid encryption key. System lockdown in progress.",
+        description: "Invalid encryption key. Protocol failed.",
       });
       setPassword('');
       setLoading(false);
@@ -63,9 +74,15 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <form onSubmit={handleLogin} className="bg-zinc-900/50 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl">
+        <form onSubmit={handleLogin} className={cn(
+          "bg-zinc-900/50 border p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl transition-all duration-300",
+          error ? "border-destructive/50" : "border-white/10"
+        )}>
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-white/40 uppercase tracking-widest px-2">Encryption Key</label>
+            <div className="flex justify-between items-center px-2">
+               <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Encryption Key</label>
+               {error && <span className="text-[8px] text-destructive font-black flex items-center gap-1 uppercase"><AlertCircle className="w-2 h-2" /> ERROR</span>}
+            </div>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
               <Input 
@@ -73,9 +90,13 @@ export default function AdminLoginPage() {
                 placeholder="••••••••••••"
                 autoComplete="off"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError(false);
+                }}
                 className="bg-black border-white/10 pl-12 h-16 font-mono text-primary text-2xl focus:border-primary transition-all rounded-2xl"
                 autoFocus
+                required
               />
             </div>
           </div>

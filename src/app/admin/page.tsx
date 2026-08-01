@@ -49,7 +49,11 @@ export default function AdminPage() {
       setStats(statsRes.data || []);
     } catch (err: any) {
       console.warn('Sync Issue:', err.message);
-      toast({ variant: "destructive", title: "Sync Failed", description: "Database is warming up. Please refresh." });
+      toast({ 
+        variant: "destructive", 
+        title: "Sync Warning", 
+        description: "Database is connecting. Some intel might be delayed." 
+      });
     } finally {
       setLoading(false);
     }
@@ -96,7 +100,8 @@ export default function AdminPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('c9_admin_auth');
-    router.replace('/');
+    localStorage.removeItem('c9_auth_time');
+    window.location.href = '/';
   };
 
   if (!isAuthorized) {
@@ -109,7 +114,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-12 selection:bg-primary selection:text-black">
+    <div className="min-h-screen bg-black text-white p-6 md:p-12 selection:bg-primary selection:text-black relative overflow-x-hidden">
       <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
         
@@ -136,17 +141,22 @@ export default function AdminPage() {
 
         {/* Stats Management */}
         <div className="space-y-8">
-           <h2 className="text-2xl font-black flex items-center gap-3"><Trophy className="w-6 h-6 text-primary" /> SQUAD INTELLIGENCE</h2>
+           <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Trophy className="w-6 h-6 text-primary" /> SQUAD INTELLIGENCE</h2>
+              <Button variant="outline" size="sm" onClick={fetchData} className="rounded-full border-white/10 text-[10px] font-black">
+                <RefreshCcw className={cn("w-3 h-3 mr-2", loading && "animate-spin")} /> REFRESH DATA
+              </Button>
+           </div>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.length > 0 ? stats.map(stat => (
-                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all">
+                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 hover:border-primary/30 transition-all group">
                    <div className="flex justify-between items-center">
-                     <span className="text-[10px] font-black text-white/30 uppercase tracking-tighter">METRIC: {stat.id}</span>
+                     <span className="text-[10px] font-black text-white/30 uppercase tracking-tighter">METRIC ID: {stat.id.substring(0,8)}</span>
                      <Button 
                        variant="ghost" 
                        size="icon" 
                        onClick={() => handleUpdateStat(stat)}
-                       className="text-primary hover:bg-primary/10"
+                       className="text-primary hover:bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"
                      >
                         <Save className="w-4 h-4" />
                      </Button>
@@ -164,7 +174,7 @@ export default function AdminPage() {
                 </div>
               )) : (
                 <div className="col-span-full py-16 text-center text-white/20 text-xs font-black uppercase border border-dashed border-white/10 rounded-[2rem]">
-                  {loading ? "INITIALIZING DATA..." : "No operational stats found. Configure `club_stats` table."}
+                  {loading ? "INITIALIZING DATA..." : "No operational stats found."}
                 </div>
               )}
            </div>
@@ -174,32 +184,44 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           <div className="lg:col-span-1 space-y-6">
-            <h2 className="text-2xl font-black flex items-center gap-3"><Plus className="w-6 h-6 text-primary" /> DEPLOY MISSION</h2>
+            <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Plus className="w-6 h-6 text-primary" /> DEPLOY MISSION</h2>
             <div className="bg-zinc-900/40 border border-white/5 p-10 rounded-[3rem] space-y-4 shadow-xl">
-              <Input 
-                placeholder="DAY (e.g. MON)" 
-                value={newMission.day} 
-                onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})}
-                className="bg-black/50 border-white/10 h-14"
-              />
-              <Input 
-                placeholder="TIME (e.g. 06:00 AM)" 
-                value={newMission.time} 
-                onChange={(e) => setNewMission({...newMission, time: e.target.value})}
-                className="bg-black/50 border-white/10 h-14"
-              />
-              <Input 
-                placeholder="LOCATION" 
-                value={newMission.location} 
-                onChange={(e) => setNewMission({...newMission, location: e.target.value})}
-                className="bg-black/50 border-white/10 h-14"
-              />
-              <Input 
-                placeholder="RUN TYPE" 
-                value={newMission.type} 
-                onChange={(e) => setNewMission({...newMission, type: e.target.value})}
-                className="bg-black/50 border-white/10 h-14"
-              />
+              <div className="space-y-1">
+                <label className="text-[9px] font-black text-white/30 ml-2 uppercase">Day (e.g. MON)</label>
+                <Input 
+                  placeholder="MON" 
+                  value={newMission.day} 
+                  onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})}
+                  className="bg-black/50 border-white/10 h-14 font-black"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[9px] font-black text-white/30 ml-2 uppercase">Time (e.g. 06:00 AM)</label>
+                <Input 
+                  placeholder="06:00 AM" 
+                  value={newMission.time} 
+                  onChange={(e) => setNewMission({...newMission, time: e.target.value})}
+                  className="bg-black/50 border-white/10 h-14"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[9px] font-black text-white/30 ml-2 uppercase">Location</label>
+                <Input 
+                  placeholder="CENTRAL PARK" 
+                  value={newMission.location} 
+                  onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})}
+                  className="bg-black/50 border-white/10 h-14"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[9px] font-black text-white/30 ml-2 uppercase">Run Type</label>
+                <Input 
+                  placeholder="INTERVALS" 
+                  value={newMission.type} 
+                  onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})}
+                  className="bg-black/50 border-white/10 h-14"
+                />
+              </div>
               <Button onClick={handleAddMission} className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4">
                 LOG TO SCHEDULE
               </Button>
@@ -207,7 +229,7 @@ export default function AdminPage() {
           </div>
 
           <div className="lg:col-span-2 space-y-6">
-            <h2 className="text-2xl font-black flex items-center gap-3"><Zap className="w-6 h-6 text-primary" /> ACTIVE MISSIONS</h2>
+            <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Zap className="w-6 h-6 text-primary" /> ACTIVE MISSIONS</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {missions.length > 0 ? missions.map(mission => (
                 <div key={mission.id} className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-primary/50 transition-all shadow-xl">
@@ -218,13 +240,13 @@ export default function AdminPage() {
                       <MapPin className="w-3 h-3" /> {mission.location}
                     </p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-full h-12 w-12">
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-full h-12 w-12 opacity-40 hover:opacity-100 transition-opacity">
                     <Trash2 className="w-5 h-5" />
                   </Button>
                 </div>
               )) : (
                 <div className="col-span-full py-16 text-center text-white/20 text-[10px] font-black uppercase border border-dashed border-white/10 rounded-[2rem]">
-                  NO ACTIVE MISSIONS LOGGED
+                  {loading ? "SCANNING FREQUENCIES..." : "NO ACTIVE MISSIONS LOGGED"}
                 </div>
               )}
             </div>
@@ -232,8 +254,8 @@ export default function AdminPage() {
         </div>
 
         {/* Squad Roster */}
-        <div className="space-y-8">
-          <h2 className="text-2xl font-black flex items-center gap-3"><Users className="w-6 h-6 text-primary" /> SQUAD ROSTER</h2>
+        <div className="space-y-8 pb-20">
+          <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter"><Users className="w-6 h-6 text-primary" /> SQUAD ROSTER</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
              {bookings.length > 0 ? bookings.map(booking => {
                const mission = missions.find(m => m.id === booking.mission_id);
