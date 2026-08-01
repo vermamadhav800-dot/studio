@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -373,15 +374,8 @@ export default function Home() {
     setLogoClicks(newCount);
     
     if (newCount === 10) {
-      const password = prompt("Enter Tactical Override Password:");
-      if (password === 'madhav@123321') {
-        toast({ title: "Access Granted", description: "Redirecting to Command Center..." });
-        setLogoClicks(0);
-        router.push('/admin');
-      } else {
-        toast({ variant: "destructive", title: "Access Denied", description: "Invalid Override Credentials." });
-        setLogoClicks(0);
-      }
+      setLogoClicks(0);
+      router.push('/admin/login');
     }
   };
 
