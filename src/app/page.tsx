@@ -18,7 +18,7 @@ import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2, Shield, AlertTriangle 
+  CheckCircle2, Shield, AlertTriangle, Loader2
 } from 'lucide-react';
 import { supabase, type Mission, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -29,13 +29,17 @@ const iconMap: Record<string, any> = {
   Users, MapPin, Trophy, Zap
 };
 
-const Nav = ({ onLogoClick }: { onLogoClick: () => void }) => (
-  <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference">
+const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount: number }) => (
+  <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
     <div 
       onClick={onLogoClick}
-      className={cn("text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none", fontHeading.className)}
+      className={cn(
+        "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95",
+        fontHeading.className,
+        clickCount > 0 && "text-primary scale-110"
+      )}
     >
-      C9 CLUB
+      C9 CLUB {clickCount > 0 && <span className="text-[10px] ml-1">[{clickCount}/10]</span>}
     </div>
     <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white">
       <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
@@ -115,7 +119,10 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
             </div>
           );
         }) : (
-          <div className="col-span-full text-center text-[10px] font-black tracking-widest text-white/20">LOADING INTEL...</div>
+          <div className="col-span-full text-center flex flex-col items-center gap-4 py-12">
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
+            <span className="text-[10px] font-black tracking-widest text-white/20 uppercase">SCANNIG TACTICAL STATS...</span>
+          </div>
         )}
       </div>
     </section>
@@ -172,14 +179,15 @@ const ScheduleSection = ({ missions, loading, error, onJoin, joinedIds }: {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary" />
+            <Loader2 className="animate-spin h-12 w-12 text-primary" />
             <span className="text-[10px] font-black tracking-widest text-white/60">CONNECTING TO COMMAND...</span>
           </div>
         ) : error ? (
           <div className="py-20 text-center border border-dashed border-destructive/50 rounded-[2.5rem] bg-destructive/5">
             <AlertTriangle className="w-12 h-12 text-destructive mx-auto mb-6" />
-            <p className="text-white font-black tracking-widest text-xs uppercase mb-2">Tactical Error</p>
-            <p className="text-white/60 text-sm">{error}</p>
+            <p className="text-white font-black tracking-widest text-xs uppercase mb-2">Tactical Link Offline</p>
+            <p className="text-white/60 text-sm mb-6">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()} className="rounded-full">RETRY CONNECTION</Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -325,18 +333,17 @@ export default function Home() {
       setLoading(true);
       setError(null);
       
-      const [missionsRes, statsRes] = await Promise.all([
-        supabase.from('missions').select('*').order('created_at', { ascending: true }),
-        supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
-      ]);
+      const { data: mData, error: mErr } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
+      const { data: sData, error: sErr } = await supabase.from('club_stats').select('*').order('sort_order', { ascending: true });
 
-      if (missionsRes.error) throw missionsRes.error;
-      if (statsRes.error) throw statsRes.error;
+      if (mErr) throw mErr;
+      if (sErr) throw sErr;
 
-      setMissions(missionsRes.data || []);
-      setStats(statsRes.data || []);
+      setMissions(mData || []);
+      setStats(sData || []);
     } catch (err: any) {
-      setError(err.message || "Could not connect to Squad Command.");
+      console.error('Tactical Sync Error:', err.message);
+      setError("Squad Command is unreachable. Check network status.");
     } finally {
       setLoading(false);
     }
@@ -380,8 +387,8 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-black text-foreground selection:bg-primary selection:text-black">
-      <Nav onLogoClick={handleLogoClick} />
+    <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden">
+      <Nav onLogoClick={handleLogoClick} clickCount={logoClicks} />
       <main>
         <Hero />
         <StatsSection stats={stats} />
