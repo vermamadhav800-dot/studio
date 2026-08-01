@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -70,7 +71,7 @@ const MENU_ITEMS = [
   }
 ];
 
-const Hero = () => {
+const Hero = ({ logoClicks, onLogoClick }: { logoClicks: number, onLogoClick: () => void }) => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -133,6 +134,19 @@ const Hero = () => {
           className="relative hidden lg:block"
         >
           <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full" />
+          
+          <div className="absolute top-0 right-0 z-20 pointer-events-auto">
+            <div 
+              onClick={onLogoClick}
+              className={cn(
+                "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 font-heading italic hover:text-primary",
+                logoClicks > 0 && "text-primary scale-110"
+              )}
+            >
+              C9 Club {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
+            </div>
+          </div>
+
           <Model3D
             modelPath="/models/model.glb"
             className="w-full h-[500px] relative z-10"
@@ -294,7 +308,7 @@ const ScheduleSection = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
           <ScrollFloat
             containerClassName="!text-left"
@@ -585,20 +599,8 @@ export default function Home() {
         items={MENU_ITEMS}
       />
 
-      <div className="fixed top-8 left-8 z-[100] mix-blend-difference pointer-events-auto">
-        <div 
-          onClick={handleLogoClick}
-          className={cn(
-            "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 font-heading italic",
-            logoClicks > 0 && "text-primary scale-110"
-          )}
-        >
-          C9 Club {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
-        </div>
-      </div>
-
       <main>
-        <Hero />
+        <Hero logoClicks={logoClicks} onLogoClick={handleLogoClick} />
         <div className="py-8 bg-zinc-900/50 border-y border-white/5 relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none opacity-20 bg-noise" />
           <LogoLoop 
