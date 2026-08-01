@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -24,52 +25,90 @@ export default function Model3D({
     const height = container.clientHeight;
 
     const scene = new THREE.Scene();
+    
+    // CAMERA SETUP
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 5);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // RENDERER SETUP with high-quality settings
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true,
+      powerPreference: "high-performance" 
+    });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+    // LIGHTING SYSTEM - ELITE GLOW PROTOCOL
+    // 1. Hemisphere Light for soft global illumination
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
+    hemiLight.position.set(0, 20, 0);
+    scene.add(hemiLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 3);
-    spotLight.position.set(0, 10, 4);
-    spotLight.angle = Math.PI / 5;
-    spotLight.penumbra = 0.4;
-    spotLight.decay = 1;
-    spotLight.distance = 30;
-    scene.add(spotLight);
-    scene.add(spotLight.target);
+    // 2. Ambient Light for base visibility
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
-    fillLight.position.set(-3, 2, 5);
-    scene.add(fillLight);
+    // 3. Directional Light for tactical highlights
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+    dirLight.position.set(5, 5, 5);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
 
+    // 4. Point Light near the center for the "GLOW" effect
+    const glowLight = new THREE.PointLight(0xBAFF00, 5, 10); // Neon green glow
+    glowLight.position.set(0, 0, 2);
+    scene.add(glowLight);
+
+    // 5. Backlight for depth
+    const backLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    backLight.position.set(-5, -5, -5);
+    scene.add(backLight);
+
+    // CONTROLS
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = true;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1;
+    controls.autoRotateSpeed = 2;
 
+    // LOADER
     const loader = new GLTFLoader();
     loader.load(
       modelPath,
       (gltf) => {
-        const box = new THREE.Box3().setFromObject(gltf.scene);
+        const model = gltf.scene;
+
+        // Auto-center and Scale logic
+        const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2 / maxDim;
+        const scale = 2.5 / maxDim; // Make it a bit bigger
 
-        gltf.scene.scale.setScalar(scale);
-        gltf.scene.position.sub(center.multiplyScalar(scale));
-        scene.add(gltf.scene);
-        spotLight.target.position.set(0, 0, 0);
-        spotLight.target.updateMatrixWorld();
+        model.scale.setScalar(scale);
+        model.position.sub(center.multiplyScalar(scale));
+        
+        // Material enhancement - if model has materials, boost them
+        model.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            if (mesh.material instanceof THREE.MeshStandardMaterial) {
+              mesh.material.envMapIntensity = 2;
+            }
+          }
+        });
+
+        scene.add(model);
       },
       undefined,
-      (error) => console.error('GLB load error:', error)
+      (error) => console.error('Tactical GLB load error:', error)
     );
 
     let animationId = 0;
