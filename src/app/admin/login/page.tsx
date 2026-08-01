@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
         title: "ACCESS GRANTED",
         description: "Inbound to Command Center...",
       });
-      // Force Tactical Handover
+      // Force Tactical Handover with hard redirect
       setTimeout(() => {
         window.location.href = '/admin';
       }, 500);
@@ -47,10 +47,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Interaction Shield - pointer-events-none to fix "click ni hora" */}
-      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none z-0" />
-      
-      <div className="max-w-md w-full space-y-8 relative z-50 pointer-events-auto">
+      <div className="max-w-md w-full space-y-8 relative z-50">
         <div className="text-center space-y-4">
           <div className="w-20 h-20 bg-zinc-900 border border-white/10 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-xl mb-6">
             <Shield className="w-10 h-10 text-primary" />
@@ -80,7 +77,7 @@ export default function AdminLoginPage() {
           <Button 
             type="submit" 
             disabled={loading || !password}
-            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg group transition-all cursor-pointer"
+            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg group transition-all cursor-pointer z-50"
           >
             {loading ? (
               <span className="flex items-center gap-2">

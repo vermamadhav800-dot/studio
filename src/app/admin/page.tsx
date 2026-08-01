@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { fontHeading } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
@@ -26,25 +25,22 @@ export default function AdminPage() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      console.log('--- SYSTEM SYNC INITIATED ---');
       
-      const [mRes, bRes, sRes] = await Promise.all([
-        supabase.from('missions').select('*').order('created_at', { ascending: true }),
-        supabase.from('bookings').select('*').order('created_at', { ascending: false }),
-        supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
-      ]);
+      const { data: mData, error: mErr } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
+      const { data: bData, error: bErr } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
+      const { data: sData, error: sErr } = await supabase.from('club_stats').select('*').order('sort_order', { ascending: true });
 
-      if (mRes.error) console.error('Mission Sync Failure:', mRes.error);
-      else setMissions(mRes.data || []);
+      if (mErr) console.error('Missions Error:', mErr);
+      else setMissions(mData || []);
 
-      if (bRes.error) console.error('Booking Sync Failure:', bRes.error);
-      else setBookings(bRes.data || []);
+      if (bErr) console.error('Bookings Error:', bErr);
+      else setBookings(bData || []);
 
-      if (sRes.error) console.error('Stats Sync Failure:', sRes.error);
-      else setStats(sRes.data || []);
+      if (sErr) console.error('Stats Error:', sErr);
+      else setStats(sData || []);
 
     } catch (err: any) {
-      console.error('CRITICAL NETWORK FAILURE:', err?.message);
+      console.error('SYSTEM SYNC FAILURE:', err.message);
     } finally {
       setLoading(false);
     }
@@ -115,16 +111,13 @@ export default function AdminPage() {
   if (!isAuthorized) return <div className="bg-black min-h-screen" />;
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 relative selection:bg-primary selection:text-black">
-      {/* Background decoration - pointer-events-none to fix "click not working" issue */}
-      <div className="fixed inset-0 bg-noise opacity-5 pointer-events-none z-0" />
-      
-      <div className="max-w-7xl mx-auto space-y-16 relative z-50 pointer-events-auto">
+    <div className="min-h-screen bg-black text-white p-6 relative">
+      <div className="max-w-7xl mx-auto space-y-16 relative z-50">
         
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
           <div>
-            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase cursor-pointer">
+            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase cursor-pointer z-50">
               <ArrowLeft className="w-4 h-4 mr-2" /> EXIT COMMAND
             </Button>
             <h1 className={cn("text-6xl md:text-9xl font-black text-primary leading-none tracking-tighter", fontHeading.className)}>
@@ -144,7 +137,7 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY MISSION</h2>
-            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4 relative z-50">
+            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4">
               <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
               <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
@@ -152,7 +145,7 @@ export default function AdminPage() {
               <Button 
                 onClick={handleAddMission} 
                 disabled={isSubmitting} 
-                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer"
+                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer z-50"
               >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
@@ -163,7 +156,7 @@ export default function AdminPage() {
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Zap className="text-primary" /> ACTIVE SCHEDULE</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {missions.length > 0 ? missions.map(mission => (
-                <div key={mission.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all z-50">
+                <div key={mission.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all">
                   <div>
                     <span className="text-primary font-black text-xs block mb-1">{mission.day} • {mission.time}</span>
                     <h4 className="font-black text-xl uppercase">{mission.type}</h4>
@@ -187,7 +180,7 @@ export default function AdminPage() {
            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Trophy className="text-primary" /> CLUB INTEL (STATS)</h2>
            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {stats.map(stat => (
-                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 z-50">
+                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-white/30 uppercase">ID: {stat.id}</span>
                      <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/20 cursor-pointer z-50">
@@ -220,7 +213,7 @@ export default function AdminPage() {
           <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER (BOOKINGS)</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
              {bookings.map(booking => (
-               <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all z-50">
+               <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all">
                   <span className="text-primary font-black text-[10px] uppercase truncate block tracking-tighter">{booking.user_email}</span>
                   <div className="text-white/40 text-[9px] font-black uppercase mt-2 pt-2 border-t border-white/5">
                     Ref ID: {booking.id.slice(0,8)}
