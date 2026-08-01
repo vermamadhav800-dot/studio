@@ -157,65 +157,13 @@ const VisionSection = () => {
   );
 };
 
-const ScheduleSection = () => {
-  const [missions, setMissions] = useState<Mission[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [joinedIds, setJoinedIds] = useState<string[]>([]);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    fetchMissions();
-  }, []);
-
-  async function fetchMissions() {
-    try {
-      setLoading(true);
-      setError(null);
-      const { data, error } = await supabase
-        .from('missions')
-        .select('*')
-        .order('created_at', { ascending: true });
-      
-      if (error) throw error;
-      setMissions(data || []);
-    } catch (err: any) {
-      const msg = err.message === 'Failed to fetch' 
-        ? 'Squad HQ is currently unreachable. Check your connection.' 
-        : err.message;
-      setError(msg);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const handleJoin = async (missionId: string) => {
-    if (joinedIds.includes(missionId)) return;
-
-    const email = prompt("Enter Squad Member Email to Confirm Booking:");
-    if (!email) return;
-
-    try {
-      const { error } = await supabase
-        .from('bookings')
-        .insert([{ mission_id: missionId, user_email: email.trim().toLowerCase() }]);
-
-      if (error) throw error;
-
-      setJoinedIds(prev => [...prev, missionId]);
-      toast({
-        title: "Mission Joined",
-        description: "Squad confirmed. See you at the location.",
-      });
-    } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Tactical Failure",
-        description: err.message || "Could not confirm booking.",
-      });
-    }
-  };
-
+const ScheduleSection = ({ missions, loading, error, onJoin, joinedIds }: { 
+  missions: Mission[], 
+  loading: boolean, 
+  error: string | null, 
+  onJoin: (id: string) => void,
+  joinedIds: string[]
+}) => {
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
       <div className="absolute inset-0 bg-noise opacity-[0.05]" />
@@ -261,7 +209,7 @@ const ScheduleSection = () => {
                   </div>
                   
                   <Button 
-                    onClick={() => handleJoin(run.id)}
+                    onClick={() => onJoin(run.id)}
                     disabled={joinedIds.includes(run.id)}
                     className={cn(
                       "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg",
@@ -349,6 +297,9 @@ export default function Home() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [missions, setMissions] = useState<Mission[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [joinedIds, setJoinedIds] = useState<string[]>([]);
   const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
   const { toast } = useToast();
 
@@ -370,19 +321,65 @@ export default function Home() {
     }
 
     requestAnimationFrame(raf);
-    fetchAdminData();
+    fetchData();
 
     return () => {
       lenis.destroy();
     };
   }, []);
 
-  async function fetchAdminData() {
-    const { data: missionsData } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
-    const { data: bookingsData } = await supabase.from('bookings').select('*');
-    if (missionsData) setMissions(missionsData);
-    if (bookingsData) setBookings(bookingsData);
+  async function fetchData() {
+    try {
+      setLoading(true);
+      setError(null);
+      const { data: missionsData, error: missionsError } = await supabase
+        .from('missions')
+        .select('*')
+        .order('created_at', { ascending: true });
+      
+      const { data: bookingsData, error: bookingsError } = await supabase
+        .from('bookings')
+        .select('*');
+
+      if (missionsError) throw missionsError;
+      if (bookingsError) throw bookingsError;
+
+      setMissions(missionsData || []);
+      setBookings(bookingsData || []);
+    } catch (err: any) {
+      setError(err.message || "Could not connect to Squad Command.");
+    } finally {
+      setLoading(false);
+    }
   }
+
+  const handleJoin = async (missionId: string) => {
+    if (joinedIds.includes(missionId)) return;
+
+    const email = prompt("Enter Squad Member Email to Confirm Booking:");
+    if (!email) return;
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .insert([{ mission_id: missionId, user_email: email.trim().toLowerCase() }]);
+
+      if (error) throw error;
+
+      setJoinedIds(prev => [...prev, missionId]);
+      fetchData(); // Sync roster
+      toast({
+        title: "Mission Joined",
+        description: "Squad confirmed. See you at the location.",
+      });
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Tactical Failure",
+        description: err.message || "Could not confirm booking.",
+      });
+    }
+  };
 
   const handleLogoClick = () => {
     const newCount = logoClicks + 1;
@@ -392,6 +389,7 @@ export default function Home() {
       if (password === 'madhav@123321') {
         setIsAdminOpen(true);
         setLogoClicks(0);
+        fetchData(); // Fresh data for admin
       } else {
         toast({ variant: "destructive", title: "Access Denied", description: "Invalid Override Credentials." });
         setLogoClicks(0);
@@ -410,7 +408,7 @@ export default function Home() {
     } else {
       toast({ title: "Mission Logged", description: "The squad schedule has been updated." });
       setNewMission({ day: '', time: '', location: '', type: '' });
-      fetchAdminData();
+      fetchData();
     }
   };
 
@@ -420,7 +418,7 @@ export default function Home() {
       toast({ variant: "destructive", title: "Erasure Failed", description: error.message });
     } else {
       toast({ title: "Mission Erased", description: "Target removed from operational schedule." });
-      fetchAdminData();
+      fetchData();
     }
   };
 
@@ -431,14 +429,20 @@ export default function Home() {
         <Hero />
         <StatsSection />
         <VisionSection />
-        <ScheduleSection />
+        <ScheduleSection 
+          missions={missions} 
+          loading={loading} 
+          error={error} 
+          onJoin={handleJoin}
+          joinedIds={joinedIds}
+        />
         <GallerySection />
         <Footer />
       </main>
       
       {/* Admin Panel Modal */}
       <Dialog open={isAdminOpen} onOpenChange={setIsAdminOpen}>
-        <DialogContent className="max-w-4xl bg-zinc-950 border-white/20 text-white rounded-[2.5rem] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl bg-zinc-950 border-white/20 text-white rounded-[2.5rem] max-h-[90vh] overflow-y-auto shadow-[0_0_100px_rgba(186,255,0,0.1)]">
           <DialogHeader>
             <DialogTitle className={cn("text-4xl font-black text-primary", fontHeading.className)}>TACTICAL COMMAND CENTER</DialogTitle>
             <DialogDescription className="text-white/60 font-bold uppercase tracking-widest text-[10px]">Mission Control & Squad Intelligence</DialogDescription>
@@ -482,32 +486,42 @@ export default function Home() {
             {/* Missions List */}
             <div className="space-y-4">
               <h3 className="text-xl font-black flex items-center gap-2"><Zap className="w-5 h-5 text-primary" /> ACTIVE MISSIONS</h3>
-              {missions.map(mission => (
-                <div key={mission.id} className="flex items-center justify-between p-6 border border-white/10 rounded-2xl bg-zinc-900/30">
-                  <div>
-                    <span className="text-primary font-black text-xs mr-4">{mission.day}</span>
-                    <span className="font-bold">{mission.type} @ {mission.location}</span>
-                    <div className="text-[10px] text-white/40 mt-1 uppercase font-black">
-                      {bookings.filter(b => b.mission_id === mission.id).length} SQUADDIES CONFIRMED
+              <div className="space-y-3">
+                {missions.map(mission => (
+                  <div key={mission.id} className="flex items-center justify-between p-6 border border-white/10 rounded-2xl bg-zinc-900/30 hover:border-white/30 transition-colors">
+                    <div>
+                      <span className="text-primary font-black text-xs mr-4">{mission.day}</span>
+                      <span className="font-bold text-lg">{mission.type}</span>
+                      <div className="flex items-center gap-2 text-white/50 text-[10px] mt-1 uppercase font-black tracking-widest">
+                        <MapPin className="w-3 h-3" /> {mission.location} • {bookings.filter(b => b.mission_id === mission.id).length} SQUADDIES CONFIRMED
+                      </div>
                     </div>
+                    <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-xl">
+                      <Trash2 className="w-5 h-5" />
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-xl">
-                    <Trash2 className="w-5 h-5" />
-                  </Button>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             {/* Bookings Intel */}
             <div className="space-y-4">
               <h3 className="text-xl font-black flex items-center gap-2"><Users className="w-5 h-5 text-primary" /> SQUAD ROSTER (ALL BOOKINGS)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {bookings.map(booking => (
-                  <div key={booking.id} className="p-4 border border-white/5 rounded-xl bg-black/40 text-[10px] flex justify-between items-center">
-                    <span className="font-bold text-white/60 uppercase">{booking.user_email}</span>
-                    <span className="text-primary/50">{new Date(booking.created_at).toLocaleDateString()}</span>
-                  </div>
-                ))}
+                {bookings.map(booking => {
+                  const mission = missions.find(m => m.id === booking.mission_id);
+                  return (
+                    <div key={booking.id} className="p-4 border border-white/5 rounded-xl bg-black/40 text-[10px] flex flex-col gap-1">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-white uppercase">{booking.user_email}</span>
+                        <span className="text-primary/50">{new Date(booking.created_at).toLocaleDateString()}</span>
+                      </div>
+                      <div className="text-white/30 font-black uppercase tracking-tighter">
+                        MISSION: {mission ? `${mission.day} ${mission.type}` : "DECOMMISSIONED"}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
