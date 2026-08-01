@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -15,17 +14,17 @@ import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2, Shield } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2, Shield, AlertTriangle } from 'lucide-react';
 import { supabase, type Mission } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { label: 'MEMBERS', value: '1500+', icon: Users },
-  { label: 'CITIES', value: '35', icon: MapPin },
-  { label: 'KM COVERED', value: '42K+', icon: Trophy },
-  { label: 'RUNS', value: '500+', icon: Zap },
+  { label: 'SQUAD MEMBERS', value: '1500+', icon: Users },
+  { label: 'OPERATIONAL CITIES', value: '35', icon: MapPin },
+  { label: 'TOTAL KM COVERED', value: '42K+', icon: Trophy },
+  { label: 'MISSIONS LOGGED', value: '500+', icon: Zap },
 ];
 
 const Nav = () => (
@@ -62,10 +61,10 @@ const Hero = () => {
           alt="Hero Running"
           fill
           priority
-          className="object-cover brightness-[0.5]"
+          className="object-cover brightness-[0.4]"
           data-ai-hint="running athlete"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
       </motion.div>
 
       <div className="relative z-10 text-center px-4">
@@ -74,7 +73,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(186,255,0,0.5)]">TACTICAL TRAINING SYSTEMS</span>
+          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(186,255,0,0.6)]">TACTICAL TRAINING SYSTEMS</span>
           <h1 className={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}>
             RUN <br /> BEYOND
           </h1>
@@ -87,7 +86,7 @@ const Hero = () => {
         transition={{ delay: 1 }}
         className="absolute bottom-12 flex flex-col items-center gap-4"
       >
-        <span className="text-[10px] font-bold tracking-[0.2em] text-white/80 uppercase">Scroll to Ascend</span>
+        <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Scroll to Ascend</span>
         <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
       </motion.div>
     </section>
@@ -96,18 +95,18 @@ const Hero = () => {
 
 const StatsSection = () => {
   return (
-    <section className="py-32 px-8 border-y border-white/10 bg-black relative overflow-hidden">
+    <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-noise opacity-10" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+              <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/20 shadow-[0_0_20px_rgba(186,255,0,0.1)]">
                 <Icon className="w-6 h-6 text-primary" />
               </div>
-              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-sm", fontHeading.className)}>{stat.value}</span>
-              <span className="text-[10px] font-bold tracking-[0.3em] text-white/70 mt-4">{stat.label}</span>
+              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
+              <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
             </div>
           );
         })}
@@ -130,11 +129,11 @@ const VisionSection = () => {
               WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
             </ScrollFloat>
           </div>
-          <div className="space-y-8 text-white/80 text-xl leading-relaxed font-medium">
+          <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium">
             <ScrollReveal baseOpacity={0.2} blurStrength={10}>
               C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
             </ScrollReveal>
-            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-lg">
+            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl">
               LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -147,12 +146,14 @@ const VisionSection = () => {
 const ScheduleSection = () => {
   const [missions, setMissions] = useState<Mission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [joinedIds, setJoinedIds] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
     async function fetchMissions() {
       try {
+        setError(null);
         const { data, error } = await supabase
           .from('missions')
           .select('*')
@@ -160,8 +161,12 @@ const ScheduleSection = () => {
         
         if (error) throw error;
         setMissions(data || []);
-      } catch (error: any) {
-        console.error('Tactical Error:', error.message);
+      } catch (err: any) {
+        // Handle tactical connection errors gracefully
+        const msg = err.message === 'Failed to fetch' 
+          ? 'Squad HQ is currently unreachable. Check your connection.' 
+          : err.message;
+        setError(msg);
       } finally {
         setLoading(false);
       }
@@ -187,11 +192,11 @@ const ScheduleSection = () => {
         title: "Mission Joined",
         description: "Squad confirmed. See you at the location.",
       });
-    } catch (error: any) {
+    } catch (err: any) {
       toast({
         variant: "destructive",
         title: "Tactical Failure",
-        description: error.message || "Could not confirm booking.",
+        description: err.message || "Could not confirm booking.",
       });
     }
   };
@@ -202,9 +207,9 @@ const ScheduleSection = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
-            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_15px_rgba(186,255,0,0.3)]">MISSIONS</span>
+            WEEKLY <br /> <span className="text-primary drop-shadow-[0_0_20px_rgba(186,255,0,0.5)]">MISSIONS</span>
           </h2>
-          <div className="h-20 w-20 rounded-2xl border border-white/20 flex items-center justify-center bg-zinc-900/60 backdrop-blur-2xl">
+          <div className="h-20 w-20 rounded-2xl border border-white/30 flex items-center justify-center bg-zinc-900/40 backdrop-blur-2xl">
             <Calendar className="w-8 h-8 text-primary" />
           </div>
         </div>
@@ -212,7 +217,13 @@ const ScheduleSection = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary" />
-            <span className="text-[10px] font-black tracking-widest text-white/50">CONNECTING TO COMMAND...</span>
+            <span className="text-[10px] font-black tracking-widest text-white/60">CONNECTING TO COMMAND...</span>
+          </div>
+        ) : error ? (
+          <div className="py-20 text-center border border-dashed border-destructive/50 rounded-[2.5rem] bg-destructive/5">
+            <AlertTriangle className="w-12 h-12 text-destructive mx-auto mb-6" />
+            <p className="text-white font-black tracking-widest text-xs uppercase mb-2">Tactical Error</p>
+            <p className="text-white/60 text-sm">{error}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -220,8 +231,8 @@ const ScheduleSection = () => {
               <div 
                 key={run.id} 
                 className={cn(
-                  "bg-zinc-900/40 border border-white/10 p-12 hover:border-primary/50 group transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
-                  joinedIds.includes(run.id) && "border-primary bg-primary/10"
+                  "bg-zinc-900/60 border border-white/20 p-12 hover:border-primary transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
+                  joinedIds.includes(run.id) && "border-primary bg-primary/20"
                 )}
               >
                 <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
@@ -230,7 +241,7 @@ const ScheduleSection = () => {
                 <div className="relative z-10">
                   <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
                   <h4 className="text-2xl font-black text-white mb-4 transition-colors">{run.type}</h4>
-                  <div className="flex items-center gap-2 text-white/70 text-sm font-bold mb-8">
+                  <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-8">
                     <MapPin className="w-4 h-4" /> {run.location}
                   </div>
                   
@@ -238,7 +249,7 @@ const ScheduleSection = () => {
                     onClick={() => handleJoin(run.id)}
                     disabled={joinedIds.includes(run.id)}
                     className={cn(
-                      "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300",
+                      "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg",
                       joinedIds.includes(run.id) 
                         ? "bg-primary text-black" 
                         : "bg-white text-black hover:bg-primary"
@@ -253,7 +264,7 @@ const ScheduleSection = () => {
                 </div>
               </div>
             )) : (
-              <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2.5rem]">
+              <div className="col-span-full py-20 text-center border border-dashed border-white/20 rounded-[2.5rem]">
                 <Shield className="w-12 h-12 text-white/20 mx-auto mb-6" />
                 <p className="text-white/40 font-black tracking-widest text-xs uppercase">No active missions found in Command Database.</p>
               </div>
@@ -274,10 +285,10 @@ const GallerySection = () => {
   ];
 
   return (
-    <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden border-t border-white/10">
+    <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden border-t border-white/20">
        <div className="px-8 mb-16 flex justify-between items-center max-w-7xl mx-auto">
           <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_5px_rgba(186,255,0,0.5)] uppercase">Elite Intelligence</span>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -295,22 +306,22 @@ const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-40">
-        <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_20px_rgba(186,255,0,0.4)]">JOIN?</span></h2>
+        <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(186,255,0,0.5)]">JOIN?</span></h2>
         <div className="space-y-10">
-          <p className="text-2xl text-white/80 max-w-md font-medium">Join the squad today and gain access to elite coaching, member-only runs, and tactical gear.</p>
-          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_40px_rgba(186,255,0,0.4)]">
+          <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only runs, and tactical gear.</p>
+          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)]">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
       </div>
 
-      <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12">
-        <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/60">
+      <div className="pt-16 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-12">
+        <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/50">
           <Link href="#" className="hover:text-primary transition-colors uppercase">Instagram</Link>
           <Link href="#" className="hover:text-primary transition-colors uppercase">Strava</Link>
           <Link href="#" className="hover:text-primary transition-colors uppercase">Discord</Link>
         </div>
-        <div className="text-[10px] font-bold tracking-[0.3em] text-white/40 uppercase">
+        <div className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase">
           © 2024 C9 RUN CLUB. Tactical Training Systems.
         </div>
       </div>
@@ -357,7 +368,7 @@ export default function Home() {
       
       {/* Tactical Bottom Bar for Mobile */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-sm">
-        <div className="bg-zinc-900/90 backdrop-blur-2xl border border-white/20 rounded-full px-10 py-5 flex items-center justify-between shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        <div className="bg-zinc-900/95 backdrop-blur-3xl border border-white/30 rounded-full px-10 py-5 flex items-center justify-between shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
           <Link href="#about"><Zap className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#schedule"><Calendar className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#gallery"><Users className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
