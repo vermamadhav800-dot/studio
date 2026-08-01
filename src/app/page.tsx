@@ -1,570 +1,274 @@
-
 'use client';
+
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { TiltableImage } from '@/components/ui/TiltableImage';
-import { LogoLoop } from '@/components/ui/LogoLoop';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ScrollStack } from '@/components/ui/ScrollStack';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { LottiePlayer } from '@/components/ui/LottiePlayer';
-import CircularGallery from '@/components/ui/CircularGallery';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
-import ScrollFloat from '@/components/ui/ScrollFloat';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
-import { Facebook, Instagram, Dribbble, Linkedin, Mail, Phone, MapPin, Database, Code, Wind, Atom, ToyBrick, DraftingCompass } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { Textarea } from "@/components/ui/textarea";
+import { ArrowRight, Instagram, Twitter, Youtube, MapPin, Calendar, Users, Zap, Trophy, Timer } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
 
-const navLinks = [
-  { label: 'ABOUT', href: '#about' },
-  { label: 'PROJECTS', href: '#projects' },
-  { label: 'CLIENTS', href: '#clients' },
-  { label: 'CONTACT', href: '#contact' },
+const stats = [
+  { label: 'MEMBERS', value: '1500+', icon: Users },
+  { label: 'CITIES', value: '35', icon: MapPin },
+  { label: 'KM COVERED', value: '42K+', icon: Trophy },
+  { label: 'RUNS', value: '500+', icon: Zap },
 ];
 
-const techLogos = [
-    { node: <Atom />, title: "React", href: "https://react.dev" },
-    { node: <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-7 w-7"><title>Next.js</title><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.084 18.511-1.33-2.457v-5.96h1.33v4.54l4.136-6.73h1.4v6.073l1.329 2.344v5.84h-1.329v-4.426l-4.136 6.616h-1.4z" fill="currentColor"/></svg>, title: "Next.js", href: "https://nextjs.org" },
-    { node: <Code/>, title: "TypeScript", href: "https://www.typescriptlang.org" },
-    { node: <Wind/>, title: "Tailwind CSS", href: "https://tailwindcss.com" },
-    { node: <ToyBrick />, title: "Node.js", href: "https://nodejs.org" },
-    { node: <Database/>, title: "Firebase", href: "https://firebase.google.com" },
-  ];
-
-const projects = [
-    {
-        id: '01',
-        client: 'Madhav Verma',
-        liveProjectLink: 'https://estate-floww.vercel.app/',
-        images: [
-            PlaceHolderImages.find(p => p.id === 'project-1-large')!,
-            PlaceHolderImages.find(p => p.id === 'project-1-small-1')!,
-            PlaceHolderImages.find(p => p.id === 'project-1-small-2')!,
-        ],
-    },
-    {
-        id: '02',
-        client: 'Aura Creations',
-        liveProjectLink: 'https://studio333-lime.vercel.app/',
-        images: [
-            PlaceHolderImages.find(p => p.id === 'project-2-large')!,
-            PlaceHolderImages.find(p => p.id === 'project-2-small-1')!,
-            PlaceHolderImages.find(p => p.id === 'project-2-small-2')!,
-        ],
-    },
-    {
-        id: '03',
-        client: 'Portfolio',
-        liveProjectLink: 'https://madhav-portfolio-sepia.vercel.app/',
-        images: [
-            PlaceHolderImages.find(p => p.id === 'project-3-large')!,
-            PlaceHolderImages.find(p => p.id === 'project-3-small-1')!,
-            PlaceHolderImages.find(p => p.id === 'project-3-small-2')!,
-        ],
-    },
-    {
-        id: '04',
-        client: 'Madhav Verma',
-        liveProjectLink: 'https://studio333-lime.vercel.app/',
-        images: [
-            PlaceHolderImages.find(p => p.id === 'project-4-large')!,
-            PlaceHolderImages.find(p => p.id === 'project-4-small-1')!,
-            PlaceHolderImages.find(p => p.id === 'project-4-small-2')!,
-        ],
-    },
+const schedule = [
+  { day: 'MON', time: '06:00 AM', location: 'Central Park', type: 'Intervals' },
+  { day: 'WED', time: '06:30 PM', location: 'Marina Bay', type: 'Tempo Run' },
+  { day: 'FRI', time: '06:00 AM', location: 'Track Field', type: 'Speed Work' },
+  { day: 'SUN', time: '05:30 AM', location: 'City Square', type: 'Long Run' },
 ];
 
-const testimonials = [
-  {
-    image: 'https://picsum.photos/seed/10/100/100',
-    text: 'Madhav is a design wizard. He took our vague ideas and turned them into a masterpiece. Pure magic!',
-    author: 'Jane Doe',
-    title: 'CEO of Rylinx Studios',
-  },
-  {
-    image: 'https://picsum.photos/seed/12/100/100',
-    text: 'Working with Madhav was a dream. The communication was seamless and the results were beyond our expectations.',
-    author: 'John Smith',
-    title: 'Founder of Aura Creations',
-  },
-  {
-    image: 'https://picsum.photos/seed/14/100/100',
-    text: 'The level of creativity and polish is insane. Our new branding has never looked better.',
-    author: 'Emily White',
-    title: 'Marketing Head at Quantum',
-  },
-  {
-    image: 'https://picsum.photos/seed/16/100/100',
-    text: 'Incredible attention to detail. Every pixel is perfect. Highly recommend for any project, big or small.',
-    author: 'Michael Brown',
-    title: 'CTO of Nova Digital',
-  },
-   {
-    image: 'https://picsum.photos/seed/18/100/100',
-    text: 'A true professional. Delivered on time and exceeded all our goals. We\'ll be back for more!',
-    author: 'Sarah Green',
-    title: 'Project Manager',
-  },
-   {
-    image: 'https://picsum.photos/seed/20/100/100',
-    text: 'The 3D work is simply breathtaking. It has added a whole new dimension to our product showcase.',
-    author: 'David Black',
-    title: 'Creative Director',
-  },
-];
-
-const AnimatedTitle = () => {
-  const { scrollYProgress } = useScroll();
-  const backgroundPosition = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    ['100% 0%', '0% 0%']
-  );
-
-  return (
-    <motion.h1
-      className={cn(
-        "text-6xl md:text-8xl lg:text-[11vw] font-black bg-clip-text text-transparent tracking-tighter leading-none w-full",
-        fontHeading.className
-      )}
-      style={{
-        backgroundImage: 'linear-gradient(to right, white 50%, #4a4a4a 50%)',
-        backgroundSize: '200% 100%',
-        backgroundPosition,
-      }}
-    >
-      HI, I'M MADHAV
-    </motion.h1>
-  );
-};
-
-const AboutSection = () => {
-    const aboutText = "With over five years of experience in design, I specialize in branding, web design, and user experience. I love collaborating with businesses that want to stand out and showcase their best side. Let's create something amazing together!";
-
-    return (
-        <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4 py-24">
-             <motion.div 
-                initial={{ x: -100, opacity: 0 }} 
-                whileInView={{ x: 0, opacity: 1 }} 
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} 
-                className="absolute top-1/4 left-10 md:left-20 w-40 h-40 md:w-56 md:h-56"
-            >
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
-            </motion.div>
-            <motion.div 
-                initial={{ x: 100, opacity: 0 }} 
-                whileInView={{ x: 0, opacity: 1 }} 
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-                className="absolute top-1/3 right-10 md:right-20 w-40 h-40 md:w-56 md:h-56"
-            >
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={224} height={224} className="object-contain" />
-            </motion.div>
-            <motion.div 
-                initial={{ x: -100, opacity: 0 }} 
-                whileInView={{ x: 0, opacity: 1 }} 
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }} 
-                className="absolute bottom-1/4 left-10 md:left-40 w-32 h-32 md:w-44 md:h-44"
-            >
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
-            </motion.div>
-            <motion.div 
-                initial={{ x: 100, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }} 
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }} 
-                className="absolute bottom-1/3 right-10 md:right-40 w-32 h-32 md:w-44 md:h-44"
-            >
-                <Image src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764315743/Gemini_Generated_Image_50a0yl50a0yl50a0__1_-removebg-preview_ff0zb0.png" alt="Floating 3D element" data-ai-hint="3d abstract shape" width={176} height={176} className="object-contain" />
-            </motion.div>
-            
-            <div className="flex justify-center items-center gap-4">
-                 <motion.h2
-                    initial={{ opacity: 0, x: -100 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className={cn("text-6xl md:text-8xl text-white font-black", fontHeading.className)}
-                >
-                    ABOUT ME
-                </motion.h2>
-                <Image
-                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764351394/512_4_rz3wep.gif"
-                    alt="waving character"
-                    width={100}
-                    height={100}
-                    unoptimized
-                />
-            </div>
-            
-            <div className="max-w-2xl text-gray-300 mt-8">
-                <ScrollReveal
-                    baseOpacity={0}
-                    enableBlur={true}
-                    baseRotation={5}
-                    blurStrength={10}
-                >
-                    {aboutText}
-                </ScrollReveal>
-            </div>
-
-
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-            >
-                <Link href="#contact" className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white font-semibold hover:scale-105 transition-transform shadow-lg mt-12 inline-block">
-                    CONTACT ME
-                </Link>
-            </motion.div>
-        </section>
-    )
-}
-
-const ProjectsSection = () => {
-    return (
-        <section id="projects" className="relative bg-black text-white py-20">
-            <div className="container mx-auto text-center mb-12">
-                <div className="flex justify-center items-center gap-4">
-                    <motion.h2
-                        initial={{ opacity: 0, x: -100 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
-                        className={cn("text-6xl md:text-8xl text-white", fontHeading.className)}
-                    >
-                        MY PROJECTS
-                    </motion.h2>
-                    <Image
-                        src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764351139/512_3_uzgibg.gif"
-                        alt="pointing character"
-                        width={100}
-                        height={100}
-                        unoptimized
-                    />
-                </div>
-            </div>
-            <ScrollStack items={projects} />
-        </section>
-    );
-}
-
-const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-    <div className="bg-black p-6 rounded-2xl border border-white/20 flex flex-col items-start gap-4 w-[350px] shrink-0">
-        <div className="flex items-center gap-4">
-            <Image
-                src={testimonial.image}
-                alt={testimonial.author}
-                width={56}
-                height={56}
-                className="rounded-full object-cover"
-            />
-            <div>
-                <p className="font-bold text-white">{testimonial.author}</p>
-                <p className="text-sm text-gray-400">{testimonial.title}</p>
-            </div>
-        </div>
-        <p className="text-gray-300 text-left text-sm leading-relaxed">
-           "{testimonial.text}"
-        </p>
+const Nav = () => (
+  <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 mix-blend-difference">
+    <Link href="/" className={cn("text-2xl font-black tracking-tighter text-white", fontHeading.className)}>
+      C9 CLUB
+    </Link>
+    <div className="hidden md:flex items-center gap-12 text-[10px] font-black tracking-[0.2em] text-white/60">
+      <Link href="#about" className="hover:text-primary transition-colors">VISION</Link>
+      <Link href="#schedule" className="hover:text-primary transition-colors">SCHEDULE</Link>
+      <Link href="#gallery" className="hover:text-primary transition-colors">VAULT</Link>
+      <Link href="#join" className="group flex items-center gap-2 text-white">
+        JOIN SQUAD <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+      </Link>
     </div>
+  </nav>
 );
 
+const Hero = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
 
-const TestimonialsSection = () => {
-    const firstRow = testimonials.slice(0, 2);
-    const secondRow = testimonials.slice(2, 4);
-    const thirdRow = testimonials.slice(4, 6);
-    
-    const duplicatedFirstRow = [...firstRow, ...firstRow, ...firstRow, ...firstRow, ...firstRow];
-    const duplicatedSecondRow = [...secondRow, ...secondRow, ...secondRow, ...secondRow, ...secondRow];
-    const duplicatedThirdRow = [...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow, ...thirdRow];
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
-    return (
-        <section id="clients" className="relative bg-black text-white py-20 overflow-hidden">
-            <div className="container mx-auto text-center mb-20">
-                 <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-                    <motion.h2
-                        initial={{ opacity: 0, x: -100 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, ease: 'easeOut' }}
-                        className={cn("text-4xl md:text-6xl text-white", fontHeading.className)}
-                    >
-                        WHAT CLIENTS ARE SAYING
-                    </motion.h2>
-                    <motion.div
-                        initial={{ opacity: 0, rotate: -15, x: 50 }}
-                        whileInView={{ opacity: 1, rotate: 0, x: 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
-                    >
-                        <Image
-                            src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350279/512_acmd9n.gif"
-                            alt="animated character"
-                            width={100}
-                            height={100}
-                            unoptimized
-                        />
-                    </motion.div>
-                </div>
-            </div>
-            <div className="flex flex-col gap-8">
-                <div className="flex w-max items-center gap-4 animate-scroll-left">
-                    {duplicatedFirstRow.map((testimonial, index) => (
-                        <TestimonialCard key={`first-${index}`} testimonial={testimonial} />
-                    ))}
-                </div>
-                <div className="flex w-max items-center gap-4 animate-scroll-right">
-                    {duplicatedSecondRow.map((testimonial, index) => (
-                        <TestimonialCard key={`second-${index}`} testimonial={testimonial} />
-                    ))}
-                </div>
-                <div className="flex w-max items-center gap-4 animate-scroll-left">
-                    {duplicatedThirdRow.map((testimonial, index) => (
-                        <TestimonialCard key={`third-${index}`} testimonial={testimonial} />
-                    ))}
-                </div>
-            </div>
-            <motion.div 
-                initial={{ x: -100, opacity: 0, rotate: -15 }}
-                whileInView={{ x: 0, opacity: 1, rotate: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="absolute bottom-8 left-8 md:bottom-16 md:left-16 w-32 h-32 md:w-48 md:h-48 z-20"
-            >
-                <Image 
-                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350615/512_1_tbjopp.gif"
-                    alt="animated character"
-                    width={200}
-                    height={200}
-                    unoptimized
-                />
-            </motion.div>
-        </section>
-    );
+  return (
+    <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+      <motion.div style={{ y, scale }} className="absolute inset-0 z-0">
+        <Image 
+          src={PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || ''}
+          alt="Hero Running"
+          fill
+          priority
+          className="object-cover brightness-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black" />
+      </motion.div>
+
+      <div className="relative z-10 text-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          <span className="text-primary font-black tracking-[0.3em] text-[10px] mb-4 block">ESTABLISHED 2024</span>
+          <h1 className={cn("text-7xl md:text-[14vw] leading-[0.85] font-black text-white mix-blend-difference", fontHeading.className)}>
+            RUN <br /> BEYOND
+          </h1>
+        </motion.div>
+      </div>
+
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-12 flex flex-col items-center gap-4"
+      >
+        <span className="text-[10px] font-bold tracking-[0.2em] text-white/40">SCROLL TO ASCEND</span>
+        <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
+      </motion.div>
+    </section>
+  );
 };
 
-const ContactSection = () => {
-    return (
-        <footer id="contact" className="relative bg-[#0E0E0E] text-white pt-24">
-            <div className="max-w-6xl mx-auto bg-white rounded-t-3xl p-8 md:p-12 relative text-black">
-                <motion.div 
-                    initial={{ scale: 0.5, opacity: 0, y: -50, x: 50 }}
-                    whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className="absolute -top-16 -right-16 w-40 h-40 hidden md:block"
-                >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348206/Gemini_Generated_Image_otvsq2otvsq2otvs__1_-removebg-preview_zjro58.png" alt="3D yellow shape" data-ai-hint="3d abstract shape" width={160} height={160} />
-                </motion.div>
-                <motion.div 
-                    initial={{ scale: 0.5, opacity: 0, y: 50, x: -50 }}
-                    whileInView={{ scale: 1, opacity: 1, y: 0, x: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                    className="absolute -bottom-16 -left-16 w-32 h-32 hidden md:block"
-                >
-                    <Image src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764348488/Gemini_Generated_Image_qjltt8qjltt8qjlt__1_-removebg-preview_k8tbgr.png" alt="3D red heart shape" data-ai-hint="3d abstract shape" width={128} height={128} unoptimized/>
-                </motion.div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {/* Left Side */}
-                    <div className="flex flex-col justify-center">
-                        <div className="flex items-center gap-4">
-                            <motion.h2 
-                                initial={{ opacity: 0, x: -100 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.8, ease: 'easeOut' }}
-                                className={cn('!text-black !text-left !text-5xl md:!text-7xl !leading-tight', fontHeading.className)}
-                            >
-                                LET'S<br />GET IN<br />TOUCH
-                            </motion.h2>
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                            >
-                                <Image 
-                                    src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764354057/The_Morty_Dance_Loader_faefz2.gif"
-                                    alt="Dancing Morty"
-                                    width={120}
-                                    height={120}
-                                    unoptimized
-                                />
-                            </motion.div>
-                        </div>
-                        <a href="mailto:vermamadhav800@gmail.com" className="text-gray-600 mt-4 text-lg hover:underline">vermamadhav800@gmail.com</a>
-                    </div>
-
-                    {/* Right Side - Form */}
-                    <form className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div>
-                                <label htmlFor="full-name" className="text-sm font-medium text-gray-500">Full Name*</label>
-                                <Input id="full-name" name="full-name" type="text" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
-                            </div>
-                            <div>
-                                <label htmlFor="phone" className="text-sm font-medium text-gray-500">Phone</label>
-                                <Input id="phone" name="phone" type="tel" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="text-sm font-medium text-gray-500">Email*</label>
-                            <Input id="email" name="email" type="email" className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !h-10" />
-                        </div>
-                        <div>
-                            <label htmlFor="message" className="text-sm font-medium text-gray-500">Message</label>
-                            <Textarea id="message" name="message" rows={3} className="bg-transparent border-0 border-b-2 border-gray-200 rounded-none px-0 focus:ring-0 focus:border-primary !min-h-[60px]" />
-                        </div>
-                        <div>
-                            <Button type="submit" className="rounded-full bg-primary text-primary-foreground px-8 py-3 text-base font-semibold hover:bg-primary/90 transition-transform hover:scale-105">
-                                SEND
-                            </Button>
-                        </div>
-                    </form>
-                </div>
+const StatsSection = () => {
+  return (
+    <section className="py-24 px-8 border-y border-white/5 bg-noise relative">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
+        {stats.map((stat, i) => {
+          const Icon = stat.icon;
+          return (
+            <div key={i} className="flex flex-col items-center text-center group">
+              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary/50 transition-colors">
+                <Icon className="w-5 h-5 text-primary" />
+              </div>
+              <span className={cn("text-4xl md:text-6xl font-black text-white", fontHeading.className)}>{stat.value}</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground mt-2">{stat.label}</span>
             </div>
-             <div className="bg-black text-white">
-                <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center w-full">
-                        <div>
-                            <Image 
-                                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764347217/Angry_Background_Removal_for_Portfolio-VEED_2_nidfnm.gif"
-                                alt="animated character"
-                                width={200}
-                                height={80}
-                                unoptimized
-                            />
-                        </div>
-                        <div className="flex gap-8 items-center">
-                            <div>
-                                <h4 className="font-semibold text-gray-400 mb-2">SOCIAL</h4>
-                                <div className="flex flex-col gap-1 text-sm">
-                                    <a href="https://github.com/vermamadhav800-dot" target="_blank" rel="noopener noreferrer" className="hover:text-primary">GitHub</a>
-                                    <a href="https://www.instagram.com/madhav_verma98/?next=%2F" target="_blank" rel="noopener noreferrer" className="hover:text-primary">Instagram</a>
-                                    <a href="#" className="hover:text-primary">Facebook</a>
-                                    <a href="#" className="hover:text-primary">Dribbble</a>
-                                    <a href="#" className="hover:text-primary">LinkedIn</a>
-                                </div>
-                            </div>
-                             <div>
-                                <h4 className="font-semibold text-gray-400 mb-2">CONTACT</h4>
-                                <div className="text-sm space-y-1">
-                                    <p>vermamadhav800@gmail.com</p>
-                                    <p>9469238102</p>
-                                    <p>Madhav Verma</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 0L40 20L20 40L0 20L20 0Z" fill="#9333EA"/>
-                                    <path d="M20 10L30 20L20 30L10 20L20 10Z" fill="white"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="20" fill="#34D399"/>
-                                    <circle cx="12" cy="12" r="4" fill="white"/>
-                                    <circle cx="28" cy="12" r="4" fill="white"/>
-                                    <circle cx="12" cy="28" r="4" fill="white"/>
-                                    <circle cx="28" cy="28" r="4" fill="white"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 0H40C40 22.0914 22.0914 40 0 40V0Z" fill="#A78BFA"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0-0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="20" fill="#FBBF24"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 20L20 0L40 20L20 40L0 20Z" fill="#F472B6"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 0L40 40H0L20 0Z" fill="#60A5FA"/>
-                                </svg>
-                                <svg width="50" height="50" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="10" fill="#EC4899" />
-                                    <circle cx="20" cy="20" r="20" stroke="#EC4899" strokeWidth="4"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    );
-}
+          );
+        })}
+      </div>
+    </section>
+  );
+};
 
+const VisionSection = () => {
+  return (
+    <section id="about" className="py-32 px-8 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div>
+            <span className="text-primary font-black tracking-[0.3em] text-[10px] mb-6 block uppercase">Our Vision</span>
+            <ScrollFloat
+              containerClassName="!text-left"
+              textClassName="!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left"
+            >
+              WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
+            </ScrollFloat>
+          </div>
+          <div className="space-y-8 text-muted-foreground text-lg leading-relaxed">
+            <ScrollReveal baseOpacity={0.2} blurStrength={10}>
+              C9 is not just a club, it's a high-performance ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers.
+            </ScrollReveal>
+            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-8 py-6 font-bold group">
+              LEARN OUR CREED <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ScheduleSection = () => {
+  return (
+    <section id="schedule" className="py-32 px-8 bg-noise border-t border-white/5">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <h2 className={cn("text-6xl md:text-8xl font-black text-white", fontHeading.className)}>WEEKLY <br /> MISSIONS</h2>
+          <div className="flex gap-4">
+            <div className="h-16 w-16 rounded-full border border-white/10 flex items-center justify-center">
+              <Calendar className="w-6 h-6 text-primary" />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-[2.5rem] overflow-hidden">
+          {schedule.map((run, i) => (
+            <div key={i} className="bg-black p-10 hover:bg-primary group transition-all duration-500">
+              <span className={cn("text-5xl font-black text-white/20 group-hover:text-black/20 block mb-8", fontHeading.className)}>{run.day}</span>
+              <div className="space-y-2">
+                <p className="text-primary group-hover:text-black font-black text-xs tracking-widest">{run.time}</p>
+                <h4 className="text-xl font-black text-white group-hover:text-black">{run.type}</h4>
+                <div className="flex items-center gap-2 text-muted-foreground group-hover:text-black/60 text-sm">
+                  <MapPin className="w-3 h-3" /> {run.location}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const GallerySection = () => {
+  const galleryItems = [
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'STREET ATTACK' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'ELITE GEAR' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'DATA DRIVEN' },
+    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'DAWN HUNT' },
+  ];
+
+  return (
+    <section id="gallery" className="h-[80vh] py-32 bg-black overflow-hidden border-t border-white/5">
+       <div className="px-8 mb-12 flex justify-between items-center">
+          <h2 className={cn("text-4xl font-black text-white", fontHeading.className)}>THE VAULT</h2>
+          <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground">MOMENTS OF GRIT</span>
+       </div>
+       <CircularGallery 
+         items={galleryItems} 
+         bend={3} 
+         textColor="#BAFF00" 
+         borderRadius={0.08}
+         autoScrollDirection="left"
+       />
+    </section>
+  );
+};
+
+const Footer = () => (
+  <footer id="join" className="pt-32 pb-12 px-8 bg-black">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
+        <h2 className={cn("text-7xl md:text-[10vw] leading-[0.85] font-black text-white", fontHeading.className)}>READY TO <br />ASCEND?</h2>
+        <div className="space-y-8">
+          <p className="text-xl text-muted-foreground max-w-md">Join the squad today and gain access to elite coaching, member-only runs, and tactical gear.</p>
+          <div className="flex gap-4">
+            <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-12 py-8 font-black text-lg group">
+              JOIN SQUAD <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex gap-8 text-[10px] font-black tracking-[0.2em] text-muted-foreground">
+          <Link href="#" className="hover:text-white transition-colors">INSTAGRAM</Link>
+          <Link href="#" className="hover:text-white transition-colors">STRAVA</Link>
+          <Link href="#" className="hover:text-white transition-colors">DISCORD</Link>
+        </div>
+        <div className="text-[10px] font-bold tracking-[0.2em] text-white/20">
+          © 2024 C9 RUN CLUB. TACTICAL TRAINING SYSTEMS.
+        </div>
+      </div>
+    </div>
+  </footer>
+);
 
 export default function Home() {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   return (
-    <div className="bg-black text-foreground">
+    <div className="bg-black text-foreground selection:bg-primary selection:text-black">
+      <Nav />
       <main>
-        <section id="home" className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-4">
-          
-          <div className="absolute top-0 left-0 right-0 container mx-auto flex items-center justify-center p-4 z-10">
-            <div className="hidden md:flex items-center space-x-16">
-                {navLinks.map((link) => (
-                <Link href={link.href} key={link.label} className="text-sm font-medium text-white hover:text-gray-300 transition-colors tracking-widest">
-                    {link.label}
-                </Link>
-                ))}
-            </div>
-          </div>
-            <div className="flex justify-center items-center gap-4 mt-36">
-              <AnimatedTitle />
-              <Image 
-                src="https://res.cloudinary.com/dvfyk41km/image/upload/v1764350989/512_2_tazgqp.gif"
-                alt="waving character"
-                width={100}
-                height={100}
-                unoptimized
-                className="hidden md:block"
-              />
-            </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 w-full max-w-6xl mt-8">
-            <div className="md:text-left text-gray-400 text-sm sm:text-base max-w-xs mx-auto md:mx-0">
-              <p className="mb-8">A Full-Stack Developer building fast, modern & scalable web applications with clean UI & powerful backend.</p>
-                <motion.div
-                    initial={{ opacity: 0, y: 20, rotate: -5 }}
-                    animate={{ opacity: 1, y: 0, rotate: -5 }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                    className="origin-bottom-left"
-                >
-                    <LogoLoop
-                        logos={techLogos}
-                        speed={100}
-                        direction="left"
-                        logoHeight={28}
-                        gap={40}
-                        fadeOut
-                        fadeOutColor="#000000"
-                        scaleOnHover
-                        ariaLabel="Technologies used"
-                    />
-                </motion.div>
-            </div>
-            <div className="-mt-32">
-              <TiltableImage
-                src="https://res.cloudinary.com/dqdxd8ixr/image/upload/v1764312114/Gemini_Generated_Image_hriipthriipthrii-removebg-preview_gpwz90.png"
-                alt="3D character"
-                className="w-[45rem] h-[45rem] object-contain"
-              />
-            </div>
-            <div className="flex justify-center md:justify-end">
-                <Link href="#contact" className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:scale-105 transition-transform">
-                CONTACT ME
-                </Link>
-            </div>
-          </div>
-        </section>
-        
-        <AboutSection />
-
-        <ProjectsSection />
-
-        <TestimonialsSection />
-
-        <ContactSection />
-
+        <Hero />
+        <StatsSection />
+        <VisionSection />
+        <ScheduleSection />
+        <GallerySection />
+        <Footer />
       </main>
+      
+      {/* Tactical Bottom Bar for Mobile */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden">
+        <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-full px-8 py-4 flex items-center gap-12">
+          <Link href="#about"><Zap className="w-5 h-5 text-white" /></Link>
+          <Link href="#schedule"><Calendar className="w-5 h-5 text-white" /></Link>
+          <Link href="#gallery"><Users className="w-5 h-5 text-white" /></Link>
+          <Link href="#join" className="text-primary font-black text-[10px] tracking-widest">JOIN</Link>
+        </div>
+      </div>
     </div>
   );
 }
-
-    

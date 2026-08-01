@@ -4,8 +4,8 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'Madhav - 3D Designer',
-  description: 'A 3D Designer passionate about crafting bold and memorable projects.',
+  title: 'C9 RUN CLUB - Tactical Training Systems',
+  description: 'A high-performance running ecosystem for the elite. Join the squad.',
 };
 
 export default function RootLayout({
@@ -14,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={cn(fontBody.className, 'bg-background text-foreground')}>
+    <html lang="en" className="dark scroll-smooth">
+      <body className={cn(fontBody.className, 'bg-black text-white antialiased selection:bg-primary selection:text-black')}>
         {children}
       </body>
     </html>
