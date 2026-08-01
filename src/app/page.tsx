@@ -15,7 +15,7 @@ import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, Users, Zap, Trophy, CheckCircle2, Shield } from 'lucide-react';
 import { supabase, type Mission } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
@@ -62,7 +62,8 @@ const Hero = () => {
           alt="Hero Running"
           fill
           priority
-          className="object-cover brightness-[0.4]"
+          className="object-cover brightness-[0.5]"
+          data-ai-hint="running athlete"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-black" />
       </motion.div>
@@ -73,7 +74,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(186,255,0,0.5)]">ESTABLISHED 2024</span>
+          <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-6 block drop-shadow-[0_0_10px_rgba(186,255,0,0.5)]">TACTICAL TRAINING SYSTEMS</span>
           <h1 className={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl", fontHeading.className)}>
             RUN <br /> BEYOND
           </h1>
@@ -86,7 +87,7 @@ const Hero = () => {
         transition={{ delay: 1 }}
         className="absolute bottom-12 flex flex-col items-center gap-4"
       >
-        <span className="text-[10px] font-bold tracking-[0.2em] text-white/80">SCROLL TO ASCEND</span>
+        <span className="text-[10px] font-bold tracking-[0.2em] text-white/80 uppercase">Scroll to Ascend</span>
         <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
       </motion.div>
     </section>
@@ -151,13 +152,19 @@ const ScheduleSection = () => {
 
   useEffect(() => {
     async function fetchMissions() {
-      const { data, error } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
-      if (error) {
-        console.error('Tactical Error:', error);
-      } else {
+      try {
+        const { data, error } = await supabase
+          .from('missions')
+          .select('*')
+          .order('created_at', { ascending: true });
+        
+        if (error) throw error;
         setMissions(data || []);
+      } catch (error: any) {
+        console.error('Tactical Error:', error.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     fetchMissions();
   }, []);
@@ -165,23 +172,26 @@ const ScheduleSection = () => {
   const handleJoin = async (missionId: string) => {
     if (joinedIds.includes(missionId)) return;
 
-    // Tactical simulation: normally you'd use real auth, but we'll use a prompt for demo squad name
     const email = prompt("Enter Squad Member Email to Confirm Booking:");
     if (!email) return;
 
-    const { error } = await supabase.from('bookings').insert([{ mission_id: missionId, user_email: email }]);
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .insert([{ mission_id: missionId, user_email: email.trim().toLowerCase() }]);
 
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Tactical Failure",
-        description: "Already joined or database connection failed.",
-      });
-    } else {
+      if (error) throw error;
+
       setJoinedIds(prev => [...prev, missionId]);
       toast({
         title: "Mission Joined",
         description: "Squad confirmed. See you at the location.",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Tactical Failure",
+        description: error.message || "Could not confirm booking.",
       });
     }
   };
@@ -200,17 +210,18 @@ const ScheduleSection = () => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-20">
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary" />
+            <span className="text-[10px] font-black tracking-widest text-white/50">CONNECTING TO COMMAND...</span>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {missions.map((run, i) => (
+            {missions.length > 0 ? missions.map((run) => (
               <div 
                 key={run.id} 
                 className={cn(
-                  "bg-zinc-900/40 border border-white/5 p-12 hover:border-primary/50 group transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
-                  joinedIds.includes(run.id) && "border-primary bg-primary/5"
+                  "bg-zinc-900/40 border border-white/10 p-12 hover:border-primary/50 group transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
+                  joinedIds.includes(run.id) && "border-primary bg-primary/10"
                 )}
               >
                 <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
@@ -227,7 +238,7 @@ const ScheduleSection = () => {
                     onClick={() => handleJoin(run.id)}
                     disabled={joinedIds.includes(run.id)}
                     className={cn(
-                      "w-full rounded-full font-black tracking-widest text-xs py-6",
+                      "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300",
                       joinedIds.includes(run.id) 
                         ? "bg-primary text-black" 
                         : "bg-white text-black hover:bg-primary"
@@ -241,7 +252,12 @@ const ScheduleSection = () => {
                   </Button>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2.5rem]">
+                <Shield className="w-12 h-12 text-white/20 mx-auto mb-6" />
+                <p className="text-white/40 font-black tracking-widest text-xs uppercase">No active missions found in Command Database.</p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -261,7 +277,7 @@ const GallerySection = () => {
     <section id="gallery" className="h-[90vh] py-32 bg-black overflow-hidden border-t border-white/10">
        <div className="px-8 mb-16 flex justify-between items-center max-w-7xl mx-auto">
           <h2 className={cn("text-5xl font-black text-white tracking-tighter", fontHeading.className)}>THE VAULT</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_5px_rgba(186,255,0,0.5)]">ELITE INTELLIGENCE</span>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_5px_rgba(186,255,0,0.5)] uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -290,9 +306,9 @@ const Footer = () => (
 
       <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12">
         <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/60">
-          <Link href="#" className="hover:text-primary transition-colors">INSTAGRAM</Link>
-          <Link href="#" className="hover:text-primary transition-colors">STRAVA</Link>
-          <Link href="#" className="hover:text-primary transition-colors">DISCORD</Link>
+          <Link href="#" className="hover:text-primary transition-colors uppercase">Instagram</Link>
+          <Link href="#" className="hover:text-primary transition-colors uppercase">Strava</Link>
+          <Link href="#" className="hover:text-primary transition-colors uppercase">Discord</Link>
         </div>
         <div className="text-[10px] font-bold tracking-[0.3em] text-white/40 uppercase">
           © 2024 C9 RUN CLUB. Tactical Training Systems.
@@ -345,7 +361,7 @@ export default function Home() {
           <Link href="#about"><Zap className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#schedule"><Calendar className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
           <Link href="#gallery"><Users className="w-6 h-6 text-white hover:text-primary transition-colors" /></Link>
-          <Link href="#join" className="text-primary font-black text-xs tracking-tighter">JOIN NOW</Link>
+          <Link href="#join" className="text-primary font-black text-xs tracking-tighter uppercase">Join Now</Link>
         </div>
       </div>
     </div>
