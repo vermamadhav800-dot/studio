@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -51,27 +50,27 @@ const DUMMY_STATS: ClubStat[] = [
 
 const MENU_ITEMS = [
   {
-    label: 'MISSION',
+    label: 'Mission',
     href: '#about',
     thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl
   },
   {
-    label: 'ARCHIVES',
+    label: 'Archives',
     href: '#archives',
     thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl
   },
   {
-    label: 'EVENTS',
+    label: 'Events',
     href: '#schedule',
     thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl
   },
   {
-    label: 'VAULT',
+    label: 'Vault',
     href: '#vault',
     thumbnail: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl
   },
   {
-    label: 'JOIN SQUAD',
+    label: 'Join Squad',
     href: '#join',
     thumbnail: PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl
   }
@@ -84,8 +83,8 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  // Reduced zoom initial scale to show more photo as requested
-  const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.0]);
+  // Reduced zoom initial scale to show more photo as requested (1.0 = FULL PHOTO)
+  const scale = useTransform(scrollYProgress, [0, 1], [1.0, 0.95]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [0.4, 0.9]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
@@ -105,7 +104,7 @@ const Hero = () => {
         />
         <motion.div 
           style={{ opacity }}
-          className="absolute inset-0 bg-black" 
+          className="absolute inset-0 bg-black/40" 
         />
       </motion.div>
 
@@ -115,21 +114,21 @@ const Hero = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
           style={{ y: textY }}
-          className="text-left space-y-8"
+          className="text-left space-y-6"
         >
           <div>
              <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
-             <h1 className={cn("text-6xl md:text-8xl leading-none font-black text-white italic tracking-tighter uppercase font-anton", fontAnton.className)}>
-               RUN BEYOND
+             <h1 className={cn("text-5xl md:text-7xl leading-none font-black text-white tracking-tighter font-heading italic", fontHeading.className)}>
+               Run beyond <br /> limits
              </h1>
           </div>
           
-          <p className="max-w-md text-white/80 text-lg md:text-xl font-medium leading-tight font-heading">
+          <p className="max-w-md text-white/80 text-lg font-medium leading-tight font-heading">
             Elite running community built for athletes, warriors and those who refuse average.
           </p>
 
-          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-12 py-8 font-black text-lg group shadow-xl cursor-pointer">
-            JOIN C9 CLUB <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-10 py-6 font-black text-sm group shadow-xl cursor-pointer">
+            Join the Squad →
           </Button>
         </motion.div>
 
@@ -145,13 +144,13 @@ const Hero = () => {
             className="w-full h-[500px] relative z-10"
           />
           <div className="absolute -bottom-12 right-0 text-right">
-             <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase">EST. 2026</span>
+             <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase">Est. 2026</span>
           </div>
         </motion.div>
       </div>
 
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20">
-        <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">SCROLL TO ASCEND</span>
+        <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">Scroll to Ascend</span>
         <motion.div 
           animate={{ height: [0, 48, 0], opacity: [0, 1, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
@@ -167,10 +166,9 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
     <section className="py-20 px-8 bg-black relative border-y border-white/5">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
         {stats.map((stat, i) => {
-          const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter italic font-anton", fontAnton.className)}>{stat.value}</span>
+              <span className={cn("text-5xl md:text-6xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>{stat.value}</span>
               <span className="text-[10px] font-black tracking-[0.3em] text-primary mt-2 uppercase">{stat.label}</span>
             </div>
           );
@@ -189,9 +187,9 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter font-anton", fontAnton.className)}
+              textClassName={cn("!text-white !text-5xl md:!text-7xl !leading-[0.9] !text-left !tracking-tighter font-heading", fontHeading.className)}
             >
-              DISCIPLINE OVER MOTIVATION.
+              Discipline over motivation.
             </ScrollFloat>
           </div>
           <div className="space-y-8">
@@ -199,8 +197,8 @@ const VisionSection = () => {
               <ScrollReveal baseOpacity={0.2} blurStrength={10}>
                 C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
               </ScrollReveal>
-              <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
-                LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button className="rounded-none bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-7 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
+                Learn our Creed →
               </Button>
             </div>
           </div>
@@ -212,14 +210,14 @@ const VisionSection = () => {
 
 const ArchivesSection = () => {
   const archiveItems = [
-    { id: '1', title: 'MISSION_01', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
-    { id: '2', title: 'MISSION_02', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
-    { id: '3', title: 'MISSION_03', category: 'SQUAD INTEL', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
-    { id: '4', title: 'MISSION_04', category: 'DAWN HUNT', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
-    { id: '5', title: 'MISSION_05', category: 'CP ATTACK', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
-    { id: '6', title: 'MISSION_06', category: 'TRACK DATA', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
-    { id: '7', title: 'MISSION_07', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
-    { id: '8', title: 'MISSION_08', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
+    { id: '1', title: 'Urban Ops', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 500 },
+    { id: '2', title: 'Elite Gear', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 400 },
+    { id: '3', title: 'Squad Intel', category: 'SQUAD INTEL', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 600 },
+    { id: '4', title: 'Dawn Hunt', category: 'DAWN HUNT', img: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', height: 450 },
+    { id: '5', title: 'Street Attack', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 550 },
+    { id: '6', title: 'Track Data', category: 'TRACK DATA', img: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', height: 400 },
+    { id: '7', title: 'Elite Training', category: 'ELITE GEAR', img: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', height: 500 },
+    { id: '8', title: 'Mission Log', category: 'URBAN OPS', img: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', height: 650 },
   ];
 
   return (
@@ -228,10 +226,10 @@ const ArchivesSection = () => {
          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
            <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
              <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
-             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none italic font-anton", fontAnton.className)}>SQUAD ARCHIVES</h2>
+             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>Squad Archives</h2>
            </div>
            <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
-             <Camera className="w-4 h-4" /> SCROLL TO SCAN VAULT
+             <Camera className="w-4 h-4" /> Scroll to scan vault
            </div>
          </div>
 
@@ -254,38 +252,38 @@ const ScheduleSection = () => {
   const posters = [
     {
       id: 1,
-      title: 'YEH RUN NA MILEGI DOBARA',
-      date: 'AUG 2',
+      title: 'City Street Attack',
+      date: 'Aug 2',
       theme: 'red',
       image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
-      subtitle: 'JOIN THE HUNT',
+      subtitle: 'Join the hunt',
       tags: ['REGISTER NOW']
     },
     {
       id: 2,
-      title: 'MONSOON RUN & CHILL',
-      date: 'JUL 26',
+      title: 'Monsoon Track Series',
+      date: 'Jul 26',
       theme: 'dark',
       image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
-      subtitle: 'TRACK SERIES',
+      subtitle: 'Elite Ops',
       tags: ['SQUAD ONLY']
     },
     {
       id: 3,
-      title: 'RUN & PLAY',
-      date: 'JUL 12',
+      title: 'Cross Training Play',
+      date: 'Jul 12',
       theme: 'green',
       image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
-      subtitle: 'CROSS TRAINING',
+      subtitle: 'Hybrid Training',
       tags: ['ELITE OPS']
     },
     {
       id: 4,
-      title: 'THE SOCIAL',
-      date: 'JUN 28',
+      title: 'The Networking Run',
+      date: 'Jun 28',
       theme: 'pink',
       image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
-      subtitle: 'NETWORKING RUN',
+      subtitle: 'Social Mission',
       tags: ['VAULT ACCESS']
     }
   ];
@@ -302,8 +300,8 @@ const ScheduleSection = () => {
 
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
-          <h2 className={cn("text-7xl md:text-[10vw] font-black text-white italic tracking-tighter leading-[0.8] font-anton", fontAnton.className)}>
-            WEEKLY<br/>EVENTS
+          <h2 className={cn("text-6xl md:text-8xl font-black text-white italic tracking-tighter leading-[0.9] font-heading", fontHeading.className)}>
+            Weekly<br/>Events
           </h2>
           <div className="space-y-6">
             <p className="text-white/60 text-lg max-w-lg font-heading">
@@ -350,7 +348,7 @@ const ScheduleSection = () => {
                 <div className="flex flex-col gap-1">
                    <div className="flex items-center gap-2">
                      <span className={cn(
-                       "text-5xl font-black italic font-anton",
+                       "text-5xl font-black italic font-heading",
                        poster.theme === 'green' ? "text-primary" : "text-white"
                      )}>{poster.date}</span>
                    </div>
@@ -359,7 +357,7 @@ const ScheduleSection = () => {
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <span className="text-[8px] font-black tracking-[0.3em] text-white/60 uppercase block">{poster.subtitle}</span>
-                    <h4 className={cn("text-3xl font-black italic text-white leading-none uppercase font-anton", fontAnton.className)}>
+                    <h4 className={cn("text-3xl font-black italic text-white leading-none font-heading", fontHeading.className)}>
                       {poster.title}
                     </h4>
                   </div>
@@ -389,16 +387,16 @@ const ScheduleSection = () => {
 
 const GallerySection = () => {
   const galleryItems = [
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'STREET ATTACK' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'ELITE GEAR' },
-    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'DATA DRIVEN' },
-    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'DAWN HUNT' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '', text: 'Street Attack' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '', text: 'Elite Gear' },
+    { image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '', text: 'Data Driven' },
+    { image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '', text: 'Dawn Hunt' },
   ];
 
   return (
     <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-anton", fontAnton.className)}>THE VAULT</h2>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>The Vault</h2>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
@@ -407,7 +405,7 @@ const GallerySection = () => {
          textColor="#BAFF00" 
          borderRadius={0}
          autoScrollDirection="left"
-         font="black 32px var(--font-anton)"
+         font="black 32px var(--font-heading)"
        />
     </section>
   );
@@ -426,14 +424,14 @@ const Footer = () => (
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-center text-center p-8">
             <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment Protocol</span>
-            <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-8 font-anton", fontAnton.className)}>
-              READY TO <span className="text-primary">JOIN?</span>
+            <h2 className={cn("text-4xl md:text-6xl font-black text-white tracking-tighter leading-none mb-8 font-heading italic", fontHeading.className)}>
+              Ready to <span className="text-primary">join?</span>
             </h2>
             <p className="text-white/80 text-sm md:text-lg max-w-md font-medium leading-snug mb-8 font-heading">
               Join the squad today and gain access to elite coaching, member-only events, and tactical gear.
             </p>
-            <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-12 py-7 font-black text-lg group shadow-xl cursor-pointer">
-              JOIN SQUAD <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-10 py-5 font-black text-sm group shadow-xl cursor-pointer">
+              Join the Squad →
             </Button>
           </div>
         </div>
@@ -493,22 +491,22 @@ export default function Home() {
   };
 
   const logos = [
-    { node: <span className="font-anton text-white italic">C9 CLUB</span> },
+    { node: <span className="font-heading font-black italic">C9 Club</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-anton text-white italic">TACTICAL RUNNING</span> },
+    { node: <span className="font-heading font-black italic">Tactical Running</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-anton text-white italic">ELITE SQUAD</span> },
+    { node: <span className="font-heading font-black italic">Elite Squad</span> },
     { node: <span className="text-primary px-4">•</span> },
-    { node: <span className="font-anton text-white italic">TRAIN ENDURE DOMINATE</span> },
+    { node: <span className="font-heading font-black italic">Train Endure Dominate</span> },
     { node: <span className="text-primary px-4">•</span> },
   ];
 
   return (
     <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden relative">
-      <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')]" />
+      <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-noise" />
       
       <BubbleMenu 
-        logo="COMMAND HUB" 
+        logo="Command Hub" 
         items={MENU_ITEMS}
       />
 
@@ -516,18 +514,18 @@ export default function Home() {
         <div 
           onClick={handleLogoClick}
           className={cn(
-            "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase font-anton italic",
+            "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 font-heading italic",
             logoClicks > 0 && "text-primary scale-110"
           )}
         >
-          C9 CLUB {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
+          C9 Club {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
         </div>
       </div>
 
       <main>
         <Hero />
         <div className="py-8 bg-zinc-900/50 border-y border-white/5 relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')] bg-repeat" />
+          <div className="absolute inset-0 pointer-events-none opacity-20 bg-noise" />
           <LogoLoop 
             logos={logos} 
             speed={80} 

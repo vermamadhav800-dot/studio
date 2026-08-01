@@ -46,7 +46,8 @@
     overflow-x: hidden;
   }
   .font-heading {
-    @apply font-black tracking-tighter uppercase;
+    /* STYLISH TYPOGRAPHY PROTOCOL: NO FORCED UPPERCASE */
+    @apply font-black tracking-tighter;
     font-family: var(--font-heading);
   }
 }
@@ -54,5 +55,9 @@
 @layer utilities {
   .text-glow {
     text-shadow: 0 0 20px rgba(186, 255, 0, 0.4);
+  }
+  .bg-noise {
+    background-image: url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png');
+    background-repeat: repeat;
   }
 }
