@@ -1,11 +1,10 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -19,12 +18,13 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2, Shield, AlertTriangle, Loader2
+  CheckCircle2
 } from 'lucide-react';
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import Stack from '@/components/ui/Stack';
 import FlowingMenu from '@/components/ui/FlowingMenu';
+import FlyingPosters from '@/components/ui/FlyingPosters';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,7 +58,7 @@ const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount:
     <div 
       onClick={onLogoClick}
       className={cn(
-        "text-2xl md:text-3xl font-black tracking-tight text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
+        "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
         fontHeading.className,
         clickCount > 0 && "text-primary scale-110"
       )}
@@ -114,7 +114,7 @@ const Hero = () => {
 
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
-    <section className="py-32 px-8 bg-zinc-950/50 relative overflow-hidden">
+    <section className="py-32 px-8 bg-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
@@ -142,7 +142,7 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName="!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter"
+              textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter", fontHeading.className)}
             >
               WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
             </ScrollFloat>
@@ -162,6 +162,32 @@ const VisionSection = () => {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+};
+
+const ArchivesSection = () => {
+  const items = [
+    PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
+    PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
+  ];
+
+  return (
+    <section className="py-40 bg-black overflow-hidden h-screen flex flex-col">
+       <div className="max-w-7xl mx-auto px-8 mb-16 w-full text-center">
+         <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Tactical Intelligence</span>
+         <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>SQUAD ARCHIVES</h2>
+      </div>
+      <div className="flex-1 min-h-0">
+        <FlyingPosters 
+          items={items} 
+          planeWidth={400} 
+          planeHeight={400} 
+          distortion={4}
+        />
       </div>
     </section>
   );
@@ -397,6 +423,7 @@ export default function Home() {
         <Hero />
         <StatsSection stats={stats} />
         <VisionSection />
+        <ArchivesSection />
         <ScheduleSection 
           events={events} 
           onJoin={handleJoin}
