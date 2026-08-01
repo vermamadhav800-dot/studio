@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -52,9 +51,10 @@ export default function Model3D({
     dirLight.position.set(5, 5, 5);
     scene.add(dirLight);
 
-    const glowLight = new THREE.PointLight(0xffffff, 10, 20); 
-    glowLight.position.set(0, 2, 2);
-    scene.add(glowLight);
+    // TACTICAL SHINE LIGHT - High Intensity White Light for Shine
+    const shineLight = new THREE.PointLight(0xffffff, 50, 20); 
+    shineLight.position.set(0, 2, 2);
+    scene.add(shineLight);
 
     // CONTROLS
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -62,7 +62,7 @@ export default function Model3D({
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 2; // CAPPED FOR STABILITY
+    controls.autoRotateSpeed = 2;
 
     // OPTIMIZED GLB LOADER
     const loader = new GLTFLoader();
@@ -91,8 +91,11 @@ export default function Model3D({
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       
-      // Dynamic light movement
-      glowLight.position.x = Math.sin(Date.now() * 0.002) * 2;
+      // Dynamic shine light movement to create a shimmering effect
+      const time = Date.now() * 0.002;
+      shineLight.position.x = Math.sin(time) * 3;
+      shineLight.position.z = Math.cos(time) * 3;
+      shineLight.position.y = Math.sin(time * 0.5) * 2;
       
       controls.update();
       renderer.render(scene, camera);

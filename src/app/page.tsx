@@ -8,7 +8,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { fontHeading, fontAnton } from '@/app/fonts';
+import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import CircularGallery from '@/components/ui/CircularGallery';
@@ -162,10 +162,17 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
         {stats.map((stat, i) => {
           return (
-            <div key={i} className="flex flex-col items-center text-center group">
+            <motion.div 
+              key={i} 
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center group"
+            >
               <span className={cn("text-5xl md:text-6xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>{stat.value}</span>
               <span className="text-[10px] font-black tracking-[0.3em] text-primary mt-2 uppercase">{stat.label}</span>
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -323,7 +330,13 @@ const ScheduleSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {posters.map((poster) => (
-            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
+            <motion.div 
+              key={poster.id} 
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              className="group relative aspect-[1/1.6] overflow-hidden bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2"
+            >
               <Image 
                 src={poster.image}
                 alt={poster.title}
@@ -372,7 +385,7 @@ const ScheduleSection = () => {
                     <ArrowRight className="w-4 h-4 text-black" />
                  </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
