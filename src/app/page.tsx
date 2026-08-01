@@ -241,14 +241,12 @@ const ArchivesSection = () => {
              >
                Tactical Database
              </motion.span>
-             <h2 className={cn("text-5xl md:text-8xl font-black text-white tracking-tighter leading-none italic font-heading", fontHeading.className)}>
-               <ScrollFloat
-                  containerClassName="!text-left"
-                  textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-none !text-left !tracking-tighter font-heading italic", fontHeading.className)}
-               >
-                 Squad archives
-               </ScrollFloat>
-             </h2>
+             <ScrollFloat
+                containerClassName="!text-left"
+                textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-none !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+             >
+               Squad archives
+             </ScrollFloat>
            </div>
            <motion.div 
              initial={{ opacity: 0 }}
@@ -329,14 +327,12 @@ const ScheduleSection = () => {
 
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
-          <h2 className={cn("text-6xl md:text-8xl font-black text-white italic tracking-tighter leading-[0.9] font-heading", fontHeading.className)}>
-            <ScrollFloat
-              containerClassName="!text-left"
-              textClassName={cn("!text-white !text-6xl md:!text-8xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
-            >
-              Weekly events
-            </ScrollFloat>
-          </h2>
+          <ScrollFloat
+            containerClassName="!text-left"
+            textClassName={cn("!text-white !text-6xl md:!text-8xl !leading-[0.9] !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+          >
+            Weekly events
+          </ScrollFloat>
           <div className="space-y-6">
             <ScrollReveal baseOpacity={0.2} blurStrength={10} wordAnimationEnd="bottom center">
               Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise.
@@ -436,14 +432,12 @@ const GallerySection = () => {
   return (
     <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-heading", fontHeading.className)}>
-            <ScrollFloat
-              containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl !text-left !tracking-tighter font-heading italic", fontHeading.className)}
-            >
-              The vault
-            </ScrollFloat>
-          </h2>
+          <ScrollFloat
+            containerClassName="!text-left"
+            textClassName={cn("!text-white !text-5xl !text-left !tracking-tighter font-heading italic", fontHeading.className)}
+          >
+            The vault
+          </ScrollFloat>
           <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite intelligence</span>
        </div>
        <CircularGallery 
