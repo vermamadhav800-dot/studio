@@ -34,21 +34,32 @@ export default function AdminPage() {
         supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
       ]);
 
-      if (mRes.error) console.error('Mission Sync Failed:', mRes.error);
-      else setMissions(mRes.data || []);
+      // Detailed Tactical Error Reporting
+      if (mRes.error) {
+        console.error('Mission Sync Failed:', mRes.error);
+        toast({ variant: "destructive", title: "Mission Sync Failed", description: mRes.error.message || "Network Error" });
+      } else {
+        setMissions(mRes.data || []);
+      }
 
-      if (bRes.error) console.error('Booking Sync Failed:', bRes.error);
-      else setBookings(bRes.data || []);
+      if (bRes.error) {
+        console.error('Booking Sync Failed:', bRes.error);
+      } else {
+        setBookings(bRes.data || []);
+      }
 
-      if (sRes.error) console.error('Stats Sync Failed:', sRes.error);
-      else setStats(sRes.data || []);
+      if (sRes.error) {
+        console.error('Stats Sync Failed:', sRes.error);
+      } else {
+        setStats(sRes.data || []);
+      }
 
     } catch (err: any) {
-      console.error('CRITICAL NETWORK FAILURE:', err.message);
+      console.error('CRITICAL NETWORK FAILURE:', err?.message || 'Unknown Error');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     const authStatus = localStorage.getItem('c9_admin_auth');
@@ -116,9 +127,10 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 relative selection:bg-primary selection:text-black">
+      {/* Interaction Shield - Noise background set to z-0 and pointer-events-none */}
       <div className="fixed inset-0 bg-noise opacity-5 pointer-events-none z-0" />
       
-      <div className="max-w-7xl mx-auto space-y-16 relative z-10 pointer-events-auto">
+      <div className="max-w-7xl mx-auto space-y-16 relative z-50 pointer-events-auto">
         
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
@@ -133,9 +145,9 @@ export default function AdminPage() {
           <Button 
             variant="outline" 
             onClick={fetchData} 
-            className="rounded-full border-white/20 hover:border-primary py-6 px-8 bg-zinc-900/40 cursor-pointer"
+            className="rounded-full border-white/20 hover:border-primary py-6 px-8 bg-zinc-900/40 cursor-pointer z-50"
           >
-            <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} /> REFRESH DATABASE
+            <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} /> REFRESH SYNC
           </Button>
         </div>
 
@@ -143,15 +155,15 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY MISSION</h2>
-            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4">
-              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
-              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4 relative z-50">
+              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
+              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 pointer-events-auto" />
+              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
+              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 pointer-events-auto" />
               <Button 
                 onClick={handleAddMission} 
                 disabled={isSubmitting} 
-                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer"
+                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer pointer-events-auto z-50"
               >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
@@ -162,13 +174,13 @@ export default function AdminPage() {
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Zap className="text-primary" /> ACTIVE SCHEDULE</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {missions.length > 0 ? missions.map(mission => (
-                <div key={mission.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all">
+                <div key={mission.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] flex items-center justify-between group hover:border-white/20 transition-all z-50">
                   <div>
                     <span className="text-primary font-black text-xs block mb-1">{mission.day} • {mission.time}</span>
                     <h4 className="font-black text-xl uppercase">{mission.type}</h4>
                     <p className="text-white/40 text-[10px] uppercase">{mission.location}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer">
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer z-50">
                     <Trash2 className="w-5 h-5" />
                   </Button>
                 </div>
@@ -186,20 +198,28 @@ export default function AdminPage() {
            <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Trophy className="text-primary" /> CLUB INTEL (STATS)</h2>
            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {stats.map(stat => (
-                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4">
+                <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4 z-50">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-white/30 uppercase">ID: {stat.id}</span>
-                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/20 cursor-pointer">
+                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/20 cursor-pointer z-50">
                         <Save className="w-4 h-4" />
                      </Button>
                    </div>
                    <div className="space-y-2">
                      <label className="text-[8px] font-black text-white/40 uppercase tracking-widest block">Value</label>
-                     <Input value={stat.value} onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} className="bg-black/50 border-white/10 h-14 font-black" />
+                     <Input 
+                        value={stat.value} 
+                        onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
+                        className="bg-black/50 border-white/10 h-14 font-black pointer-events-auto" 
+                     />
                    </div>
                    <div className="space-y-2">
                      <label className="text-[8px] font-black text-white/40 uppercase tracking-widest block">Label</label>
-                     <Input value={stat.label} onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} className="bg-black/50 border-white/10 h-10 text-[10px] font-black" />
+                     <Input 
+                        value={stat.label} 
+                        onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
+                        className="bg-black/50 border-white/10 h-10 text-[10px] font-black pointer-events-auto" 
+                     />
                    </div>
                 </div>
               ))}
@@ -216,8 +236,8 @@ export default function AdminPage() {
           <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER (BOOKINGS)</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
              {bookings.map(booking => (
-               <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all">
-                  <span className="text-primary font-black text-[10px] uppercase truncate block">{booking.user_email}</span>
+               <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all z-50">
+                  <span className="text-primary font-black text-[10px] uppercase truncate block tracking-tighter">{booking.user_email}</span>
                   <div className="text-white/40 text-[9px] font-black uppercase mt-2 pt-2 border-t border-white/5">
                     Ref ID: {booking.id.slice(0,8)}
                   </div>

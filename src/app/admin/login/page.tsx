@@ -6,18 +6,16 @@ import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Shield, ArrowRight, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { Shield, ArrowRight, Lock, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
-    // Clear any stale sessions on mount
     localStorage.removeItem('c9_admin_auth');
   }, []);
 
@@ -26,32 +24,20 @@ export default function AdminLoginPage() {
     if (loading) return;
 
     setLoading(true);
-    setError(false);
 
-    console.log('INITIATING AUTHORIZATION SEQUENCE...');
-
-    // Tactical Key Check
     if (password === 'madhav@123321') {
-      console.log('KEY ACCEPTED. REDIRECTING...');
-      
-      // Lock session
       localStorage.setItem('c9_admin_auth', 'true');
-      localStorage.setItem('c9_auth_time', Date.now().toString());
-      
       toast({
-        title: "AUTHORIZATION GRANTED",
-        description: "Moving to Command Center...",
+        title: "ACCESS GRANTED",
+        description: "Inbound to Command Center...",
       });
-
-      // Hard Tactical Redirect - Bypassing router for maximum reliability
+      // Force tactical redirect
       window.location.href = '/admin';
     } else {
-      console.warn('KEY REJECTED.');
-      setError(true);
       toast({
         variant: "destructive",
         title: "ACCESS DENIED",
-        description: "Invalid tactical key.",
+        description: "Invalid credentials.",
       });
       setPassword('');
       setLoading(false);
@@ -60,26 +46,19 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Background Decor - Strictly non-interactive */}
       <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none" />
-      <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="max-w-md w-full space-y-8 relative z-50">
         <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-zinc-900 border border-white/10 rounded-[2rem] flex items-center justify-center mx-auto shadow-xl mb-6">
+          <div className="w-20 h-20 bg-zinc-900 border border-white/10 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-xl mb-6">
             <Shield className="w-10 h-10 text-primary" />
           </div>
-          <div>
-            <h1 className={cn("text-5xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>
-              TACTICAL <br /> <span className="text-primary">OVERRIDE</span>
-            </h1>
-          </div>
+          <h1 className={cn("text-5xl font-black text-white tracking-tighter leading-none", fontHeading.className)}>
+            TACTICAL <br /> <span className="text-primary">OVERRIDE</span>
+          </h1>
         </div>
 
-        <form onSubmit={handleLogin} className={cn(
-          "bg-zinc-900/80 border p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl relative z-50 pointer-events-auto",
-          error ? "border-destructive/50" : "border-white/10"
-        )}>
+        <form onSubmit={handleLogin} className="bg-zinc-900/80 border border-white/10 p-10 rounded-[3.5rem] backdrop-blur-3xl space-y-6 shadow-2xl relative z-50 pointer-events-auto">
           <div className="space-y-3">
              <label className="text-[10px] font-black text-white/40 uppercase tracking-widest block ml-2">Encryption Key</label>
              <div className="relative">
@@ -88,10 +67,7 @@ export default function AdminLoginPage() {
                 type="password"
                 placeholder="••••••••••••"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (error) setError(false);
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 className="bg-black border-white/10 pl-12 h-16 font-mono text-primary text-2xl focus:border-primary transition-all rounded-2xl relative z-50 pointer-events-auto"
                 autoFocus
                 required
@@ -102,7 +78,7 @@ export default function AdminLoginPage() {
           <Button 
             type="submit" 
             disabled={loading || !password}
-            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-[0_0_30px_rgba(186,255,0,0.2)] group transition-all relative z-50 pointer-events-auto cursor-pointer"
+            className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg group transition-all relative z-50 pointer-events-auto cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center gap-2">
@@ -120,7 +96,7 @@ export default function AdminLoginPage() {
           onClick={() => window.location.href = '/'}
           className="text-center text-[10px] font-black text-white/20 hover:text-white cursor-pointer uppercase tracking-widest pt-4 relative z-50 pointer-events-auto"
         >
-          Abort Mission & Exit
+          Exit Protocol
         </p>
       </div>
     </div>
