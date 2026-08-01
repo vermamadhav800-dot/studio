@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { fontHeading } from '@/app/fonts';
 import { cn } from '@/lib/utils';
@@ -16,16 +16,24 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
+    // Hardcoded Tactical Key: madhav@123321
     if (password === 'madhav@123321') {
       toast({
         title: "Tactical Override Success",
         description: "Redirecting to Command Center...",
       });
-      router.push('/admin');
+      
+      // Store session locally for persistence in this prototype
+      localStorage.setItem('c9_admin_auth', 'true');
+      
+      // Immediate push with a fallback
+      setTimeout(() => {
+        router.push('/admin');
+      }, 100);
     } else {
       toast({
         variant: "destructive",
@@ -33,8 +41,8 @@ export default function AdminLoginPage() {
         description: "Invalid credentials. Incident has been logged.",
       });
       setPassword('');
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -62,6 +70,7 @@ export default function AdminLoginPage() {
               <Input 
                 type="password"
                 placeholder="••••••••••••"
+                autoComplete="off"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="bg-black border-white/10 pl-12 h-14 font-mono text-primary text-xl"
