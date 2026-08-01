@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 
-// TACTICAL CREDENTIALS - PRIORITIZING PROVIDED KEYS
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://imofjiwswuoguxwgivmh.supabase.co';
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imltb2ZpandzdW9ndXh3Z2l2bWhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1Njg5OTMsImV4cCI6MjEwMTE0NDk5M30.8ATXphzYLvKV46z5FxxCLvxMdNjQX5Z9HdiITJwDp4E';
+// TACTICAL CREDENTIALS - DIRECT INJECTION
+const SUPABASE_URL = 'https://imofjiwswuoguxwgivmh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imltb2ZpandzdW9ndXh3Z2l2bWhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1Njg5OTMsImV4cCI6MjEwMTE0NDk5M30.8ATXphzYLvKV46z5FxxCLvxMdNjQX5Z9HdiITJwDp4E';
 
-// Initialize Supabase with default fetch for maximum stability
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize with minimal configuration for maximum network stability
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+});
 
 export type Mission = {
   id: string;

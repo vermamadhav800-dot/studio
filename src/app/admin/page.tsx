@@ -37,8 +37,8 @@ export default function AdminPage() {
   async function fetchData() {
     try {
       setLoading(true);
+      console.log('Tactical Sync Initiated...');
       
-      // Fetch each table individually to prevent one error from breaking everything
       const [mRes, bRes, sRes] = await Promise.all([
         supabase.from('missions').select('*').order('created_at', { ascending: true }),
         supabase.from('bookings').select('*').order('created_at', { ascending: false }),
@@ -49,15 +49,16 @@ export default function AdminPage() {
       if (bRes.data) setBookings(bRes.data);
       if (sRes.data) setStats(sRes.data);
       
-      if (mRes.error || bRes.error || sRes.error) {
-        console.warn('Tactical Partial Load Warning:', mRes.error || bRes.error || sRes.error);
-      }
+      if (mRes.error) console.error('Mission Fetch Error:', mRes.error);
+      if (bRes.error) console.error('Booking Fetch Error:', bRes.error);
+      if (sRes.error) console.error('Stats Fetch Error:', sRes.error);
+
     } catch (err: any) {
-      console.error('Tactical Connection Error:', err.message);
+      console.error('Tactical Connection Failed:', err);
       toast({ 
         variant: "destructive", 
         title: "Connection Failure", 
-        description: "Failed to fetch tactical data. Ensure Supabase tables exist." 
+        description: "Failed to connect to Supabase. Check Console." 
       });
     } finally {
       setLoading(false);
@@ -65,6 +66,7 @@ export default function AdminPage() {
   }
 
   const handleAddMission = async () => {
+    console.log('Add Mission Triggered', newMission);
     if (isSubmitting) return;
 
     if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
@@ -78,20 +80,26 @@ export default function AdminPage() {
 
     try {
       setIsSubmitting(true);
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('missions')
-        .insert([newMission]);
+        .insert([newMission])
+        .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Deployment Error:', error);
+        throw error;
+      }
 
-      toast({ title: "MISSION LOGGED" });
+      console.log('Mission Successfully Logged:', data);
+      toast({ title: "MISSION LOGGED", description: "Operation successfully deployed to cloud." });
       setNewMission({ day: '', time: '', location: '', type: '' });
       fetchData();
     } catch (err: any) {
+      console.error('Critical Deployment Failure:', err);
       toast({ 
         variant: "destructive", 
         title: "Deployment Failed", 
-        description: err.message 
+        description: err.message || "Network Error"
       });
     } finally {
       setIsSubmitting(false);
@@ -180,7 +188,11 @@ export default function AdminPage() {
               <Input placeholder="TIME (06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
               <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
               <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Button onClick={handleAddMission} disabled={isSubmitting} className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4">
+              <Button 
+                onClick={handleAddMission} 
+                disabled={isSubmitting} 
+                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 relative z-50 cursor-pointer"
+              >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
             </div>
