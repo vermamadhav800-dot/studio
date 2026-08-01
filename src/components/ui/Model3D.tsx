@@ -1,8 +1,7 @@
-
 'use client';
 
 import { useEffect, useRef } from 'react';
-import * as THREE from 'source/three';
+import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -78,12 +77,12 @@ export default function Model3D({
       (gltf) => {
         loadedModel = gltf.scene;
 
-        // Scale and Center Logic - TACTICAL SIZE (Slightly smaller)
+        // Scale and Center Logic - TACTICAL SIZE (Slightly smaller as requested)
         const box = new THREE.Box3().setFromObject(loadedModel);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 3.8 / maxDim; // Adjusted from 4.2 to 3.8 as per request
+        const scale = 3.8 / maxDim; // Adjusted from 4.2 to 3.8
 
         loadedModel.scale.setScalar(scale);
         loadedModel.position.sub(center.multiplyScalar(scale));
@@ -106,7 +105,7 @@ export default function Model3D({
 
       // Frontal Oscillation Protocol: Sway around the front axis
       if (loadedModel) {
-        // Center-focused oscillation (backside hidden)
+        // Center-focused oscillation (backside stays hidden during automatic sway)
         loadedModel.rotation.y = Math.sin(time * 0.5) * 0.25; 
         loadedModel.rotation.x = Math.sin(time * 0.3) * 0.05; 
       }
