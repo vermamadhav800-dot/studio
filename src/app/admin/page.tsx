@@ -30,13 +30,13 @@ export default function AdminPage() {
       const { data: bData, error: bErr } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
       const { data: sData, error: sErr } = await supabase.from('club_stats').select('*').order('sort_order', { ascending: true });
 
-      if (mErr) console.error('Missions Error:', mErr);
+      if (mErr) console.error('Missions Sync Failed:', JSON.stringify(mErr));
       else setMissions(mData || []);
 
-      if (bErr) console.error('Bookings Error:', bErr);
+      if (bErr) console.error('Bookings Sync Failed:', JSON.stringify(bErr));
       else setBookings(bData || []);
 
-      if (sErr) console.error('Stats Error:', sErr);
+      if (sErr) console.error('Stats Sync Failed:', JSON.stringify(sErr));
       else setStats(sData || []);
 
     } catch (err: any) {
@@ -47,7 +47,7 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('c9_admin_auth');
+    const authStatus = typeof window !== 'undefined' ? localStorage.getItem('c9_admin_auth') : null;
     if (authStatus === 'true') {
       setIsAuthorized(true);
       fetchData();
@@ -111,13 +111,14 @@ export default function AdminPage() {
   if (!isAuthorized) return <div className="bg-black min-h-screen" />;
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 relative">
-      <div className="max-w-7xl mx-auto space-y-16 relative z-50">
+    <div className="min-h-screen bg-black text-white p-6 relative overflow-x-hidden">
+      {/* High-Priority Interaction Layer */}
+      <div className="max-w-7xl mx-auto space-y-16 relative z-[60] pointer-events-auto">
         
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
           <div>
-            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase cursor-pointer z-50">
+            <Button variant="ghost" onClick={handleLogout} className="mb-4 -ml-4 hover:bg-white/10 text-white/50 font-black text-[10px] tracking-widest uppercase cursor-pointer relative z-[70]">
               <ArrowLeft className="w-4 h-4 mr-2" /> EXIT COMMAND
             </Button>
             <h1 className={cn("text-6xl md:text-9xl font-black text-primary leading-none tracking-tighter", fontHeading.className)}>
@@ -127,7 +128,7 @@ export default function AdminPage() {
           <Button 
             variant="outline" 
             onClick={fetchData} 
-            className="rounded-full border-white/20 hover:border-primary py-6 px-8 bg-zinc-900/40 cursor-pointer z-50"
+            className="rounded-full border-white/20 hover:border-primary py-6 px-8 bg-zinc-900/40 cursor-pointer relative z-[70]"
           >
             <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} /> REFRESH SYNC
           </Button>
@@ -137,15 +138,15 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-1 space-y-6">
             <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Plus className="text-primary" /> DEPLOY MISSION</h2>
-            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4">
-              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14" />
-              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
-              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14" />
+            <div className="bg-zinc-900/60 border border-white/10 p-10 rounded-[3rem] space-y-4 relative z-[70]">
+              <Input placeholder="DAY (e.g. MON)" value={newMission.day} onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})} className="bg-black/50 h-14 cursor-text" />
+              <Input placeholder="TIME (e.g. 06:00 AM)" value={newMission.time} onChange={(e) => setNewMission({...newMission, time: e.target.value})} className="bg-black/50 h-14 cursor-text" />
+              <Input placeholder="LOCATION" value={newMission.location} onChange={(e) => setNewMission({...newMission, location: e.target.value.toUpperCase()})} className="bg-black/50 h-14 cursor-text" />
+              <Input placeholder="RUN TYPE" value={newMission.type} onChange={(e) => setNewMission({...newMission, type: e.target.value.toUpperCase()})} className="bg-black/50 h-14 cursor-text" />
               <Button 
                 onClick={handleAddMission} 
                 disabled={isSubmitting} 
-                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer z-50"
+                className="w-full bg-primary text-black font-black hover:bg-white py-8 rounded-full shadow-lg transition-all mt-4 cursor-pointer relative z-[80] pointer-events-auto"
               >
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "LOG TO SCHEDULE"}
               </Button>
@@ -162,7 +163,7 @@ export default function AdminPage() {
                     <h4 className="font-black text-xl uppercase">{mission.type}</h4>
                     <p className="text-white/40 text-[10px] uppercase">{mission.location}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer z-50">
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-white/20 hover:text-destructive h-12 w-12 cursor-pointer relative z-[70]">
                     <Trash2 className="w-5 h-5" />
                   </Button>
                 </div>
@@ -183,7 +184,7 @@ export default function AdminPage() {
                 <div key={stat.id} className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2rem] space-y-4">
                    <div className="flex justify-between items-center">
                      <span className="text-[10px] font-black text-white/30 uppercase">ID: {stat.id}</span>
-                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/20 cursor-pointer z-50">
+                     <Button variant="ghost" size="icon" onClick={() => handleUpdateStat(stat)} className="text-primary hover:bg-primary/20 cursor-pointer relative z-[70]">
                         <Save className="w-4 h-4" />
                      </Button>
                    </div>
@@ -191,16 +192,16 @@ export default function AdminPage() {
                      <label className="text-[8px] font-black text-white/40 uppercase tracking-widest block">Value</label>
                      <Input 
                         value={stat.value} 
-                        onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
-                        className="bg-black/50 border-white/10 h-14 font-black" 
+                        onChange={(e) => setStats(prev => prev.map(s => s.id === stat.id ? {...s, value: e.target.value} : s))} 
+                        className="bg-black/50 border-white/10 h-14 font-black cursor-text" 
                      />
                    </div>
                    <div className="space-y-2">
                      <label className="text-[8px] font-black text-white/40 uppercase tracking-widest block">Label</label>
                      <Input 
                         value={stat.label} 
-                        onChange={(e) => setStats(stats.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
-                        className="bg-black/50 border-white/10 h-10 text-[10px] font-black" 
+                        onChange={(e) => setStats(prev => prev.map(s => s.id === stat.id ? {...s, label: e.target.value.toUpperCase()} : s))} 
+                        className="bg-black/50 border-white/10 h-10 text-[10px] font-black cursor-text" 
                      />
                    </div>
                 </div>
