@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -14,29 +15,18 @@ import CircularGallery from '@/components/ui/CircularGallery';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import ScrollFloat from '@/components/ui/ScrollFloat';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2, Shield, AlertTriangle, Lock, Trash2, Plus, X 
+  CheckCircle2, Shield, AlertTriangle 
 } from 'lucide-react';
-import { supabase, type Mission, type Booking } from '@/lib/supabase';
+import { supabase, type Mission, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-  { label: 'SQUAD MEMBERS', value: '1500+', icon: Users },
-  { label: 'OPERATIONAL CITIES', value: '35', icon: MapPin },
-  { label: 'TOTAL KM COVERED', value: '42K+', icon: Trophy },
-  { label: 'MISSIONS LOGGED', value: '500+', icon: Zap },
-];
+const iconMap: Record<string, any> = {
+  Users, MapPin, Trophy, Zap
+};
 
 const Nav = ({ onLogoClick }: { onLogoClick: () => void }) => (
   <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference">
@@ -107,13 +97,13 @@ const Hero = () => {
   );
 };
 
-const StatsSection = () => {
+const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
     <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-noise opacity-10" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {stats.map((stat, i) => {
-          const Icon = stat.icon;
+          const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
               <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/20 shadow-[0_0_20px_rgba(186,255,0,0.1)]">
@@ -293,14 +283,13 @@ const Footer = () => (
 );
 
 export default function Home() {
+  const router = useRouter();
   const [logoClicks, setLogoClicks] = useState(0);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [missions, setMissions] = useState<Mission[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [stats, setStats] = useState<ClubStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [joinedIds, setJoinedIds] = useState<string[]>([]);
-  const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -332,20 +321,17 @@ export default function Home() {
     try {
       setLoading(true);
       setError(null);
-      const { data: missionsData, error: missionsError } = await supabase
-        .from('missions')
-        .select('*')
-        .order('created_at', { ascending: true });
       
-      const { data: bookingsData, error: bookingsError } = await supabase
-        .from('bookings')
-        .select('*');
+      const [missionsRes, statsRes] = await Promise.all([
+        supabase.from('missions').select('*').order('created_at', { ascending: true }),
+        supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
+      ]);
 
-      if (missionsError) throw missionsError;
-      if (bookingsError) throw bookingsError;
+      if (missionsRes.error) throw missionsRes.error;
+      if (statsRes.error) throw statsRes.error;
 
-      setMissions(missionsData || []);
-      setBookings(bookingsData || []);
+      setMissions(missionsRes.data || []);
+      setStats(statsRes.data || []);
     } catch (err: any) {
       setError(err.message || "Could not connect to Squad Command.");
     } finally {
@@ -367,7 +353,6 @@ export default function Home() {
       if (error) throw error;
 
       setJoinedIds(prev => [...prev, missionId]);
-      fetchData(); // Sync roster
       toast({
         title: "Mission Joined",
         description: "Squad confirmed. See you at the location.",
@@ -387,38 +372,12 @@ export default function Home() {
     if (newCount === 10) {
       const password = prompt("Enter Tactical Override Password:");
       if (password === 'madhav@123321') {
-        setIsAdminOpen(true);
         setLogoClicks(0);
-        fetchData(); // Fresh data for admin
+        router.push('/admin');
       } else {
         toast({ variant: "destructive", title: "Access Denied", description: "Invalid Override Credentials." });
         setLogoClicks(0);
       }
-    }
-  };
-
-  const handleAddMission = async () => {
-    if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
-      toast({ variant: "destructive", title: "Missing Intel", description: "Complete all fields for the mission." });
-      return;
-    }
-    const { error } = await supabase.from('missions').insert([newMission]);
-    if (error) {
-      toast({ variant: "destructive", title: "Tactical Error", description: error.message });
-    } else {
-      toast({ title: "Mission Logged", description: "The squad schedule has been updated." });
-      setNewMission({ day: '', time: '', location: '', type: '' });
-      fetchData();
-    }
-  };
-
-  const handleDeleteMission = async (id: string) => {
-    const { error } = await supabase.from('missions').delete().eq('id', id);
-    if (error) {
-      toast({ variant: "destructive", title: "Erasure Failed", description: error.message });
-    } else {
-      toast({ title: "Mission Erased", description: "Target removed from operational schedule." });
-      fetchData();
     }
   };
 
@@ -427,7 +386,7 @@ export default function Home() {
       <Nav onLogoClick={handleLogoClick} />
       <main>
         <Hero />
-        <StatsSection />
+        <StatsSection stats={stats} />
         <VisionSection />
         <ScheduleSection 
           missions={missions} 
@@ -439,94 +398,6 @@ export default function Home() {
         <GallerySection />
         <Footer />
       </main>
-      
-      {/* Admin Panel Modal */}
-      <Dialog open={isAdminOpen} onOpenChange={setIsAdminOpen}>
-        <DialogContent className="max-w-4xl bg-zinc-950 border-white/20 text-white rounded-[2.5rem] max-h-[90vh] overflow-y-auto shadow-[0_0_100px_rgba(186,255,0,0.1)]">
-          <DialogHeader>
-            <DialogTitle className={cn("text-4xl font-black text-primary", fontHeading.className)}>TACTICAL COMMAND CENTER</DialogTitle>
-            <DialogDescription className="text-white/60 font-bold uppercase tracking-widest text-[10px]">Mission Control & Squad Intelligence</DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-12 py-8">
-            {/* Add Mission Form */}
-            <div className="p-8 border border-white/10 rounded-[2rem] bg-zinc-900/50">
-              <h3 className="text-xl font-black mb-6 flex items-center gap-2"><Plus className="w-5 h-5 text-primary" /> NEW MISSION</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input 
-                  placeholder="Day (e.g. MON)" 
-                  value={newMission.day} 
-                  onChange={(e) => setNewMission({...newMission, day: e.target.value.toUpperCase()})}
-                  className="bg-black/50 border-white/10"
-                />
-                <Input 
-                  placeholder="Time (e.g. 06:00 AM)" 
-                  value={newMission.time} 
-                  onChange={(e) => setNewMission({...newMission, time: e.target.value})}
-                  className="bg-black/50 border-white/10"
-                />
-                <Input 
-                  placeholder="Location" 
-                  value={newMission.location} 
-                  onChange={(e) => setNewMission({...newMission, location: e.target.value})}
-                  className="bg-black/50 border-white/10"
-                />
-                <Input 
-                  placeholder="Run Type" 
-                  value={newMission.type} 
-                  onChange={(e) => setNewMission({...newMission, type: e.target.value})}
-                  className="bg-black/50 border-white/10"
-                />
-              </div>
-              <Button onClick={handleAddMission} className="w-full mt-6 bg-primary text-black font-black hover:bg-white transition-all rounded-full py-6">
-                DEPLOY MISSION
-              </Button>
-            </div>
-
-            {/* Missions List */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-black flex items-center gap-2"><Zap className="w-5 h-5 text-primary" /> ACTIVE MISSIONS</h3>
-              <div className="space-y-3">
-                {missions.map(mission => (
-                  <div key={mission.id} className="flex items-center justify-between p-6 border border-white/10 rounded-2xl bg-zinc-900/30 hover:border-white/30 transition-colors">
-                    <div>
-                      <span className="text-primary font-black text-xs mr-4">{mission.day}</span>
-                      <span className="font-bold text-lg">{mission.type}</span>
-                      <div className="flex items-center gap-2 text-white/50 text-[10px] mt-1 uppercase font-black tracking-widest">
-                        <MapPin className="w-3 h-3" /> {mission.location} • {bookings.filter(b => b.mission_id === mission.id).length} SQUADDIES CONFIRMED
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleDeleteMission(mission.id)} className="text-destructive hover:bg-destructive/10 rounded-xl">
-                      <Trash2 className="w-5 h-5" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Bookings Intel */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-black flex items-center gap-2"><Users className="w-5 h-5 text-primary" /> SQUAD ROSTER (ALL BOOKINGS)</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {bookings.map(booking => {
-                  const mission = missions.find(m => m.id === booking.mission_id);
-                  return (
-                    <div key={booking.id} className="p-4 border border-white/5 rounded-xl bg-black/40 text-[10px] flex flex-col gap-1">
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-white uppercase">{booking.user_email}</span>
-                        <span className="text-primary/50">{new Date(booking.created_at).toLocaleDateString()}</span>
-                      </div>
-                      <div className="text-white/30 font-black uppercase tracking-tighter">
-                        MISSION: {mission ? `${mission.day} ${mission.type}` : "DECOMMISSIONED"}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
       
       {/* Tactical Bottom Bar for Mobile */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-sm">

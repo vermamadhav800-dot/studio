@@ -32,3 +32,11 @@ export type Booking = {
   user_email: string;
   created_at: string;
 };
+
+export type ClubStat = {
+  id: string;
+  label: string;
+  value: string;
+  icon_name: string;
+  sort_order: number;
+};
