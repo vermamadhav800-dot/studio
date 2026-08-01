@@ -1,110 +1,79 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { fontHeading } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { supabase, type Mission, type Booking, type ClubStat } from '@/lib/supabase';
+import { type Mission, type Booking, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Plus, Trash2, Zap, Users, MapPin, Trophy, ArrowLeft, Save, Loader2, RefreshCw
 } from 'lucide-react';
 
+// DUMMY INITIAL STATE
+const INITIAL_MISSIONS: Mission[] = [
+  { id: '1', day: 'MON', time: '06:00 AM', location: 'CP, DELHI', type: 'INTERVALS' },
+  { id: '2', day: 'WED', time: '06:00 AM', location: 'LODHI GARDEN', type: 'TEMPO HUNT' },
+  { id: '3', day: 'FRI', time: '06:00 AM', location: 'CP, DELHI', type: 'EASY RUN' },
+  { id: '4', day: 'SUN', time: '05:30 AM', location: 'GURGAON', type: 'LONG DISTANCE' },
+];
+
+const INITIAL_STATS: ClubStat[] = [
+  { id: 'runs', label: 'TOTAL RUNS', value: '420+', icon_name: 'Zap', sort_order: 1 },
+  { id: 'members', label: 'ACTIVE SQUAD', value: '850', icon_name: 'Users', sort_order: 2 },
+  { id: 'city', label: 'STREETS COVERED', value: '12', icon_name: 'MapPin', sort_order: 3 },
+  { id: 'wins', label: 'PODIUM FINISHES', value: '55', icon_name: 'Trophy', sort_order: 4 },
+];
+
 export default function AdminPage() {
   const { toast } = useToast();
-  const [missions, setMissions] = useState<Mission[]>([]);
+  const [missions, setMissions] = useState<Mission[]>(INITIAL_MISSIONS);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [stats, setStats] = useState<ClubStat[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<ClubStat[]>(INITIAL_STATS);
+  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   
   const [newMission, setNewMission] = useState({ day: '', time: '', location: '', type: '' });
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      console.log('SYNC INITIATED...');
-      
-      const [mRes, bRes, sRes] = await Promise.all([
-        supabase.from('missions').select('*').order('created_at', { ascending: true }),
-        supabase.from('bookings').select('*').order('created_at', { ascending: false }),
-        supabase.from('club_stats').select('*').order('sort_order', { ascending: true })
-      ]);
-
-      if (mRes.error) console.error('Mission Sync Failure:', JSON.stringify(mRes.error));
-      else setMissions(mRes.data || []);
-
-      if (bRes.error) console.error('Booking Sync Failure:', JSON.stringify(bRes.error));
-      else setBookings(bRes.data || []);
-
-      if (sRes.error) console.error('Stats Sync Failure:', JSON.stringify(sRes.error));
-      else setStats(sRes.data || []);
-
-      console.log('SYNC COMPLETE.');
-    } catch (err: any) {
-      console.error('SYSTEM SYNC FAILURE:', err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
     const authStatus = typeof window !== 'undefined' ? localStorage.getItem('c9_admin_auth') : null;
     if (authStatus === 'true') {
       setIsAuthorized(true);
-      fetchData();
     } else {
       window.location.href = '/admin/login';
     }
-  }, [fetchData]);
+  }, []);
 
-  const handleAddMission = async () => {
+  const handleAddMission = () => {
     if (isSubmitting) return;
     if (!newMission.day || !newMission.time || !newMission.location || !newMission.type) {
       toast({ variant: "destructive", title: "Intel Missing", description: "All fields required." });
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      const { error } = await supabase.from('missions').insert([newMission]);
-      if (error) throw error;
-
-      toast({ title: "MISSION LOGGED", description: "Database updated." });
+    setIsSubmitting(true);
+    setTimeout(() => {
+      const mission: Mission = {
+        id: Math.random().toString(36).substr(2, 9),
+        ...newMission
+      };
+      setMissions(prev => [...prev, mission]);
       setNewMission({ day: '', time: '', location: '', type: '' });
-      fetchData();
-    } catch (err: any) {
-      toast({ variant: "destructive", title: "Deployment Failed", description: err.message });
-    } finally {
       setIsSubmitting(false);
-    }
+      toast({ title: "MISSION LOGGED", description: "Local database updated." });
+    }, 500);
   };
 
-  const handleDeleteMission = async (id: string) => {
-    try {
-      const { error } = await supabase.from('missions').delete().eq('id', id);
-      if (error) throw error;
-      toast({ title: "Mission Erased" });
-      fetchData();
-    } catch (err: any) {
-      toast({ variant: "destructive", title: "Erasure Failed" });
-    }
+  const handleDeleteMission = (id: string) => {
+    setMissions(prev => prev.filter(m => m.id !== id));
+    toast({ title: "Mission Erased" });
   };
 
-  const handleUpdateStat = async (stat: ClubStat) => {
-    try {
-      const { error } = await supabase.from('club_stats').update({ 
-        value: stat.value, 
-        label: stat.label 
-      }).eq('id', stat.id);
-      
-      if (error) throw error;
-      toast({ title: "INTELLIGENCE UPDATED", description: `${stat.label} synced.` });
-    } catch (err: any) {
-      toast({ variant: "destructive", title: "Stat Sync Failed", description: err.message });
-    }
+  const handleUpdateStat = (stat: ClubStat) => {
+    setStats(prev => prev.map(s => s.id === stat.id ? stat : s));
+    toast({ title: "INTELLIGENCE UPDATED", description: `${stat.label} synced.` });
   };
 
   const handleLogout = () => {
@@ -116,8 +85,11 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6 relative overflow-x-hidden selection:bg-primary selection:text-black">
-      {/* Interaction Layer - Explicitly Auto */}
-      <div className="max-w-7xl mx-auto space-y-16 relative z-[60] pointer-events-auto">
+      {/* Background Layer - Pointer Events None */}
+      <div className="absolute inset-0 bg-noise opacity-5 pointer-events-none z-0" />
+      
+      {/* Interaction Layer */}
+      <div className="max-w-7xl mx-auto space-y-16 relative z-50 pointer-events-auto">
         
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 pb-12">
@@ -135,7 +107,7 @@ export default function AdminPage() {
           </div>
           <Button 
             variant="outline" 
-            onClick={fetchData} 
+            onClick={() => setLoading(true) || setTimeout(() => setLoading(false), 1000)} 
             className="rounded-full border-white/20 hover:border-primary py-6 px-8 bg-zinc-900/40 cursor-pointer"
           >
             <RefreshCw className={cn("w-4 h-4 mr-2", loading && "animate-spin")} /> REFRESH SYNC
@@ -177,7 +149,7 @@ export default function AdminPage() {
                 </div>
               )) : (
                 <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
-                  {loading ? "SEARCHING VAULT..." : "No missions logged"}
+                  No missions logged
                 </div>
               )}
             </div>
@@ -219,20 +191,21 @@ export default function AdminPage() {
 
         {/* Roster Section */}
         <div className="space-y-8 pb-20">
-          <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER (BOOKINGS)</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tighter flex items-center gap-2"><Users className="text-primary" /> SQUAD ROSTER (DUMMY)</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-             {bookings.map(booking => (
-               <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all">
-                  <span className="text-primary font-black text-[10px] uppercase truncate block tracking-tighter">{booking.user_email}</span>
-                  <div className="text-white/40 text-[9px] font-black uppercase mt-2 pt-2 border-t border-white/5">
-                    Ref ID: {booking.id.slice(0,8)}
-                  </div>
-               </div>
-             ))}
-             {bookings.length === 0 && !loading && (
+             {bookings.length === 0 ? (
                 <div className="col-span-full py-10 text-center border border-dashed border-white/10 rounded-[2rem] text-white/20 text-[10px] font-black uppercase">
-                  No squad members registered yet.
+                  No squad members registered in this session.
                 </div>
+              ) : (
+                bookings.map(booking => (
+                  <div key={booking.id} className="bg-zinc-950/80 border border-white/5 p-8 rounded-[2rem] hover:border-primary/50 transition-all">
+                    <span className="text-primary font-black text-[10px] uppercase truncate block tracking-tighter">{booking.user_email}</span>
+                    <div className="text-white/40 text-[9px] font-black uppercase mt-2 pt-2 border-t border-white/5">
+                      Ref ID: {booking.id.slice(0,8)}
+                    </div>
+                  </div>
+                ))
               )}
           </div>
         </div>

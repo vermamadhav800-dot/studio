@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -20,7 +19,7 @@ import {
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
   CheckCircle2, Shield, AlertTriangle, Loader2
 } from 'lucide-react';
-import { supabase, type Mission, type ClubStat } from '@/lib/supabase';
+import { type Mission, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,6 +27,21 @@ gsap.registerPlugin(ScrollTrigger);
 const iconMap: Record<string, any> = {
   Users, MapPin, Trophy, Zap
 };
+
+// DUMMY TACTICAL DATA
+const DUMMY_MISSIONS: Mission[] = [
+  { id: '1', day: 'MON', time: '06:00 AM', location: 'CP, DELHI', type: 'INTERVALS' },
+  { id: '2', day: 'WED', time: '06:00 AM', location: 'LODHI GARDEN', type: 'TEMPO HUNT' },
+  { id: '3', day: 'FRI', time: '06:00 AM', location: 'CP, DELHI', type: 'EASY RUN' },
+  { id: '4', day: 'SUN', time: '05:30 AM', location: 'GURGAON', type: 'LONG DISTANCE' },
+];
+
+const DUMMY_STATS: ClubStat[] = [
+  { id: 'runs', label: 'TOTAL RUNS', value: '420+', icon_name: 'Zap', sort_order: 1 },
+  { id: 'members', label: 'ACTIVE SQUAD', value: '850', icon_name: 'Users', sort_order: 2 },
+  { id: 'city', label: 'STREETS COVERED', value: '12', icon_name: 'MapPin', sort_order: 3 },
+  { id: 'wins', label: 'PODIUM FINISHES', value: '55', icon_name: 'Trophy', sort_order: 4 },
+];
 
 const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount: number }) => (
   <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
@@ -105,9 +119,9 @@ const Hero = () => {
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
     <section className="py-32 px-8 border-y border-white/20 bg-zinc-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-noise opacity-10" />
+      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
-        {stats.length > 0 ? stats.map((stat, i) => {
+        {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
@@ -118,12 +132,7 @@ const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
               <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
             </div>
           );
-        }) : (
-          <div className="col-span-full text-center flex flex-col items-center gap-4 py-12">
-            <Loader2 className="w-8 h-8 text-primary animate-spin" />
-            <span className="text-[10px] font-black tracking-widest text-white/20 uppercase">SCANNIG TACTICAL STATS...</span>
-          </div>
-        )}
+        })}
       </div>
     </section>
   );
@@ -147,7 +156,7 @@ const VisionSection = () => {
             <ScrollReveal baseOpacity={0.2} blurStrength={10}>
               C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
             </ScrollReveal>
-            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl">
+            <Button className="rounded-full bg-white text-black hover:bg-primary hover:text-black transition-all px-10 py-8 font-black text-sm tracking-widest group shadow-xl cursor-pointer">
               LEARN OUR CREED <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -157,16 +166,14 @@ const VisionSection = () => {
   );
 };
 
-const ScheduleSection = ({ missions, loading, error, onJoin, joinedIds }: { 
+const ScheduleSection = ({ missions, onJoin, joinedIds }: { 
   missions: Mission[], 
-  loading: boolean, 
-  error: string | null, 
   onJoin: (id: string) => void,
   joinedIds: string[]
 }) => {
   return (
     <section id="schedule" className="py-40 px-8 bg-black relative">
-      <div className="absolute inset-0 bg-noise opacity-[0.05]" />
+      <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className={cn("text-7xl md:text-9xl font-black text-white leading-none tracking-tighter", fontHeading.className)}>
@@ -177,64 +184,45 @@ const ScheduleSection = ({ missions, loading, error, onJoin, joinedIds }: {
           </div>
         </div>
 
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <Loader2 className="animate-spin h-12 w-12 text-primary" />
-            <span className="text-[10px] font-black tracking-widest text-white/60">CONNECTING TO COMMAND...</span>
-          </div>
-        ) : error ? (
-          <div className="py-20 text-center border border-dashed border-destructive/50 rounded-[2.5rem] bg-destructive/5">
-            <AlertTriangle className="w-12 h-12 text-destructive mx-auto mb-6" />
-            <p className="text-white font-black tracking-widest text-xs uppercase mb-2">Tactical Link Offline</p>
-            <p className="text-white/60 text-sm mb-6">{error}</p>
-            <Button variant="outline" onClick={() => window.location.reload()} className="rounded-full">RETRY CONNECTION</Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {missions.length > 0 ? missions.map((run) => (
-              <div 
-                key={run.id} 
-                className={cn(
-                  "bg-zinc-900/60 border border-white/20 p-12 hover:border-primary transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
-                  joinedIds.includes(run.id) && "border-primary bg-primary/20"
-                )}
-              >
-                <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
-                  {run.day}
-                </span>
-                <div className="relative z-10">
-                  <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
-                  <h4 className="text-2xl font-black text-white mb-4 transition-colors">{run.type}</h4>
-                  <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-8">
-                    <MapPin className="w-4 h-4" /> {run.location}
-                  </div>
-                  
-                  <Button 
-                    onClick={() => onJoin(run.id)}
-                    disabled={joinedIds.includes(run.id)}
-                    className={cn(
-                      "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg",
-                      joinedIds.includes(run.id) 
-                        ? "bg-primary text-black" 
-                        : "bg-white text-black hover:bg-primary"
-                    )}
-                  >
-                    {joinedIds.includes(run.id) ? (
-                      <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
-                    ) : (
-                      "JOIN MISSION"
-                    )}
-                  </Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {missions.map((run) => (
+            <div 
+              key={run.id} 
+              className={cn(
+                "bg-zinc-900/60 border border-white/20 p-12 hover:border-primary transition-all duration-500 rounded-[2.5rem] backdrop-blur-md relative overflow-hidden",
+                joinedIds.includes(run.id) && "border-primary bg-primary/20"
+              )}
+            >
+              <span className={cn("text-6xl font-black text-white/10 group-hover:text-white/20 block mb-12 transition-colors", fontHeading.className)}>
+                {run.day}
+              </span>
+              <div className="relative z-10">
+                <p className="text-primary font-black text-xs tracking-[0.2em] mb-2">{run.time}</p>
+                <h4 className="text-2xl font-black text-white mb-4 transition-colors">{run.type}</h4>
+                <div className="flex items-center gap-2 text-white/80 text-sm font-bold mb-8">
+                  <MapPin className="w-4 h-4" /> {run.location}
                 </div>
+                
+                <Button 
+                  onClick={() => onJoin(run.id)}
+                  disabled={joinedIds.includes(run.id)}
+                  className={cn(
+                    "w-full rounded-full font-black tracking-widest text-xs py-6 transition-all duration-300 shadow-lg cursor-pointer",
+                    joinedIds.includes(run.id) 
+                      ? "bg-primary text-black" 
+                      : "bg-white text-black hover:bg-primary"
+                  )}
+                >
+                  {joinedIds.includes(run.id) ? (
+                    <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> CONFIRMED</span>
+                  ) : (
+                    "JOIN MISSION"
+                  )}
+                </Button>
               </div>
-            )) : (
-              <div className="col-span-full py-20 text-center border border-dashed border-white/20 rounded-[2.5rem]">
-                <Shield className="w-12 h-12 text-white/20 mx-auto mb-6" />
-                <p className="text-white/40 font-black tracking-widest text-xs uppercase">No active missions found in Command Database.</p>
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -273,7 +261,7 @@ const Footer = () => (
         <h2 className={cn("text-8xl md:text-[12vw] leading-[0.8] font-black text-white tracking-tighter", fontHeading.className)}>READY TO <br /><span className="text-primary drop-shadow-[0_0_30px_rgba(186,255,0,0.5)]">JOIN?</span></h2>
         <div className="space-y-10">
           <p className="text-2xl text-white/80 max-w-md font-medium leading-tight">Join the squad today and gain access to elite coaching, member-only runs, and tactical gear.</p>
-          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)]">
+          <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-16 py-10 font-black text-xl group shadow-[0_0_50px_rgba(186,255,0,0.3)] cursor-pointer">
             JOIN SQUAD <ArrowRight className="ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
@@ -296,10 +284,8 @@ const Footer = () => (
 export default function Home() {
   const router = useRouter();
   const [logoClicks, setLogoClicks] = useState(0);
-  const [missions, setMissions] = useState<Mission[]>([]);
-  const [stats, setStats] = useState<ClubStat[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [missions, setMissions] = useState<Mission[]>(DUMMY_MISSIONS);
+  const [stats, setStats] = useState<ClubStat[]>(DUMMY_STATS);
   const [joinedIds, setJoinedIds] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -321,33 +307,11 @@ export default function Home() {
     }
 
     requestAnimationFrame(raf);
-    fetchData();
 
     return () => {
       lenis.destroy();
     };
   }, []);
-
-  async function fetchData() {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const { data: mData, error: mErr } = await supabase.from('missions').select('*').order('created_at', { ascending: true });
-      const { data: sData, error: sErr } = await supabase.from('club_stats').select('*').order('sort_order', { ascending: true });
-
-      if (mErr) throw mErr;
-      if (sErr) throw sErr;
-
-      setMissions(mData || []);
-      setStats(sData || []);
-    } catch (err: any) {
-      console.error('Tactical Sync Error:', err.message);
-      setError("Squad Command is unreachable. Check network status.");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const handleJoin = async (missionId: string) => {
     if (joinedIds.includes(missionId)) return;
@@ -355,25 +319,11 @@ export default function Home() {
     const email = prompt("Enter Squad Member Email to Confirm Booking:");
     if (!email) return;
 
-    try {
-      const { error } = await supabase
-        .from('bookings')
-        .insert([{ mission_id: missionId, user_email: email.trim().toLowerCase() }]);
-
-      if (error) throw error;
-
-      setJoinedIds(prev => [...prev, missionId]);
-      toast({
-        title: "Mission Joined",
-        description: "Squad confirmed. See you at the location.",
-      });
-    } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Tactical Failure",
-        description: err.message || "Could not confirm booking.",
-      });
-    }
+    setJoinedIds(prev => [...prev, missionId]);
+    toast({
+      title: "Mission Joined",
+      description: "Squad confirmed. See you at the location.",
+    });
   };
 
   const handleLogoClick = () => {
@@ -395,8 +345,6 @@ export default function Home() {
         <VisionSection />
         <ScheduleSection 
           missions={missions} 
-          loading={loading} 
-          error={error} 
           onJoin={handleJoin}
           joinedIds={joinedIds}
         />
