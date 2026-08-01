@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowRight, Calendar, MapPin, Users, Zap, Trophy, 
-  CheckCircle2, Camera, ExternalLink
+  CheckCircle2, Camera, Shield
 } from 'lucide-react';
 import { type Mission as Event, type ClubStat } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -599,7 +599,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-noise" />
       
       <BubbleMenu 
-        logo="Command Hub" 
+        logo={<Shield className="w-5 h-5 text-primary" />} 
         items={MENU_ITEMS}
       />
 

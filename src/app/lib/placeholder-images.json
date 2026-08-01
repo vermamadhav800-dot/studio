@@ -1,0 +1,41 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-run",
+      "description": "Elite C9 squad running in high-performance urban gear.",
+      "imageUrl": "https://archive.org/download/chat-gpt-image-aug-2-2026-01-15-21-am-compressed/ChatGPT_Image_Aug_2_2026_01_15_21_AM-compressed.jpg",
+      "imageHint": "elite runners marathon"
+    },
+    {
+      "id": "gallery-1",
+      "description": "A group of runners on a city street.",
+      "imageUrl": "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=800&auto=format&fit=crop",
+      "imageHint": "running club"
+    },
+    {
+      "id": "gallery-2",
+      "description": "Close up of running shoes on pavement.",
+      "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
+      "imageHint": "running shoes"
+    },
+    {
+      "id": "gallery-3",
+      "description": "Runner checking smartwatch.",
+      "imageUrl": "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=800&auto=format&fit=crop",
+      "imageHint": "running athlete"
+    },
+    {
+      "id": "stats-bg",
+      "description": "Blurred background of a stadium track.",
+      "imageUrl": "https://images.unsplash.com/photo-1461896756972-001754b50424?q=80&w=1920&auto=format&fit=crop",
+      "imageHint": "stadium track"
+    },
+    {
+      "id": "squad-joy",
+      "description": "Elite squad celebrating after a successful mission.",
+      "imageUrl": "https://res.cloudinary.com/ye0rjwuc/image/upload/v1785609810/ChatGPT_Image_Aug_2_2026_12_10_28_AM-compressed_qub9mu.jpg",
+      "imageHint": "squad celebration"
+    }
+  ]
+}

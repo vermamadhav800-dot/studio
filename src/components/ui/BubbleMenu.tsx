@@ -106,10 +106,12 @@ export default function BubbleMenu({
   return (
     <>
       <nav className="fixed top-8 right-8 z-[100] flex items-center gap-4 pointer-events-auto">
-        <div className="bg-zinc-900 border border-white/10 px-6 py-4 flex items-center gap-4 shadow-2xl">
-          <span className="text-primary font-black tracking-tighter uppercase text-[10px]">
-            {logo}
-          </span>
+        <div className="bg-zinc-900/90 backdrop-blur-md border border-white/10 p-4 flex items-center gap-4 shadow-2xl rounded-full">
+          {logo && (
+            <div className="flex items-center justify-center">
+              {logo}
+            </div>
+          )}
           <button
             type="button"
             className={`flex flex-col items-center justify-center gap-1.5 w-6 h-6 group`}
