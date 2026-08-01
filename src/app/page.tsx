@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { fontHeading } from '@/app/fonts';
+import { fontHeading, fontAnton } from '@/app/fonts';
 import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import CircularGallery from '@/components/ui/CircularGallery';
@@ -26,6 +26,8 @@ import { useToast } from '@/hooks/use-toast';
 import FlowingMenu from '@/components/ui/FlowingMenu';
 import Masonry from '@/components/ui/Masonry';
 import BubbleMenu from '@/components/ui/BubbleMenu';
+import { LogoLoop } from '@/components/ui/LogoLoop';
+import CircularText from '@/components/ui/CircularText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,15 +43,15 @@ const iconMap: Record<string, any> = {
 };
 
 const DUMMY_STATS: ClubStat[] = [
-  { id: 'runs', label: 'TOTAL RUNS', value: '420+', icon_name: 'Zap', sort_order: 1 },
-  { id: 'members', label: 'ACTIVE SQUAD', value: '850', icon_name: 'Users', sort_order: 2 },
-  { id: 'city', label: 'STREETS COVERED', value: '12', icon_name: 'MapPin', sort_order: 3 },
-  { id: 'wins', label: 'PODIUM FINISHES', value: '55', icon_name: 'Trophy', sort_order: 4 },
+  { id: 'runs', label: 'WEEKLY RUNS', value: '12+', icon_name: 'Zap', sort_order: 1 },
+  { id: 'members', label: 'ACTIVE SQUAD', value: '500+', icon_name: 'Users', sort_order: 2 },
+  { id: 'km', label: 'KM COMPLETED', value: '35K+', icon_name: 'MapPin', sort_order: 3 },
+  { id: 'founded', label: 'ESTABLISHED', value: '2026', icon_name: 'Trophy', sort_order: 4 },
 ];
 
 const MENU_ITEMS = [
   {
-    label: 'VISION',
+    label: 'MISSION',
     href: '#about',
     thumbnail: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl
   },
@@ -71,64 +73,89 @@ const MENU_ITEMS = [
   {
     label: 'JOIN SQUAD',
     href: '#join',
-    thumbnail: PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl,
-    hoverStyles: { bgColor: '#BAFF00', textColor: '#000' }
+    thumbnail: PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl
   }
 ];
 
-const Nav = ({ onLogoClick, clickCount }: { onLogoClick: () => void, clickCount: number }) => (
-  <>
-    <nav className="fixed top-0 left-0 z-[100] px-6 md:px-12 py-8 mix-blend-difference pointer-events-auto">
-      <div 
-        onClick={onLogoClick}
-        className={cn(
-          "text-2xl md:text-3xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase",
-          fontHeading.className,
-          clickCount > 0 && "text-primary scale-110"
-        )}
-      >
-        C9 CLUB {clickCount > 0 && <span className="text-[10px] ml-1 text-primary">[{clickCount}/10]</span>}
-      </div>
-    </nav>
-    <BubbleMenu 
-      logo="COMMAND HUB" 
-      items={MENU_ITEMS}
-      useFixedPosition 
-    />
-  </>
-);
-
 const Hero = () => {
   const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1.2, 1.0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [0.4, 0.9]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
   return (
-    <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
-      <div className="absolute inset-0 z-0">
+    <section ref={containerRef} className="relative h-[120vh] flex flex-col items-center justify-center overflow-hidden bg-black">
+      <motion.div 
+        style={{ scale }}
+        className="absolute inset-0 z-0"
+      >
         <Image 
           src={PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || ''}
           alt="Hero Running"
           fill
           priority
-          className="object-cover brightness-[0.4]"
-          data-ai-hint="running athlete"
+          className="object-cover"
+          data-ai-hint="running marathon"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
-      </div>
+        <motion.div 
+          style={{ opacity }}
+          className="absolute inset-0 bg-black" 
+        />
+      </motion.div>
 
-      <div className="relative z-10 text-center px-4">
-        <div className="mb-6">
-           <span className="text-primary font-black tracking-[0.4em] text-[10px] block drop-shadow-[0_0_10px_rgba(186,255,0,0.6)]">TACTICAL TRAINING SYSTEMS</span>
-        </div>
-        <ScrollFloat
-          containerClassName="mb-12"
-          textClassName={cn("text-7xl md:text-[15vw] leading-[0.85] font-black text-white mix-blend-difference drop-shadow-2xl tracking-tighter", fontHeading.className)}
+      <div className="relative z-10 w-full max-w-7xl px-8 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+        <motion.div 
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          style={{ y: textY }}
+          className="text-left space-y-8"
         >
-          RUN BEYOND
-        </ScrollFloat>
+          <div>
+             <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase mb-4">Tactical Training Systems</span>
+             <h1 className={cn("text-7xl md:text-[10vw] leading-[0.85] font-black text-white italic tracking-tighter uppercase font-anton", fontAnton.className)}>
+               RUN BEYOND LIMITS
+             </h1>
+          </div>
+          
+          <p className="max-w-md text-white/80 text-lg md:text-xl font-medium leading-tight font-heading">
+            Elite running community built for athletes, warriors and those who refuse average.
+          </p>
+
+          <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-12 py-8 font-black text-lg group shadow-xl cursor-pointer">
+            JOIN C9 CLUB <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </motion.div>
+
+        <motion.div 
+          initial={{ scale: 0.7, opacity: 0, rotateY: 45 }}
+          animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+          className="relative hidden lg:block"
+        >
+          <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full" />
+          <Model3D
+            modelPath="/models/model.glb"
+            className="w-full h-[500px] relative z-10"
+          />
+          <div className="absolute -bottom-12 right-0 text-right">
+             <span className="text-primary font-black tracking-[0.4em] text-[10px] block uppercase">EST. 2026</span>
+          </div>
+        </motion.div>
       </div>
 
-      <div className="absolute bottom-12 flex flex-col items-center gap-4">
-        <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Scroll to Ascend</span>
-        <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20">
+        <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">SCROLL TO ASCEND</span>
+        <motion.div 
+          animate={{ height: [0, 48, 0], opacity: [0, 1, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-px bg-primary" 
+        />
       </div>
     </section>
   );
@@ -136,17 +163,14 @@ const Hero = () => {
 
 const StatsSection = ({ stats }: { stats: ClubStat[] }) => {
   return (
-    <section className="py-32 px-8 bg-black relative overflow-hidden">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
+    <section className="py-20 px-8 bg-black relative border-y border-white/5">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
         {stats.map((stat, i) => {
           const Icon = iconMap[stat.icon_name] || Zap;
           return (
             <div key={i} className="flex flex-col items-center text-center group">
-              <div className="w-16 h-16 rounded-none border border-white/10 flex items-center justify-center mb-6 group-hover:border-primary transition-all duration-500 group-hover:bg-primary/10 shadow-[0_0_20px_rgba(186,255,0,0.05)]">
-                <Icon className="w-6 h-6 text-primary" />
-              </div>
-              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter drop-shadow-md", fontHeading.className)}>{stat.value}</span>
-              <span className="text-[10px] font-black tracking-[0.3em] text-white/60 mt-4 uppercase">{stat.label}</span>
+              <span className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter italic font-anton", fontAnton.className)}>{stat.value}</span>
+              <span className="text-[10px] font-black tracking-[0.3em] text-primary mt-2 uppercase">{stat.label}</span>
             </div>
           );
         })}
@@ -164,17 +188,13 @@ const VisionSection = () => {
             <span className="text-primary font-black tracking-[0.4em] text-[12px] mb-8 block uppercase">Operational Vision</span>
             <ScrollFloat
               containerClassName="!text-left"
-              textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter", fontHeading.className)}
+              textClassName={cn("!text-white !text-5xl md:!text-8xl !leading-[0.85] !text-left !tracking-tighter font-anton", fontAnton.className)}
             >
-              WE DON'T JUST RUN. WE HUNT FOR PROGRESS.
+              DISCIPLINE OVER MOTIVATION.
             </ScrollFloat>
           </div>
           <div className="space-y-8">
-            <Model3D
-              modelPath="/models/model.glb"
-              className="w-full h-[400px] md:h-[500px]"
-            />
-            <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium">
+            <div className="space-y-8 text-white/70 text-xl leading-relaxed font-medium font-heading">
               <ScrollReveal baseOpacity={0.2} blurStrength={10}>
                 C9 is not just a club, it's a tactical training ecosystem. We believe running is the purest form of human discipline. Our squad is built on the foundations of grit, consistency, and a shared obsession with breaking barriers. Join the hunt.
               </ScrollReveal>
@@ -202,12 +222,12 @@ const ArchivesSection = () => {
   ];
 
   return (
-    <section id="archives" className="py-40 bg-black overflow-hidden relative">
+    <section id="archives" className="py-40 bg-black overflow-hidden relative border-t border-white/5">
       <div className="max-w-7xl mx-auto px-8">
          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
            <div className="space-y-4 text-center md:text-left mx-auto md:mx-0">
              <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase">Tactical Database</span>
-             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none italic", fontHeading.className)}>SQUAD ARCHIVES</h2>
+             <h2 className={cn("text-6xl md:text-9xl font-black text-white tracking-tighter leading-none italic font-anton", fontAnton.className)}>SQUAD ARCHIVES</h2>
            </div>
            <div className="hidden md:flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest pb-4">
              <Camera className="w-4 h-4" /> SCROLL TO SCAN VAULT
@@ -234,79 +254,82 @@ const ScheduleSection = () => {
     {
       id: 1,
       title: 'YEH RUN NA MILEGI DOBARA',
-      date: 'AUGUST 2',
-      day: 'SUNDAY',
+      date: 'AUG 2',
       theme: 'red',
       image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '',
-      subtitle: 'JOIN US THIS SUNDAY',
+      subtitle: 'JOIN THE HUNT',
       tags: ['REGISTER NOW']
     },
     {
       id: 2,
       title: 'MONSOON RUN & CHILL',
-      date: 'JULY 26',
-      day: 'SUNDAY 7:00 AM',
+      date: 'JUL 26',
       theme: 'dark',
       image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '',
       subtitle: 'TRACK SERIES',
-      tags: ['TUG OF WAR', 'SPRINT RACES']
+      tags: ['SQUAD ONLY']
     },
     {
       id: 3,
       title: 'RUN & PLAY',
-      date: '12 JULY',
-      day: '5:30 AM',
+      date: 'JUL 12',
       theme: 'green',
       image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '',
-      subtitle: 'ZUMBA & PICKLE BALL',
-      tags: ['ZUMBA', 'PICKLE BALL']
+      subtitle: 'CROSS TRAINING',
+      tags: ['ELITE OPS']
     },
     {
       id: 4,
       title: 'THE SOCIAL',
-      date: '28 JUNE',
-      day: 'SUNDAY',
+      date: 'JUN 28',
       theme: 'pink',
       image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '',
-      subtitle: 'TRACK SERIES',
-      tags: ['FREE RUN', 'POST-RUN SCHEDULE']
+      subtitle: 'NETWORKING RUN',
+      tags: ['VAULT ACCESS']
     }
   ];
 
   return (
-    <section id="schedule" className="py-32 px-6 md:px-12 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 space-y-6">
-          <h2 className={cn("text-7xl md:text-9xl font-black text-white italic tracking-tighter leading-none", fontHeading.className)}>
-            WEEKLY EVENTS
-          </h2>
-          <div className="max-w-2xl mx-auto">
-            <p className="text-white/80 text-lg md:text-xl font-medium leading-snug">
-              Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise, and another community waiting for you.
-            </p>
-          </div>
-        </div>
+    <section id="schedule" className="py-32 px-6 md:px-12 bg-black relative">
+      <div className="absolute right-0 top-0 hidden lg:block">
+        <CircularText 
+          text="C9 CLUB • ELITE SQUAD • TACTICAL TRAINING • "
+          spinDuration={15}
+          onHover="goBonkers"
+        />
+      </div>
 
-        <div className="flex gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar justify-center">
-          {tabs.map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={cn(
-                "px-8 py-3 rounded-none font-bold text-sm tracking-widest uppercase transition-all whitespace-nowrap",
-                activeTab === tab 
-                  ? "bg-white text-black" 
-                  : "bg-zinc-900 text-white/40 hover:text-white"
-              )}
-            >
-              {tab}
-            </button>
-          ))}
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 items-end">
+          <h2 className={cn("text-7xl md:text-[10vw] font-black text-white italic tracking-tighter leading-[0.8] font-anton", fontAnton.className)}>
+            WEEKLY<br/>EVENTS
+          </h2>
+          <div className="space-y-6">
+            <p className="text-white/60 text-lg max-w-lg font-heading">
+              Explore every C9 event in one place. Whether it's your first run or your fiftieth, there's always another route, another sunrise.
+            </p>
+            <div className="flex gap-2">
+              {tabs.map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={cn(
+                    "px-6 py-2 rounded-none font-black text-[10px] tracking-widest uppercase transition-all border",
+                    activeTab === tab 
+                      ? "bg-primary text-black border-primary" 
+                      : "bg-transparent text-white/40 border-white/10 hover:border-white/30"
+                  )}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {posters.map((poster) => (
-            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden rounded-none bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
+            <div key={poster.id} className="group relative aspect-[1/1.6] overflow-hidden bg-zinc-900 border border-white/5 transition-transform duration-500 hover:-translate-y-2">
               <Image 
                 src={poster.image}
                 alt={poster.title}
@@ -316,18 +339,17 @@ const ScheduleSection = () => {
               
               <div className={cn(
                 "absolute inset-0 transition-opacity duration-500 opacity-60",
-                poster.theme === 'red' && "bg-gradient-to-t from-red-900/80 via-transparent to-red-600/20",
-                poster.theme === 'dark' && "bg-gradient-to-t from-black/80 via-transparent to-zinc-900/20",
+                poster.theme === 'red' && "bg-gradient-to-t from-red-950 via-transparent to-red-600/20",
+                poster.theme === 'dark' && "bg-gradient-to-t from-black via-transparent to-zinc-900/20",
                 poster.theme === 'green' && "bg-gradient-to-t from-primary/60 via-transparent to-primary/10",
-                poster.theme === 'pink' && "bg-gradient-to-t from-pink-900/80 via-transparent to-pink-600/20"
+                poster.theme === 'pink' && "bg-gradient-to-t from-pink-950 via-transparent to-pink-600/20"
               )} />
 
               <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
                 <div className="flex flex-col gap-1">
-                   <span className="text-white font-black text-[10px] tracking-widest uppercase opacity-60">{poster.day}</span>
                    <div className="flex items-center gap-2">
                      <span className={cn(
-                       "text-4xl font-black italic",
+                       "text-5xl font-black italic font-anton",
                        poster.theme === 'green' ? "text-primary" : "text-white"
                      )}>{poster.date}</span>
                    </div>
@@ -335,18 +357,15 @@ const ScheduleSection = () => {
 
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <span className={cn(
-                      "text-[10px] font-black tracking-[0.3em] uppercase block",
-                      poster.theme === 'green' ? "text-primary" : "text-white/60"
-                    )}>{poster.subtitle}</span>
-                    <h4 className={cn("text-3xl font-black italic text-white leading-none uppercase", fontHeading.className)}>
+                    <span className="text-[8px] font-black tracking-[0.3em] text-white/60 uppercase block">{poster.subtitle}</span>
+                    <h4 className={cn("text-3xl font-black italic text-white leading-none uppercase font-anton", fontAnton.className)}>
                       {poster.title}
                     </h4>
                   </div>
                   
                   <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
                     {poster.tags.map(tag => (
-                      <span key={tag} className="text-[8px] font-black text-white/60 tracking-widest uppercase border border-white/20 px-2 py-1 rounded-none">
+                      <span key={tag} className="text-[8px] font-black text-white/40 tracking-widest uppercase px-2 py-1 border border-white/10">
                         {tag}
                       </span>
                     ))}
@@ -355,7 +374,7 @@ const ScheduleSection = () => {
               </div>
 
               <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                 <div className="w-10 h-10 rounded-none bg-white flex items-center justify-center">
+                 <div className="w-10 h-10 bg-white flex items-center justify-center">
                     <ArrowRight className="w-4 h-4 text-black" />
                  </div>
               </div>
@@ -376,10 +395,10 @@ const GallerySection = () => {
   ];
 
   return (
-    <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden">
+    <section id="vault" className="h-[90vh] py-32 bg-black overflow-hidden relative border-y border-white/5">
        <div className="px-8 mb-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4 text-center md:text-left">
-          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic", fontHeading.className)}>THE VAULT</h2>
-          <span className="text-[10px] font-black tracking-[0.4em] text-primary drop-shadow-[0_0_10px_rgba(186,255,0,0.6)] uppercase">Elite Intelligence</span>
+          <h2 className={cn("text-5xl font-black text-white tracking-tighter italic font-anton", fontAnton.className)}>THE VAULT</h2>
+          <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">Elite Intelligence</span>
        </div>
        <CircularGallery 
          items={galleryItems} 
@@ -387,27 +406,8 @@ const GallerySection = () => {
          textColor="#BAFF00" 
          borderRadius={0}
          autoScrollDirection="left"
-         font="black 32px var(--font-heading)"
+         font="black 32px var(--font-anton)"
        />
-    </section>
-  );
-};
-
-const TacticalSelection = () => {
-  const menuItems = [
-    { link: '#', text: 'URBAN INTERVALS', image: PlaceHolderImages.find(img => img.id === 'gallery-1')?.imageUrl || '' },
-    { link: '#', text: 'DAWN HUNTS', image: PlaceHolderImages.find(img => img.id === 'hero-run')?.imageUrl || '' },
-    { link: '#', text: 'ELITE VAULT', image: PlaceHolderImages.find(img => img.id === 'gallery-2')?.imageUrl || '' },
-    { link: '#', text: 'SQUAD CREED', image: PlaceHolderImages.find(img => img.id === 'gallery-3')?.imageUrl || '' },
-  ];
-
-  return (
-    <section className="py-20 bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-8 mb-12 text-center md:text-left">
-         <span className="text-primary font-black tracking-[0.4em] text-[12px] block uppercase mb-4">Squad Selection</span>
-         <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter italic", fontHeading.className)}>TACTICAL SELECTION</h2>
-      </div>
-      <FlowingMenu items={menuItems} />
     </section>
   );
 };
@@ -415,8 +415,8 @@ const TacticalSelection = () => {
 const Footer = () => (
   <footer id="join" className="pt-40 pb-16 px-8 bg-black">
     <div className="max-w-4xl mx-auto">
-      <div className="relative group overflow-hidden rounded-[3rem] bg-zinc-900 border border-white/10 p-1 mb-20 shadow-2xl">
-        <div className="relative aspect-[16/7] md:aspect-[21/9] w-full overflow-hidden rounded-[2.8rem]">
+      <div className="relative group overflow-hidden bg-zinc-900 border border-white/10 p-1 mb-20 shadow-2xl rounded-[24px]">
+        <div className="relative aspect-[16/7] md:aspect-[21/9] w-full overflow-hidden rounded-[22px]">
           <Image 
             src={PlaceHolderImages.find(img => img.id === 'squad-joy')?.imageUrl || ''}
             alt="Squad Joy"
@@ -425,13 +425,13 @@ const Footer = () => (
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col items-center justify-center text-center p-8">
             <span className="text-primary font-black tracking-[0.4em] text-[10px] mb-4 uppercase block">Recruitment Protocol</span>
-            <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-8", fontHeading.className)}>
+            <h2 className={cn("text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-8 font-anton", fontAnton.className)}>
               READY TO <span className="text-primary">JOIN?</span>
             </h2>
-            <p className="text-white/80 text-sm md:text-lg max-w-md font-medium leading-snug mb-8">
+            <p className="text-white/80 text-sm md:text-lg max-w-md font-medium leading-snug mb-8 font-heading">
               Join the squad today and gain access to elite coaching, member-only events, and tactical gear.
             </p>
-            <Button className="rounded-full bg-primary text-black hover:bg-white transition-all px-12 py-7 font-black text-lg group shadow-xl cursor-pointer">
+            <Button className="rounded-none bg-primary text-black hover:bg-white transition-all px-12 py-7 font-black text-lg group shadow-xl cursor-pointer">
               JOIN SQUAD <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -439,12 +439,12 @@ const Footer = () => (
       </div>
 
       <div className="pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-12">
-        <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/50">
+        <div className="flex gap-12 text-[10px] font-black tracking-[0.3em] text-white/50 font-heading">
           <Link href="#" className="hover:text-primary transition-colors uppercase">Instagram</Link>
           <Link href="#" className="hover:text-primary transition-colors uppercase">Strava</Link>
           <Link href="#" className="hover:text-primary transition-colors uppercase">Discord</Link>
         </div>
-        <div className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase">
+        <div className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase font-heading">
           © 2024 C9 RUN CLUB. Tactical Training Systems.
         </div>
       </div>
@@ -491,19 +491,56 @@ export default function Home() {
     }
   };
 
+  const logos = [
+    { node: <span className="font-anton text-white italic">C9 CLUB</span> },
+    { node: <span className="text-primary px-4">•</span> },
+    { node: <span className="font-anton text-white italic">TACTICAL RUNNING</span> },
+    { node: <span className="text-primary px-4">•</span> },
+    { node: <span className="font-anton text-white italic">ELITE SQUAD</span> },
+    { node: <span className="text-primary px-4">•</span> },
+    { node: <span className="font-anton text-white italic">TRAIN ENDURE DOMINATE</span> },
+    { node: <span className="text-primary px-4">•</span> },
+  ];
+
   return (
     <div className="bg-black text-foreground selection:bg-primary selection:text-black overflow-x-hidden relative">
       <div className="fixed inset-0 pointer-events-none z-[999] opacity-[0.03] mix-blend-overlay bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')]" />
       
-      <Nav onLogoClick={handleLogoClick} clickCount={logoClicks} />
+      <BubbleMenu 
+        logo="COMMAND HUB" 
+        items={MENU_ITEMS}
+      />
+
+      <div className="fixed top-8 left-8 z-[100] mix-blend-difference pointer-events-auto">
+        <div 
+          onClick={handleLogoClick}
+          className={cn(
+            "text-2xl font-black tracking-tighter text-white cursor-pointer select-none transition-all active:scale-95 uppercase font-anton italic",
+            logoClicks > 0 && "text-primary scale-110"
+          )}
+        >
+          C9 CLUB {logoClicks > 0 && <span className="text-[10px] ml-1 text-primary font-heading">[{logoClicks}/10]</span>}
+        </div>
+      </div>
+
       <main>
         <Hero />
+        <div className="py-8 bg-zinc-900/50 border-y border-white/5">
+          <LogoLoop 
+            logos={logos} 
+            speed={80} 
+            logoHeight={24} 
+            gap={60} 
+            fadeOut 
+            fadeOutColor="#000000"
+            scaleOnHover
+          />
+        </div>
         <StatsSection stats={stats} />
         <VisionSection />
         <ArchivesSection />
         <ScheduleSection />
         <GallerySection />
-        <TacticalSelection />
         <Footer />
       </main>
     </div>

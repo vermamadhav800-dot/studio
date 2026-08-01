@@ -1,9 +1,10 @@
+
 .logoloop {
   position: relative;
 
   --logoloop-gap: 32px;
   --logoloop-logoHeight: 28px;
-  --logoloop-fadeColorAuto: #ffffff;
+  --logoloop-fadeColorAuto: #000000;
 }
 
 .logoloop--vertical {
@@ -14,12 +15,6 @@
 .logoloop--scale-hover {
   padding-top: calc(var(--logoloop-logoHeight) * 0.1);
   padding-bottom: calc(var(--logoloop-logoHeight) * 0.1);
-}
-
-@media (prefers-color-scheme: dark) {
-  .logoloop {
-    --logoloop-fadeColorAuto: #0b0b0b;
-  }
 }
 
 .logoloop__track {
@@ -141,43 +136,4 @@
     var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
     rgba(0, 0, 0, 0) 100%
   );
-}
-
-.logoloop--vertical.logoloop--fade::before,
-.logoloop--vertical.logoloop--fade::after {
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: clamp(24px, 8%, 120px);
-}
-
-.logoloop--vertical.logoloop--fade::before {
-  top: 0;
-  bottom: auto;
-  background: linear-gradient(
-    to bottom,
-    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-
-.logoloop--vertical.logoloop--fade::after {
-  bottom: 0;
-  top: auto;
-  background: linear-gradient(
-    to top,
-    var(--logoloop-fadeColor, var(--logoloop-fadeColorAuto)) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logoloop__track {
-    transform: translate3d(0, 0, 0) !important;
-  }
-
-  .logoloop__item img,
-  .logoloop__node {
-    transition: none !important;
-  }
 }

@@ -4,6 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
+import { X } from 'lucide-react';
 import './BubbleMenu.css';
 
 interface MenuItem {
@@ -21,12 +22,6 @@ interface MenuItem {
 interface BubbleMenuProps {
   logo?: React.ReactNode;
   onMenuClick?: (open: boolean) => void;
-  className?: string;
-  style?: React.CSSProperties;
-  menuAriaLabel?: string;
-  menuBg?: string;
-  menuContentColor?: string;
-  useFixedPosition?: boolean;
   items?: MenuItem[];
   animationEase?: string;
   animationDuration?: number;
@@ -36,12 +31,6 @@ interface BubbleMenuProps {
 export default function BubbleMenu({
   logo,
   onMenuClick,
-  className,
-  style,
-  menuAriaLabel = 'Toggle menu',
-  menuBg = '#111',
-  menuContentColor = '#BAFF00',
-  useFixedPosition = true,
   items,
   animationEase = 'back.out(1.5)',
   animationDuration = 0.5,
@@ -55,9 +44,6 @@ export default function BubbleMenu({
   const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   const menuItems = items || [];
-  const containerClassName = ['bubble-menu', useFixedPosition ? 'fixed' : 'absolute', className]
-    .filter(Boolean)
-    .join(' ');
 
   const handleToggle = () => {
     const nextState = !isMenuOpen;
@@ -119,71 +105,90 @@ export default function BubbleMenu({
 
   return (
     <>
-      <nav className={containerClassName} style={style} aria-label="Main navigation">
-        <div className="bubble logo-bubble" aria-label="Logo">
-          <span className="logo-content text-primary font-black tracking-tighter uppercase text-xs">
+      <nav className="fixed top-8 right-8 z-[100] flex items-center gap-4 pointer-events-auto">
+        <div className="bg-zinc-900 border border-white/10 px-6 py-4 flex items-center gap-4 shadow-2xl">
+          <span className="text-primary font-black tracking-tighter uppercase text-[10px]">
             {logo}
           </span>
+          <button
+            type="button"
+            className={`flex flex-col items-center justify-center gap-1.5 w-6 h-6 group`}
+            onClick={handleToggle}
+            aria-label="Toggle menu"
+          >
+            <span className="w-6 h-[2px] bg-primary group-hover:w-4 transition-all" />
+            <span className="w-4 h-[2px] bg-primary group-hover:w-6 transition-all" />
+          </button>
         </div>
-
-        <button
-          type="button"
-          className={`bubble toggle-bubble menu-btn ${isMenuOpen ? 'open' : ''}`}
-          onClick={handleToggle}
-          aria-label={menuAriaLabel}
-          aria-pressed={isMenuOpen}
-        >
-          <span className="menu-line" />
-          <span className="menu-line mt-1.5" style={{ width: '18px' }} />
-        </button>
       </nav>
+
       {showOverlay && (
         <div
           ref={overlayRef}
-          className={`bubble-menu-items ${useFixedPosition ? 'fixed' : 'absolute'}`}
-          aria-hidden={!isMenuOpen}
+          className="fixed inset-0 z-[998] flex items-center justify-end"
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" onClick={handleToggle} />
-          <ul className="pill-list" role="menu" aria-label="Menu links">
-            {menuItems.map((item, idx) => (
-              <li key={idx} role="none" className="pill-col">
-                <a
-                  role="menuitem"
-                  href={item.href}
+          
+          <div className="relative w-full h-full flex items-center justify-between px-12 md:px-24">
+             {/* LEFT FLANK: MASSIVE BRANDING */}
+             <div className="hidden lg:block">
+                <h2 className="text-[15vw] font-black tracking-tighter leading-none text-white/5 select-none pointer-events-none uppercase font-anton">
+                  C9 CLUB
+                </h2>
+             </div>
+
+             {/* RIGHT FLANK: COMMAND PANEL */}
+             <div className="w-full max-w-[360px] flex flex-col items-end gap-4">
+                <button 
                   onClick={handleToggle}
-                  aria-label={item.ariaLabel || item.label}
-                  className="pill-link font-heading font-black"
-                  style={{
-                    '--item-rot': `${item.rotation ?? 0}deg`,
-                    '--hover-bg': item.hoverStyles?.bgColor || '#BAFF00',
-                    '--hover-color': item.hoverStyles?.textColor || '#000'
-                  } as React.CSSProperties}
-                  ref={el => {
-                    if (el) bubblesRef.current[idx] = el;
-                  }}
+                  className="w-[54px] h-[54px] bg-zinc-900 border border-white/10 flex items-center justify-center mb-8 hover:bg-primary hover:text-black transition-all"
                 >
-                  {item.thumbnail && (
-                    <div className="pill-thumbnail">
-                      <Image 
-                        src={item.thumbnail} 
-                        alt="" 
-                        fill 
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <span
-                    className="pill-label"
-                    ref={el => {
-                      if (el) labelRefs.current[idx] = el;
-                    }}
-                  >
-                    {item.label}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
+                  <X className="w-6 h-6" />
+                </button>
+
+                <ul className="w-full flex flex-col gap-4">
+                  {menuItems.map((item, idx) => (
+                    <li key={idx} className="w-full">
+                      <a
+                        href={item.href}
+                        onClick={handleToggle}
+                        className="group relative flex items-center justify-between w-[340px] h-[88px] px-8 bg-zinc-900/80 border border-white/10 overflow-hidden hover:bg-primary hover:text-black hover:-translate-x-[10px] transition-all duration-300"
+                        ref={el => {
+                          if (el) bubblesRef.current[idx] = el;
+                        }}
+                      >
+                        {item.thumbnail && (
+                          <div className="absolute inset-0 opacity-35 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500 pointer-events-none">
+                            <Image 
+                              src={item.thumbnail} 
+                              alt="" 
+                              fill 
+                              className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/85 to-black/45 group-hover:from-primary/20 group-hover:to-primary/10 transition-all" />
+                          </div>
+                        )}
+                        <span
+                          className="relative z-10 text-[20px] font-black tracking-tighter uppercase font-heading"
+                          ref={el => {
+                            if (el) labelRefs.current[idx] = el;
+                          }}
+                        >
+                          {item.label}
+                        </span>
+                        <div className="w-2 h-2 bg-primary group-hover:bg-black transition-colors" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-12 w-full flex justify-between px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">
+                   <a href="#" className="hover:text-primary transition-colors">Instagram</a>
+                   <a href="#" className="hover:text-primary transition-colors">Strava</a>
+                   <a href="#" className="hover:text-primary transition-colors">Discord</a>
+                </div>
+             </div>
+          </div>
         </div>
       )}
     </>

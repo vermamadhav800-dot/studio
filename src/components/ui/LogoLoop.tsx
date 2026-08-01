@@ -1,3 +1,4 @@
+
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
 import './LogoLoop.css';
@@ -121,7 +122,6 @@ const useAnimationLoop = (trackRef: React.RefObject<HTMLElement>, targetVelocity
 type LogoItemNode = { node: React.ReactNode; title?: string; href?: string; ariaLabel?: string };
 type LogoItemImage = { src: string; srcSet?: string; sizes?: string; width?: number; height?: number, alt?: string; title?: string; href?: string };
 type LogoItem = LogoItemNode | LogoItemImage;
-
 
 export const LogoLoop = memo(
   ({
