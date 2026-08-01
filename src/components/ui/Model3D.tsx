@@ -51,8 +51,8 @@ export default function Model3D({
     dirLight.position.set(5, 5, 5);
     scene.add(dirLight);
 
-    // TACTICAL SHINE LIGHT - High Intensity White Light for Shine
-    const shineLight = new THREE.PointLight(0xffffff, 60, 20); 
+    // TACTICAL SHINE LIGHT - High Intensity White Light for orbital shine
+    const shineLight = new THREE.PointLight(0xffffff, 80, 25); 
     shineLight.position.set(0, 2, 2);
     scene.add(shineLight);
 
@@ -61,7 +61,7 @@ export default function Model3D({
     controls.enableZoom = false; 
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = false; // Disable full rotation for oscillation
+    controls.autoRotate = false; // Controlled by oscillation script
 
     let loadedModel: THREE.Group | null = null;
 
@@ -94,16 +94,17 @@ export default function Model3D({
       
       const time = Date.now() * 0.001;
 
-      // Oscillation Protocol: Prevent backside from showing automatically
+      // Frontal Oscillation Protocol: Sway +/- 0.4 radians around the center
+      // This ensures the backside is never shown during auto-animation
       if (loadedModel) {
-        // Sway side-to-side +/- 0.4 radians (~23 degrees)
         loadedModel.rotation.y = Math.sin(time * 0.6) * 0.4;
+        loadedModel.rotation.x = Math.sin(time * 0.4) * 0.05; // Subtle pitch
       }
       
-      // Dynamic shine light movement to create a shimmering effect
-      shineLight.position.x = Math.sin(time) * 3;
-      shineLight.position.z = Math.cos(time) * 3;
-      shineLight.position.y = Math.sin(time * 0.5) * 2;
+      // Dynamic white shine light orbiting the front face
+      shineLight.position.x = Math.sin(time * 2) * 3;
+      shineLight.position.y = Math.cos(time * 2) * 3;
+      shineLight.position.z = 3;
       
       controls.update();
       renderer.render(scene, camera);

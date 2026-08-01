@@ -77,7 +77,7 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  // Scale calibrated to 1.0 for "Puri Photo" visibility
+  // Scale calibrated to 1.0 for "Puri Photo" visibility as requested
   const scale = useTransform(scrollYProgress, [0, 1], [1.0, 1.0]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [0.3, 0.8]);
 
