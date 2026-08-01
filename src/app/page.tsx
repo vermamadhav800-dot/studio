@@ -526,7 +526,8 @@ export default function Home() {
 
       <main>
         <Hero />
-        <div className="py-8 bg-zinc-900/50 border-y border-white/5">
+        <div className="py-8 bg-zinc-900/50 border-y border-white/5 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://res.cloudinary.com/l5nvozix/image/upload/v1725599869/noise_o8p8p8.png')] bg-repeat" />
           <LogoLoop 
             logos={logos} 
             speed={80} 
